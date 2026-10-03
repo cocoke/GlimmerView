@@ -12,11 +12,17 @@
 
 ## État du projet
 
-Phase 0, validation technique (voir [PLAN.md](PLAN.md)). L'app contient pour l'instant un écran « Lab » qui :
+Phase 1 en cours, vers la v0.1 (voir [PLAN.md](PLAN.md)). L'interface suit la charte « Galerie » : murs plâtre, encre, un seul accent bleu de Prusse, titres en Spectral et cartels en Hanken Grotesk.
 
-1. compare l'estimation de profondeur (Depth Anything V2 Small) avec **LiteRT** (GPU, CPU, NPU) et **ONNX Runtime** (CPU, XNNPACK) sur ton téléphone ;
-2. affiche un aperçu 3D interactif avec le moteur de rendu OpenGL ES 3 (ray-marching) et mesure son coût ;
-3. applique le résultat comme fond d'écran animé et relève ses statistiques (images dessinées, temps de rendu).
+- **Galerie** : sept œuvres dessinées en plans (domaine public, CC0), présentées dans des cadres qui basculent avec le téléphone.
+- **Œuvre** : aperçu 3D en direct (même moteur OpenGL ES 3 que le fond d'écran) et vue « cyanotype » de la carte de profondeur.
+- **Atelier et tirage** : une photo choisie avec le sélecteur système devient une œuvre. La profondeur est calculée sur le téléphone par Depth Anything V2 Small (ONNX Runtime, modèle de 27 Mo téléchargé une seule fois et vérifié par SHA-256).
+- **Mise au point** : un diaphragme règle l'intensité (de f/16 à f/4) et une bague de mise au point choisit le plan immobile. On peut aussi toucher le sujet directement sur l'œuvre.
+- **Accrochage** : « maintenir pour accrocher » sur l'accueil (3D), le verrouillage (image fixe) ou les deux.
+- **Collection et préférences** : œuvres créées et acquises ; recentrage, réduction des mouvements, cadence de 30 ou 60 i/s, pause en économie d'énergie.
+- **Laboratoire** : l'écran de mesures de la Phase 0 reste accessible depuis les préférences.
+
+Langues : français et anglais.
 
 ## Compiler
 
@@ -36,17 +42,21 @@ Installer sur un téléphone branché (débogage USB activé) :
 
 | Module | Rôle |
 |---|---|
-| `app` | Interface (Jetpack Compose), écran Lab |
-| `core` | Modèles de données, stockage du fond d'écran actif |
+| `app` | Interface (Jetpack Compose) : thème « Galerie », écrans, œuvres dessinées, laboratoire |
+| `core` | Modèles de données, collection d'œuvres, fond d'écran actif et préférences partagés avec le fond d'écran |
 | `render` | Moteur de rendu OpenGL ES 3, capteurs, aperçu |
-| `ml` | Estimation de profondeur (LiteRT, ONNX Runtime), post-traitement, benchmarks |
+| `ml` | Estimation de profondeur (ONNX Runtime), post-traitement, benchmarks |
 | `wallpaper` | Service de fond d'écran animé (process séparé) |
 
 ## Modèles d'IA
 
-Téléchargés à la demande depuis l'app, jamais versionnés dans Git :
+Téléchargés à la demande depuis l'app, jamais versionnés dans Git, vérifiés par empreinte SHA-256 :
 
-- Depth Anything V2 Small (Apache-2.0) : export TFLite de Qualcomm AI Hub, export ONNX de onnx-community.
+- Depth Anything V2 Small (Apache-2.0), export ONNX de onnx-community : INT8 (27 Mo, utilisé par défaut) et FP32 (99 Mo, laboratoire).
+
+## Polices
+
+Spectral (Production Type) et Hanken Grotesk, sous licence SIL Open Font License 1.1 ; les licences sont livrées avec l'app (`app/src/main/assets/licenses`).
 
 ## Licence
 

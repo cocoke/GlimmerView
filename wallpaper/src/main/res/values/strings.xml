@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="wallpaper_label">GlimmerView</string>
-    <string name="wallpaper_description">Fond d\'écran 3D qui réagit aux mouvements du téléphone.</string>
+    <string name="wallpaper_label" translatable="false">GlimmerView</string>
+    <string name="wallpaper_description">3D wallpaper that follows your phone’s movements.</string>
 </resources>

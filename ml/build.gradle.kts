@@ -18,8 +18,7 @@ android {
 dependencies {
     api(project(":core"))
     implementation(libs.kotlinx.coroutines.android)
-    // Phase 0 : les deux runtimes sont embarqués pour pouvoir les comparer sur l'appareil.
-    implementation(libs.litert)
+    // Runtime unique depuis l'ADR 0001 : 100 % libre, compatible F-Droid.
     implementation(libs.onnxruntime.android)
     testImplementation(libs.junit)
 }

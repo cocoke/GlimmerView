@@ -64,7 +64,12 @@ void main() {
         uv = sampleUv(hHit);
     }
     if (uMode == 1) {
-        fragColor = vec4(vec3(depthAt(uv)), 1.0);
+        // Vision « cyanotype » de la charte : bleu de Prusse au loin, papier au premier plan
+        float t = depthAt(uv);
+        vec3 far = vec3(0.078, 0.141, 0.231);
+        vec3 mid = vec3(0.239, 0.353, 0.502);
+        vec3 near = vec3(0.929, 0.918, 0.886);
+        fragColor = vec4(t < 0.5 ? mix(far, mid, t * 2.0) : mix(mid, near, (t - 0.5) * 2.0), 1.0);
     } else {
         fragColor = vec4(textureLod(uColor, uv, 0.0).rgb, 1.0);
     }

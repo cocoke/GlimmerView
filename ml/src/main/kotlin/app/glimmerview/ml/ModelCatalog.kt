@@ -1,7 +1,5 @@
 package app.glimmerview.ml
 
-enum class ModelFormat { TFLITE, ONNX }
-
 enum class InputLayout { NHWC, NCHW }
 
 enum class InputNormalization {
@@ -16,12 +14,10 @@ data class InputSize(val width: Int, val height: Int) {
     override fun toString() = "${width}×$height"
 }
 
-enum class Backend(val label: String, val format: ModelFormat) {
-    LITERT_GPU("LiteRT · GPU", ModelFormat.TFLITE),
-    LITERT_CPU("LiteRT · CPU", ModelFormat.TFLITE),
-    LITERT_NPU("LiteRT · NPU", ModelFormat.TFLITE),
-    ORT_CPU("ONNX Runtime · CPU", ModelFormat.ONNX),
-    ORT_XNNPACK("ONNX Runtime · XNNPACK", ModelFormat.ONNX),
+/** Fournisseurs d'exécution d'ONNX Runtime (runtime retenu par l'ADR 0001). */
+enum class Backend(val label: String) {
+    ORT_CPU("ONNX Runtime · CPU"),
+    ORT_XNNPACK("ONNX Runtime · XNNPACK"),
 }
 
 data class ModelSpec(
@@ -30,7 +26,8 @@ data class ModelSpec(
     val url: String,
     val fileName: String,
     val approxDownloadBytes: Long,
-    val format: ModelFormat,
+    /** Empreinte SHA-256 du fichier final (après extraction éventuelle), en hexadécimal. */
+    val sha256: String,
     val layout: InputLayout,
     val normalization: InputNormalization,
     /** Taille d'entrée imposée par le modèle, ou null si elle est libre (multiples de 14). */
@@ -40,23 +37,8 @@ data class ModelSpec(
     val zipEntry: String? = null,
 )
 
-/** Modèles testés en Phase 0 (tous issus de Depth Anything V2 Small, licence Apache-2.0). */
+/** Modèles disponibles (tous issus de Depth Anything V2 Small, licence Apache-2.0). */
 object ModelCatalog {
-
-    val DA2_SMALL_TFLITE = ModelSpec(
-        id = "da2s-tflite-fp32",
-        label = "Depth Anything V2 Small · TFLite FP32",
-        url = "https://qaihub-public-assets.s3.us-west-2.amazonaws.com/qai-hub-models/models/" +
-            "depth_anything_v2/releases/v0.63.0/depth_anything_v2-tflite-float.zip",
-        fileName = "da2s_fp32.tflite",
-        approxDownloadBytes = 91_864_237,
-        format = ModelFormat.TFLITE,
-        layout = InputLayout.NHWC,
-        normalization = InputNormalization.ZERO_ONE,
-        fixedInputSize = InputSize(518, 518),
-        license = "Poids Apache-2.0 · export Qualcomm AI Hub",
-        zipEntry = "depth_anything_v2-tflite-float/depth_anything_v2.tflite",
-    )
 
     val DA2_SMALL_ONNX = ModelSpec(
         id = "da2s-onnx-fp32",
@@ -64,7 +46,7 @@ object ModelCatalog {
         url = "https://huggingface.co/onnx-community/depth-anything-v2-small/resolve/main/onnx/model.onnx",
         fileName = "da2s_fp32.onnx",
         approxDownloadBytes = 99_060_839,
-        format = ModelFormat.ONNX,
+        sha256 = "afb6a5c28f3b6bf1618c6e43f02073ef9dfdc70e937502d51603e57b0a1df10c",
         layout = InputLayout.NCHW,
         normalization = InputNormalization.IMAGENET,
         fixedInputSize = null,
@@ -77,12 +59,15 @@ object ModelCatalog {
         url = "https://huggingface.co/onnx-community/depth-anything-v2-small/resolve/main/onnx/model_quantized.onnx",
         fileName = "da2s_int8.onnx",
         approxDownloadBytes = 27_258_801,
-        format = ModelFormat.ONNX,
+        sha256 = "fcf51f1b230362b28690bb9d1809bf0431f29cad20534e3f589bd7285547f20d",
         layout = InputLayout.NCHW,
         normalization = InputNormalization.IMAGENET,
         fixedInputSize = null,
         license = "Poids Apache-2.0 · export onnx-community (quantification dynamique)",
     )
 
-    val all = listOf(DA2_SMALL_TFLITE, DA2_SMALL_ONNX, DA2_SMALL_ONNX_INT8)
+    /** Modèle de production (ADR 0001) : le plus léger, 0,3 s sur haut de gamme. */
+    val DEFAULT = DA2_SMALL_ONNX_INT8
+
+    val all = listOf(DA2_SMALL_ONNX_INT8, DA2_SMALL_ONNX)
 }

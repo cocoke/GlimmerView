@@ -44,7 +44,6 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.LifecycleResumeEffect
-import app.glimmerview.ml.Backend
 import app.glimmerview.ml.ModelCatalog
 import app.glimmerview.ml.ModelSpec
 
@@ -140,11 +139,6 @@ fun LabScreen(viewModel: LabViewModel) {
                                 Text(config.label, style = MaterialTheme.typography.bodyMedium)
                                 if (!available) {
                                     Text("Modèle à télécharger", style = MaterialTheme.typography.labelSmall)
-                                } else if (config.backend == Backend.LITERT_NPU) {
-                                    Text(
-                                        "Sans pilote NPU du constructeur, LiteRT bascule sur le CPU",
-                                        style = MaterialTheme.typography.labelSmall,
-                                    )
                                 }
                             }
                         }

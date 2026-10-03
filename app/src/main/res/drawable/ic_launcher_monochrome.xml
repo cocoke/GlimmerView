@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Icône thématique (Android 13+) : les trois lames en une seule teinte. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <path
+        android:fillColor="#FF000000"
+        android:fillAlpha="0.45"
+        android:pathData="M31,43 L61,37.5 Q63,37.2 63,39.2 L63,70 Q63,72 61,72.4 L31,77.8 Q29,78.2 29,76.2 L29,45 Q29,43.3 31,43 Z" />
+    <path
+        android:fillColor="#FF000000"
+        android:fillAlpha="0.7"
+        android:pathData="M38,36.5 L68,31 Q70,30.7 70,32.7 L70,63.5 Q70,65.5 68,65.9 L38,71.3 Q36,71.7 36,69.7 L36,38.5 Q36,36.8 38,36.5 Z" />
+    <path
+        android:fillColor="#FF000000"
+        android:pathData="M45,30 L75,24.5 Q77,24.2 77,26.2 L77,57 Q77,59 75,59.4 L45,64.8 Q43,65.2 43,63.2 L43,32 Q43,30.3 45,30 Z" />
+</vector>

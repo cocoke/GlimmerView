@@ -6,6 +6,7 @@ import java.io.FileOutputStream
 import java.io.IOException
 import java.net.HttpURLConnection
 import java.net.URL
+import java.security.MessageDigest
 import java.util.zip.ZipInputStream
 
 /** Modèles téléchargés à la demande, rangés dans le stockage privé de l'app. */
@@ -19,6 +20,12 @@ class ModelStore(context: Context) {
 
     fun delete(spec: ModelSpec) {
         file(spec).delete()
+    }
+
+    /** Supprime les fichiers qui ne correspondent plus à aucun modèle du catalogue (anciens essais). */
+    fun pruneUnknown(known: List<ModelSpec> = ModelCatalog.all) {
+        val keep = known.flatMap { listOf(it.fileName, it.fileName + ".part") }.toSet()
+        directory.listFiles()?.filter { it.name !in keep }?.forEach { it.delete() }
     }
 
     /**
@@ -85,22 +92,42 @@ class ModelStore(context: Context) {
     private fun unpack(spec: ModelSpec, part: File) {
         val target = file(spec)
         val entryName = spec.zipEntry
-        if (entryName == null) {
-            check(part.renameTo(target)) { "Renommage impossible : $target" }
-            return
+        val candidate = if (entryName == null) {
+            part
+        } else {
+            val tmp = File(directory, spec.fileName + ".tmp")
+            ZipInputStream(part.inputStream().buffered()).use { zip ->
+                var entry = zip.nextEntry
+                while (entry != null && entry.name != entryName) entry = zip.nextEntry
+                checkNotNull(entry) { "« $entryName » absent de l'archive" }
+                tmp.outputStream().use { zip.copyTo(it) }
+            }
+            part.delete()
+            tmp
         }
-        val tmp = File(directory, spec.fileName + ".tmp")
-        ZipInputStream(part.inputStream().buffered()).use { zip ->
-            var entry = zip.nextEntry
-            while (entry != null && entry.name != entryName) entry = zip.nextEntry
-            checkNotNull(entry) { "« $entryName » absent de l'archive" }
-            tmp.outputStream().use { zip.copyTo(it) }
+        // Un fichier corrompu ou modifié en route n'est jamais chargé par le runtime.
+        val actual = sha256(candidate)
+        if (!actual.equals(spec.sha256, ignoreCase = true)) {
+            candidate.delete()
+            throw IOException("Empreinte SHA-256 inattendue pour ${spec.fileName} : $actual")
         }
-        part.delete()
-        check(tmp.renameTo(target)) { "Renommage impossible : $target" }
+        check(candidate.renameTo(target)) { "Renommage impossible : $target" }
     }
 
     private companion object {
         const val MAX_ATTEMPTS = 4
+
+        fun sha256(file: File): String {
+            val digest = MessageDigest.getInstance("SHA-256")
+            file.inputStream().buffered().use { input ->
+                val buffer = ByteArray(256 * 1024)
+                while (true) {
+                    val read = input.read(buffer)
+                    if (read < 0) break
+                    digest.update(buffer, 0, read)
+                }
+            }
+            return digest.digest().joinToString("") { "%02x".format(it) }
+        }
     }
 }

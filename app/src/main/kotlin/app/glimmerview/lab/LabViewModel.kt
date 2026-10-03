@@ -21,6 +21,7 @@ import androidx.lifecycle.viewModelScope
 import app.glimmerview.core.DepthMap
 import app.glimmerview.core.ParallaxParams
 import app.glimmerview.core.WallpaperStore
+import app.glimmerview.data.ImageLoading
 import app.glimmerview.ml.Backend
 import app.glimmerview.ml.BenchConfig
 import app.glimmerview.ml.BenchResult
@@ -62,9 +63,6 @@ class LabViewModel(application: Application) : AndroidViewModel(application) {
 
     // ONNX Runtime + XNNPACK est exclu : son noyau Resize refuse ce modèle à l'initialisation.
     val configs: List<BenchConfig> = listOf(
-        BenchConfig(ModelCatalog.DA2_SMALL_TFLITE, Backend.LITERT_GPU, SQUARE),
-        BenchConfig(ModelCatalog.DA2_SMALL_TFLITE, Backend.LITERT_CPU, SQUARE),
-        BenchConfig(ModelCatalog.DA2_SMALL_TFLITE, Backend.LITERT_NPU, SQUARE),
         BenchConfig(ModelCatalog.DA2_SMALL_ONNX, Backend.ORT_CPU, SQUARE),
         BenchConfig(ModelCatalog.DA2_SMALL_ONNX_INT8, Backend.ORT_CPU, SQUARE),
         BenchConfig(ModelCatalog.DA2_SMALL_ONNX_INT8, Backend.ORT_CPU, PORTRAIT),
@@ -116,9 +114,7 @@ class LabViewModel(application: Application) : AndroidViewModel(application) {
             downloads[it.id] = if (modelStore.isDownloaded(it)) DownloadState.Done else DownloadState.Absent
         }
         configs.forEach { config ->
-            selected[config.key] = config.backend == Backend.LITERT_GPU ||
-                config.backend == Backend.LITERT_CPU ||
-                (config.model == ModelCatalog.DA2_SMALL_ONNX_INT8 && config.inputSize == SQUARE)
+            selected[config.key] = config.model == ModelCatalog.DA2_SMALL_ONNX_INT8 && config.inputSize == SQUARE
         }
         viewModelScope.launch {
             gpu = withContext(Dispatchers.Default) { GlInfo.describe() }
@@ -178,7 +174,7 @@ class LabViewModel(application: Application) : AndroidViewModel(application) {
         viewModelScope.launch {
             for ((index, config) in toRun.withIndex()) {
                 progress = "(${index + 1}/${toRun.size}) ${config.label}…"
-                val result = withContext(mlDispatcher) { DepthBenchmark.run(context, modelStore, config, bitmap, runs) }
+                val result = withContext(mlDispatcher) { DepthBenchmark.run(modelStore, config, bitmap, runs) }
                 val thumbnail = result.output?.let {
                     withContext(Dispatchers.Default) { DepthPostProcessor.preview(it).asImageBitmap() }
                 }

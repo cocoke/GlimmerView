@@ -1,4 +1,197 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">GlimmerView</string>
+    <string name="app_name" translatable="false">GlimmerView</string>
+
+    <!-- Navigation -->
+    <string name="tab_gallery">Gallery</string>
+    <string name="tab_atelier">Studio</string>
+    <string name="tab_collection">Collection</string>
+    <string name="tab_preferences">Settings</string>
+
+    <!-- Common actions -->
+    <string name="action_back">Back</string>
+    <string name="action_close">Close</string>
+    <string name="action_cancel">Cancel</string>
+    <string name="action_delete">Delete</string>
+    <string name="action_download">Download</string>
+    <string name="action_collect">Add to my collection</string>
+    <string name="action_uncollect">Remove from my collection</string>
+
+    <!-- Gallery rooms and works -->
+    <string name="room_all">All</string>
+    <string name="room_nature">Nature</string>
+    <string name="room_space">Space</string>
+    <string name="room_cities">Cities</string>
+    <string name="room_art">Art</string>
+    <string name="scene_dawn">Ridges at Dawn</string>
+    <string name="scene_cosmos">Rings</string>
+    <string name="scene_forest">Undergrowth</string>
+    <string name="scene_city">Nocturne</string>
+    <string name="scene_dunes">Dunes</string>
+    <string name="scene_lagoon">Lagoon</string>
+    <string name="scene_domes">Domes</string>
+    <string name="artist_collective">GlimmerView Collective</string>
+    <plurals name="medium_scene">
+        <item quantity="one">Digital illustration, %1$d plane</item>
+        <item quantity="other">Digital illustration, %1$d planes</item>
+    </plurals>
+    <string name="license_cc0" translatable="false">CC0 1.0</string>
+    <string name="artist_you">You</string>
+    <string name="medium_photo">Photograph, depth computed on device</string>
+    <string name="license_personal">Personal use</string>
+    <string name="work_untitled">Untitled, %1$s</string>
+
+    <!-- Messages -->
+    <string name="message_collected">Added to your collection</string>
+    <string name="message_removed">Removed from your collection</string>
+    <string name="message_deleted">Artwork deleted</string>
+    <string name="message_apply_failed">Could not hang the artwork: %1$s</string>
+    <string name="message_apply_cancelled">The wallpaper was not changed</string>
+
+    <!-- Opening (first launch) -->
+    <string name="vernissage_caption">, 2026 · illustration, five planes</string>
+    <string name="vernissage_title">Your pictures gain *depth.*</string>
+    <string name="vernissage_body">GlimmerView hangs your photos like living artworks that follow your phone’s movements.</string>
+    <string name="promise_private_label">Private</string>
+    <string name="promise_private">Your photos stay on your phone</string>
+    <string name="promise_free_label">Free</string>
+    <string name="promise_free">No cost, no ads, open source</string>
+    <string name="promise_light_label">Light</string>
+    <string name="promise_light">Battery-friendly 3D rendering</string>
+    <string name="vernissage_enter">Enter the gallery</string>
+
+    <!-- Gallery -->
+    <string name="galerie_kicker">Room I · Now showing</string>
+    <string name="galerie_title">The *gallery*</string>
+    <string name="galerie_acquisitions">New acquisitions</string>
+    <plurals name="works_count">
+        <item quantity="one">%d work</item>
+        <item quantity="other">%d works</item>
+    </plurals>
+    <string name="galerie_room_empty">More works are coming to this room soon.</string>
+    <string name="galerie_featured">Featured</string>
+    <string name="galerie_see_work">View the work</string>
+
+    <!-- Artwork -->
+    <string name="oeuvre_planes">Show the planes</string>
+    <string name="oeuvre_recompose">Recompose</string>
+    <string name="oeuvre_adjust">Adjust the effect</string>
+    <string name="oeuvre_hang">Hang this work</string>
+    <string name="oeuvre_hint_tilt">Tilt to explore</string>
+    <string name="oeuvre_hint_planes">Depth map</string>
+
+    <!-- Hanging -->
+    <string name="apply_kicker">Hanging</string>
+    <string name="apply_title">Where should *this work* hang?</string>
+    <string name="apply_home">Home</string>
+    <string name="apply_home_sub">in 3D</string>
+    <string name="apply_lock">Lock screen</string>
+    <string name="apply_lock_sub">still image</string>
+    <string name="apply_both">Both</string>
+    <string name="apply_both_sub">3D everywhere</string>
+    <string name="apply_note">Home and “both” go through Android’s system screen. The lock screen gets a still image of the work.</string>
+    <string name="apply_hold">Hold to hang</string>
+    <string name="apply_holding">Keep holding…</string>
+    <string name="apply_done_home">Hung on the home screen</string>
+    <string name="apply_done_lock">Hung on the lock screen</string>
+    <string name="apply_done_both">Hung everywhere</string>
+    <string name="apply_see_collection">See my collection</string>
+
+    <!-- Collection -->
+    <string name="collection_kicker">Your hanging</string>
+    <string name="collection_title">My *collection*</string>
+    <string name="collection_all">All</string>
+    <string name="collection_created">Created</string>
+    <string name="collection_acquired">Acquired</string>
+    <string name="collection_current">On display:</string>
+    <string name="collection_adjust">Adjust</string>
+    <string name="collection_empty">Your collection is empty. Create a work from a photo, or add one from the gallery.</string>
+    <string name="collection_create">Create a work</string>
+    <string name="collection_browse">Browse the gallery</string>
+
+    <!-- Studio -->
+    <string name="atelier_kicker">The studio</string>
+    <string name="atelier_title">Create a *work*</string>
+    <string name="atelier_title_plain">Create a work</string>
+    <string name="atelier_body">Pick a photo: its depth is computed on your phone, nothing is uploaded.</string>
+    <string name="atelier_pick">Choose a photo</string>
+    <string name="atelier_formats" translatable="false">JPEG · PNG · HEIC</string>
+    <string name="atelier_recent">Your latest works</string>
+    <string name="atelier_tips">For a great effect</string>
+    <string name="atelier_tip_subject">A sharp subject in the foreground: a person, an object, a silhouette.</string>
+    <string name="atelier_tip_depth">A distant background: landscape, sky, a street in perspective.</string>
+    <string name="atelier_tip_portrait">Portrait photos fill the screen without cropping.</string>
+
+    <!-- Printing (generation) -->
+    <string name="tirage_kicker">Printing</string>
+    <string name="tirage_kicker_done">Print ready</string>
+    <string name="tirage_kicker_failed">Print interrupted</string>
+    <string name="tirage_title">Depth is *taking shape…*</string>
+    <string name="tirage_title_done">Your work *is ready.*</string>
+    <string name="tirage_title_failed">The print *did not finish.*</string>
+    <string name="tirage_privacy">A few seconds · nothing leaves your phone.</string>
+    <string name="tirage_download">First print: downloading the model, %1$d%% (only once).</string>
+    <string name="tirage_download_hint">Downloading the AI model (27 MB)</string>
+    <string name="tirage_step_depth">Reading the depth</string>
+    <string name="tirage_step_contours">Curves and contours</string>
+    <string name="tirage_step_finish">Framing</string>
+    <string name="tirage_status_done">Done</string>
+    <string name="tirage_status_active">In progress</string>
+    <string name="tirage_status_pending">Up next</string>
+    <string name="tirage_open">Discover in 3D</string>
+    <string name="tirage_retry">Choose another photo</string>
+    <string name="tirage_cancel">Cancel the print</string>
+    <string name="tirage_print_description">Photo being printed</string>
+
+    <!-- Focusing (adjust) -->
+    <string name="mise_cyanotype">Cyanotype</string>
+    <string name="mise_cyanotype_description">Show the depth map as a cyanotype</string>
+    <string name="mise_aperture">Aperture</string>
+    <string name="mise_focus">Focus · %1$s</string>
+    <string name="mise_still_plane">Still plane · %1$s</string>
+    <string name="mise_nearer">Nearer</string>
+    <string name="mise_farther">Farther</string>
+    <string name="mise_hang">Hang</string>
+    <string-array name="aperture_words">
+        <item>Very subtle</item>
+        <item>Subtle</item>
+        <item>Balanced</item>
+        <item>Broad</item>
+        <item>Intense</item>
+    </string-array>
+    <string-array name="focus_words">
+        <item>at infinity</item>
+        <item>at 10 m</item>
+        <item>at 5 m</item>
+        <item>at 3 m</item>
+        <item>at 2 m</item>
+        <item>at 1.5 m</item>
+        <item>at 1 m</item>
+    </string-array>
+
+    <!-- Settings -->
+    <string name="prefs_title">*Settings*</string>
+    <string name="prefs_motion">Motion</string>
+    <string name="prefs_aperture">Default aperture</string>
+    <string name="prefs_recenter">Automatic recentering</string>
+    <string name="prefs_recenter_sub">The artwork re-centers when you change position</string>
+    <string name="prefs_reduce">Reduce motion</string>
+    <string name="prefs_reduce_sub">The artwork stays still, no sensors</string>
+    <string name="prefs_battery">Battery</string>
+    <string name="prefs_rate">Frame rate</string>
+    <string name="prefs_rate_value">%1$d fps</string>
+    <string name="prefs_eco">Pause in battery saver</string>
+    <string name="prefs_eco_sub">The artwork freezes to save battery</string>
+    <string name="prefs_ai">Artificial intelligence</string>
+    <string name="prefs_model">Depth model</string>
+    <string name="prefs_model_absent">Depth Anything V2 Small · %1$s MB · downloaded on first print</string>
+    <string name="prefs_model_downloading">Downloading… %1$d%%</string>
+    <string name="prefs_model_ready">Depth Anything V2 Small · %1$s MB · on device</string>
+    <string name="prefs_model_failed">Download failed: %1$s</string>
+    <string name="prefs_privacy">Depth is computed entirely on your phone. No photo is ever uploaded.</string>
+    <string name="prefs_about">About</string>
+    <string name="prefs_version">GlimmerView %1$s · free software (GPL-3.0)</string>
+    <string name="prefs_licenses">Spectral and Hanken Grotesk fonts (OFL) · Depth Anything V2 Small model (Apache-2.0) · ONNX Runtime (MIT)</string>
+    <string name="prefs_lab">Lab</string>
+    <string name="prefs_lab_sub">Performance measurements on this device</string>
 </resources>

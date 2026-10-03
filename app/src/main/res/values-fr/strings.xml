@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Navigation -->
+    <string name="tab_gallery">Galerie</string>
+    <string name="tab_atelier">Atelier</string>
+    <string name="tab_collection">Collection</string>
+    <string name="tab_preferences">Préférences</string>
+
+    <!-- Actions communes -->
+    <string name="action_back">Retour</string>
+    <string name="action_close">Fermer</string>
+    <string name="action_cancel">Annuler</string>
+    <string name="action_delete">Supprimer</string>
+    <string name="action_download">Télécharger</string>
+    <string name="action_collect">Ajouter à ma collection</string>
+    <string name="action_uncollect">Retirer de ma collection</string>
+
+    <!-- Salles et œuvres de la galerie -->
+    <string name="room_all">Tout</string>
+    <string name="room_nature">Nature</string>
+    <string name="room_space">Espace</string>
+    <string name="room_cities">Villes</string>
+    <string name="room_art">Art</string>
+    <string name="scene_dawn">Crêtes à l’aube</string>
+    <string name="scene_cosmos">Anneaux</string>
+    <string name="scene_forest">Sous-bois</string>
+    <string name="scene_city">Nocturne</string>
+    <string name="scene_dunes">Erg</string>
+    <string name="scene_lagoon">Lagune</string>
+    <string name="scene_domes">Dômes</string>
+    <string name="artist_collective">Collectif GlimmerView</string>
+    <plurals name="medium_scene">
+        <item quantity="one">Illustration numérique, %1$d plan</item>
+        <item quantity="many">Illustration numérique, %1$d plans</item>
+        <item quantity="other">Illustration numérique, %1$d plans</item>
+    </plurals>
+    <string name="artist_you">Vous</string>
+    <string name="medium_photo">Photographie, profondeur calculée sur l’appareil</string>
+    <string name="license_personal">Usage personnel</string>
+    <string name="work_untitled">Sans titre, %1$s</string>
+
+    <!-- Messages -->
+    <string name="message_collected">Ajoutée à votre collection</string>
+    <string name="message_removed">Retirée de votre collection</string>
+    <string name="message_deleted">Œuvre supprimée</string>
+    <string name="message_apply_failed">Accrochage impossible : %1$s</string>
+    <string name="message_apply_cancelled">Le fond d’écran n’a pas été changé</string>
+
+    <!-- Vernissage (premier lancement) -->
+    <string name="vernissage_caption">, 2026 · illustration, cinq plans</string>
+    <string name="vernissage_title">Vos images prennent *de la profondeur.*</string>
+    <string name="vernissage_body">GlimmerView expose vos photos comme des œuvres vivantes, qui suivent les mouvements de votre téléphone.</string>
+    <string name="promise_private_label">Privé</string>
+    <string name="promise_private">Vos photos restent sur votre téléphone</string>
+    <string name="promise_free_label">Libre</string>
+    <string name="promise_free">Gratuit, sans pub, open source</string>
+    <string name="promise_light_label">Sobre</string>
+    <string name="promise_light">Un rendu 3D économe en batterie</string>
+    <string name="vernissage_enter">Entrer dans la galerie</string>
+
+    <!-- Galerie -->
+    <string name="galerie_kicker">Salle I · En ce moment</string>
+    <string name="galerie_title">La *galerie*</string>
+    <string name="galerie_acquisitions">Nouvelles acquisitions</string>
+    <plurals name="works_count">
+        <item quantity="one">%d œuvre</item>
+        <item quantity="many">%d œuvres</item>
+        <item quantity="other">%d œuvres</item>
+    </plurals>
+    <string name="galerie_room_empty">D’autres œuvres arrivent bientôt dans cette salle.</string>
+    <string name="galerie_featured">À l’affiche</string>
+    <string name="galerie_see_work">Voir l’œuvre</string>
+
+    <!-- Œuvre -->
+    <string name="oeuvre_planes">Voir les plans</string>
+    <string name="oeuvre_recompose">Recomposer</string>
+    <string name="oeuvre_adjust">Régler l’effet</string>
+    <string name="oeuvre_hang">Accrocher cette œuvre</string>
+    <string name="oeuvre_hint_tilt">Inclinez pour explorer</string>
+    <string name="oeuvre_hint_planes">Carte de profondeur</string>
+
+    <!-- Accrochage -->
+    <string name="apply_kicker">Accrochage</string>
+    <string name="apply_title">Où accrocher *cette œuvre* ?</string>
+    <string name="apply_home">Accueil</string>
+    <string name="apply_home_sub">en 3D</string>
+    <string name="apply_lock">Verrouillage</string>
+    <string name="apply_lock_sub">image fixe</string>
+    <string name="apply_both">Les deux</string>
+    <string name="apply_both_sub">partout en 3D</string>
+    <string name="apply_note">L’accueil et « les deux » passent par l’écran système d’Android. Le verrouillage reçoit une image fixe de l’œuvre.</string>
+    <string name="apply_hold">Maintenir pour accrocher</string>
+    <string name="apply_holding">Continuez…</string>
+    <string name="apply_done_home">Accrochée sur l’accueil</string>
+    <string name="apply_done_lock">Accrochée au verrouillage</string>
+    <string name="apply_done_both">Accrochée partout</string>
+    <string name="apply_see_collection">Voir ma collection</string>
+
+    <!-- Collection -->
+    <string name="collection_kicker">Votre accrochage</string>
+    <string name="collection_title">Ma *collection*</string>
+    <string name="collection_all">Toutes</string>
+    <string name="collection_created">Créées</string>
+    <string name="collection_acquired">Acquises</string>
+    <string name="collection_current">Accrochée :</string>
+    <string name="collection_adjust">Ajuster</string>
+    <string name="collection_empty">Votre collection est vide. Créez une œuvre à partir d’une photo, ou ajoutez une œuvre de la galerie.</string>
+    <string name="collection_create">Créer une œuvre</string>
+    <string name="collection_browse">Parcourir la galerie</string>
+
+    <!-- Atelier -->
+    <string name="atelier_kicker">L’atelier</string>
+    <string name="atelier_title">Créer une *œuvre*</string>
+    <string name="atelier_title_plain">Créer une œuvre</string>
+    <string name="atelier_body">Choisissez une photo : sa profondeur est calculée sur votre téléphone, rien n’est envoyé.</string>
+    <string name="atelier_pick">Choisir une photo</string>
+    <string name="atelier_recent">Vos dernières créations</string>
+    <string name="atelier_tips">Pour un bel effet</string>
+    <string name="atelier_tip_subject">Un sujet net au premier plan : une personne, un objet, une silhouette.</string>
+    <string name="atelier_tip_depth">Un arrière-plan lointain : paysage, ciel, rue en perspective.</string>
+    <string name="atelier_tip_portrait">Les photos en hauteur remplissent l’écran sans recadrage.</string>
+
+    <!-- Tirage (génération) -->
+    <string name="tirage_kicker">Tirage en cours</string>
+    <string name="tirage_kicker_done">Tirage terminé</string>
+    <string name="tirage_kicker_failed">Tirage interrompu</string>
+    <string name="tirage_title">La profondeur *se dessine…*</string>
+    <string name="tirage_title_done">Votre œuvre *est prête.*</string>
+    <string name="tirage_title_failed">Le tirage *n’a pas abouti.*</string>
+    <string name="tirage_privacy">Quelques secondes · rien ne quitte votre téléphone.</string>
+    <string name="tirage_download">Premier tirage : téléchargement du modèle, %1$d %% (une seule fois).</string>
+    <string name="tirage_download_hint">Téléchargement du modèle d’IA (27 Mo)</string>
+    <string name="tirage_step_depth">Lecture de la profondeur</string>
+    <string name="tirage_step_contours">Courbes et contours</string>
+    <string name="tirage_step_finish">Mise sous passe-partout</string>
+    <string name="tirage_status_done">Fait</string>
+    <string name="tirage_status_active">En cours</string>
+    <string name="tirage_status_pending">À venir</string>
+    <string name="tirage_open">Découvrir en 3D</string>
+    <string name="tirage_retry">Choisir une autre photo</string>
+    <string name="tirage_cancel">Annuler le tirage</string>
+    <string name="tirage_print_description">Photo en cours de tirage</string>
+
+    <!-- Mise au point -->
+    <string name="mise_cyanotype">Cyanotype</string>
+    <string name="mise_cyanotype_description">Voir la carte de profondeur en cyanotype</string>
+    <string name="mise_aperture">Ouverture</string>
+    <string name="mise_focus">Mise au point · %1$s</string>
+    <string name="mise_still_plane">Plan immobile · %1$s</string>
+    <string name="mise_nearer">Plus près</string>
+    <string name="mise_farther">Plus loin</string>
+    <string name="mise_hang">Accrocher</string>
+    <string-array name="aperture_words">
+        <item>Très discret</item>
+        <item>Discret</item>
+        <item>Juste</item>
+        <item>Ample</item>
+        <item>Intense</item>
+    </string-array>
+    <string-array name="focus_words">
+        <item>à l’infini</item>
+        <item>à 10 m</item>
+        <item>à 5 m</item>
+        <item>à 3 m</item>
+        <item>à 2 m</item>
+        <item>à 1,5 m</item>
+        <item>à 1 m</item>
+    </string-array>
+
+    <!-- Préférences -->
+    <string name="prefs_title">*Préférences*</string>
+    <string name="prefs_motion">Mouvement</string>
+    <string name="prefs_aperture">Ouverture par défaut</string>
+    <string name="prefs_recenter">Recentrage automatique</string>
+    <string name="prefs_recenter_sub">L’œuvre se recale quand vous changez de position</string>
+    <string name="prefs_reduce">Réduire les mouvements</string>
+    <string name="prefs_reduce_sub">L’œuvre reste fixe, sans capteur</string>
+    <string name="prefs_battery">Batterie</string>
+    <string name="prefs_rate">Cadence</string>
+    <string name="prefs_rate_value">%1$d i/s</string>
+    <string name="prefs_eco">Pause en économie d’énergie</string>
+    <string name="prefs_eco_sub">L’œuvre se fige pour préserver la batterie</string>
+    <string name="prefs_ai">Intelligence artificielle</string>
+    <string name="prefs_model">Modèle de profondeur</string>
+    <string name="prefs_model_absent">Depth Anything V2 Small · %1$s Mo · téléchargé au premier tirage</string>
+    <string name="prefs_model_downloading">Téléchargement… %1$d %%</string>
+    <string name="prefs_model_ready">Depth Anything V2 Small · %1$s Mo · sur l’appareil</string>
+    <string name="prefs_model_failed">Échec du téléchargement : %1$s</string>
+    <string name="prefs_privacy">Le calcul de la profondeur se fait entièrement sur votre téléphone. Aucune photo n’est envoyée.</string>
+    <string name="prefs_about">À propos</string>
+    <string name="prefs_version">GlimmerView %1$s · logiciel libre (GPL-3.0)</string>
+    <string name="prefs_licenses">Polices Spectral et Hanken Grotesk (OFL) · modèle Depth Anything V2 Small (Apache-2.0) · ONNX Runtime (MIT)</string>
+    <string name="prefs_lab">Laboratoire</string>
+    <string name="prefs_lab_sub">Mesures de performance sur cet appareil</string>
+</resources>

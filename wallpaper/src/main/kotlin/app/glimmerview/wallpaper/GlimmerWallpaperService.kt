@@ -2,16 +2,22 @@ package app.glimmerview.wallpaper
 
 import android.annotation.TargetApi
 import android.app.WallpaperColors
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.graphics.Bitmap
 import android.opengl.GLES30
 import android.os.Build
 import android.os.Handler
 import android.os.HandlerThread
 import android.os.Looper
+import android.os.PowerManager
 import android.os.SystemClock
 import android.service.wallpaper.WallpaperService
 import android.view.Choreographer
 import android.view.SurfaceHolder
+import app.glimmerview.core.WallpaperSettings
 import app.glimmerview.core.WallpaperStore
 import app.glimmerview.render.EglWindow
 import app.glimmerview.render.ParallaxRenderer
@@ -51,6 +57,9 @@ class GlimmerWallpaperService : WallpaperService() {
         private var drawnX = Float.NaN
         private var drawnY = Float.NaN
         private var gpuName = ""
+        private var settings = WallpaperSettings()
+        private var still = false
+        private var lastFrameNanos = 0L
 
         // Statistiques depuis la création du moteur
         private var frames = 0
@@ -62,9 +71,25 @@ class GlimmerWallpaperService : WallpaperService() {
         @Volatile
         private var colors: Any? = null
 
+        /** Signal de l'app : une œuvre vient d'être accrochée ou réglée. */
+        private val changeReceiver = object : BroadcastReceiver() {
+            override fun onReceive(context: Context, intent: Intent) {
+                renderHandler.post {
+                    reload(force = false)
+                    if (visible) requestFrame()
+                }
+            }
+        }
+
         override fun onCreate(surfaceHolder: SurfaceHolder) {
             super.onCreate(surfaceHolder)
             setOffsetNotificationsEnabled(false)
+            val filter = IntentFilter(WallpaperStore.ACTION_CHANGED)
+            if (Build.VERSION.SDK_INT >= 33) {
+                registerReceiver(changeReceiver, filter, Context.RECEIVER_NOT_EXPORTED)
+            } else {
+                registerReceiver(changeReceiver, filter)
+            }
         }
 
         override fun onSurfaceCreated(holder: SurfaceHolder) {
@@ -96,8 +121,9 @@ class GlimmerWallpaperService : WallpaperService() {
                 visible = isVisible
                 if (isVisible) {
                     reload(force = false)
+                    applySettings()
                     visibleSince = SystemClock.elapsedRealtimeNanos()
-                    tiltSensor.start()
+                    if (!still) tiltSensor.start()
                     requestFrame()
                 } else {
                     tiltSensor.stop()
@@ -119,6 +145,7 @@ class GlimmerWallpaperService : WallpaperService() {
         }
 
         override fun onDestroy() {
+            runCatching { unregisterReceiver(changeReceiver) }
             renderHandler.post {
                 tiltSensor.stop()
                 renderThread.quitSafely()
@@ -131,7 +158,28 @@ class GlimmerWallpaperService : WallpaperService() {
 
         override fun doFrame(frameTimeNanos: Long) {
             framePending = false
-            if (visible) drawFrame()
+            if (!visible) return
+            // Cadence réduite (préférence « 30 i/s ») : on saute les vsync trop rapprochées.
+            val minInterval = 1_000_000_000L / settings.frameRate - FRAME_TOLERANCE_NANOS
+            if (lastFrameNanos != 0L && frameTimeNanos - lastFrameNanos < minInterval) {
+                framePending = true
+                Choreographer.getInstance().postFrameCallback(this)
+                return
+            }
+            lastFrameNanos = frameTimeNanos
+            drawFrame()
+        }
+
+        /** Relit les préférences : l'app les modifie pendant que le fond d'écran est masqué. */
+        private fun applySettings() {
+            settings = store.loadSettings()
+            tiltSensor.recenterSeconds = if (settings.recenter) RECENTER_SECONDS else NO_RECENTER_SECONDS
+            val powerManager = getSystemService(Context.POWER_SERVICE) as PowerManager
+            still = settings.reduceMotion || (settings.pauseInBatterySaver && powerManager.isPowerSaveMode)
+            if (still) {
+                tiltX = 0f
+                tiltY = 0f
+            }
         }
 
         private fun onTilt(x: Float, y: Float) {
@@ -206,5 +254,13 @@ class GlimmerWallpaperService : WallpaperService() {
     private companion object {
         /** Variation d'inclinaison minimale (sur [-1, 1]) qui justifie une nouvelle image. */
         const val EPSILON = 0.002f
+
+        /** Marge sur l'intervalle entre deux images : la vsync n'est jamais parfaitement régulière. */
+        const val FRAME_TOLERANCE_NANOS = 2_000_000L
+
+        const val RECENTER_SECONDS = 3f
+
+        /** Sans recentrage, la référence suit si lentement qu'elle paraît fixe. */
+        const val NO_RECENTER_SECONDS = 3600f
     }
 }

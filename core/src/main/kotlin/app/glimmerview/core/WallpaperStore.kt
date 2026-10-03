@@ -1,9 +1,9 @@
 package app.glimmerview.core
 
 import android.content.Context
+import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.os.Build
 import java.io.DataInputStream
 import java.io.DataOutputStream
 import java.io.File
@@ -17,6 +17,7 @@ import java.nio.ByteBuffer
  */
 class WallpaperStore(context: Context) {
 
+    private val appContext = context.applicationContext
     private val root = File(context.filesDir, "wallpaper")
     private val currentDir = File(root, "current")
     private val colorFile = File(currentDir, "color.webp")
@@ -24,6 +25,7 @@ class WallpaperStore(context: Context) {
     private val paramsFile = File(currentDir, "params.json")
     private val versionFile = File(currentDir, "version")
     private val statsFile = File(root, "stats.json")
+    private val settingsFile = File(root, "settings.json")
 
     fun version(): Long =
         versionFile.takeIf { it.exists() }?.readText()?.trim()?.toLongOrNull() ?: 0L
@@ -57,6 +59,14 @@ class WallpaperStore(context: Context) {
         }.getOrNull()
     }
 
+    fun saveSettings(settings: WallpaperSettings) {
+        root.mkdirs()
+        writeAtomically(settingsFile) { it.write(settings.toJson().toByteArray()) }
+    }
+
+    fun loadSettings(): WallpaperSettings =
+        runCatching { WallpaperSettings.fromJson(settingsFile.readText()) }.getOrDefault(WallpaperSettings())
+
     fun writeStats(json: String) {
         root.mkdirs()
         writeAtomically(statsFile) { it.write(json.toByteArray()) }
@@ -66,18 +76,14 @@ class WallpaperStore(context: Context) {
 
     private fun bumpVersion() {
         writeAtomically(versionFile) { it.write(System.currentTimeMillis().toString().toByteArray()) }
-    }
-
-    private fun writeAtomically(target: File, block: (OutputStream) -> Unit) {
-        val tmp = File(target.parentFile, target.name + ".tmp")
-        tmp.outputStream().buffered().use(block)
-        if (!tmp.renameTo(target)) {
-            target.delete()
-            check(tmp.renameTo(target)) { "Renommage impossible : $target" }
-        }
+        // Prévient le process du fond d'écran : il recharge sans attendre de redevenir visible.
+        appContext.sendBroadcast(Intent(ACTION_CHANGED).setPackage(appContext.packageName))
     }
 
     companion object {
+        /** Diffusion interne à l'app (process « :wallpaper ») après un changement du fond actif. */
+        const val ACTION_CHANGED = "app.glimmerview.action.WALLPAPER_CHANGED"
+
         /** « GVD1 » : GlimmerView Depth, version 1. */
         private const val DEPTH_MAGIC = 0x47564431
 
@@ -104,10 +110,6 @@ class WallpaperStore(context: Context) {
             val values = FloatArray(width * height) { (buffer.short.toInt() and 0xFFFF) / 65535f }
             return DepthMap(width, height, values)
         }
-
-        @Suppress("DEPRECATION")
-        private fun webpFormat(): Bitmap.CompressFormat =
-            if (Build.VERSION.SDK_INT >= 30) Bitmap.CompressFormat.WEBP_LOSSY else Bitmap.CompressFormat.WEBP
     }
 }
 

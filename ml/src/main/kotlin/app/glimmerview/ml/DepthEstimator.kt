@@ -1,8 +1,6 @@
 package app.glimmerview.ml
 
-import android.content.Context
 import android.graphics.Bitmap
-import com.google.ai.edge.litert.Accelerator
 import java.io.File
 
 /** Estimation de profondeur monoculaire, indépendante du runtime utilisé. */
@@ -21,18 +19,13 @@ interface DepthEstimator : AutoCloseable {
 
     companion object {
         fun create(
-            context: Context,
             spec: ModelSpec,
             modelFile: File,
             backend: Backend,
             requestedSize: InputSize,
         ): DepthEstimator {
-            require(backend.format == spec.format) { "${backend.label} ne lit pas le format ${spec.format}" }
             val size = spec.fixedInputSize ?: requestedSize
             return when (backend) {
-                Backend.LITERT_GPU -> LiteRtDepthEstimator(context, modelFile, Accelerator.GPU, spec, size)
-                Backend.LITERT_CPU -> LiteRtDepthEstimator(context, modelFile, Accelerator.CPU, spec, size)
-                Backend.LITERT_NPU -> LiteRtDepthEstimator(context, modelFile, Accelerator.NPU, spec, size)
                 Backend.ORT_CPU -> OrtDepthEstimator(modelFile, xnnpack = false, spec, size)
                 Backend.ORT_XNNPACK -> OrtDepthEstimator(modelFile, xnnpack = true, spec, size)
             }

@@ -1,4 +1,4 @@
-package app.glimmerview.lab
+package app.glimmerview.data
 
 import android.content.Context
 import android.graphics.Bitmap
@@ -11,7 +11,7 @@ import androidx.exifinterface.media.ExifInterface
 import kotlin.math.max
 import kotlin.math.roundToInt
 
-internal object ImageLoading {
+object ImageLoading {
 
     /** Décode une image en ARGB_8888 logiciel, réduite pour que son grand côté ≤ [maxLongSide]. */
     fun decode(context: Context, uri: Uri, maxLongSide: Int): Bitmap {

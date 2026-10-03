@@ -184,7 +184,7 @@ Paquet .dwp (image + profondeur + fond reconstruit + réglages) ─► moteur de
 TÉLÉPHONE
 ├─ Process principal (UI Jetpack Compose)
 │   ├─ Bibliothèque ──────────► télécharge les paquets .dwp (CDN)
-│   ├─ Créateur ─► pipeline IA local (LiteRT) ─► paquet .dwp
+│   ├─ Créateur ─► pipeline IA local (ONNX Runtime) ─► paquet .dwp
 │   │              └─ (opt-in) API « HD » ─────► serveur GPU
 │   └─ Mes fonds / Réglages ──► « fond actif » (fichiers + DataStore multi-process)
 └─ Process « :wallpaper » (léger : ni Compose, ni IA)
@@ -209,7 +209,7 @@ EN LIGNE (optionnel)
 | Réseau | OkHttp + Retrofit (ou Ktor) + kotlinx.serialization | |
 | Images | Coil 3, ImageDecoder, ExifInterface, Photo Picker | Aucune permission de stockage nécessaire |
 | Rendu | OpenGL ES 3.0 + EGL14, GLSL ES 3.00, thread de rendu dédié + Choreographer | Plus de 99 % des appareils, contrôle total, coût faible |
-| IA | LiteRT 2.x (`CompiledModel`) derrière une interface | GPU/NPU, modèles déjà prêts |
+| IA | ONNX Runtime (CPU) derrière l'interface `DepthEstimator` | 100 % libre, même `.onnx` partout, meilleur rendu mesuré ([ADR 0001](docs/adr/0001-runtime-ia.md)) |
 | Vidéo | MediaCodec (H.264) alimenté par une surface EGL | Export de boucles à partager |
 | Rapports de crash | ACRA (opt-in, auto-hébergé) | Pas de Firebase ni de traceur |
 | Licences tierces | AboutLibraries | Écran « licences » généré automatiquement |
@@ -220,7 +220,7 @@ EN LIGNE (optionnel)
 
 **Outillage retenu (Phase 0).** AGP 9.4.1 avec le support Kotlin intégré, Gradle 9.6, Kotlin 2.4.20, `compileSdk 37`. Les versions actuelles d'AndroidX l'imposent (`core-ktx` 1.19 exige compileSdk 37 et AGP 9.1+). Il faut donc un Android Studio récent pour ouvrir le projet.
 
-**Constat sur LiteRT 2.2.0.** L'AAR embarque l'accélérateur GPU sous forme de binaire précompilé (`libLiteRtClGlAccelerator.so`). Il dépend aussi de `com.google.android.play:ai-delivery`, une bibliothèque Google Play non libre. Cela confirme le besoin d'une variante `foss` sans ces composants pour F-Droid.
+**Constat sur LiteRT 2.2.0.** L'AAR embarque l'accélérateur GPU sous forme de binaire précompilé (`libLiteRtClGlAccelerator.so`). Il dépend aussi de `com.google.android.play:ai-delivery`, une bibliothèque Google Play non libre. Cela confirme le besoin d'une variante `foss` sans ces composants pour F-Droid. **LiteRT a été retiré au début de la Phase 1** (3 octobre 2026), au profit d'ONNX Runtime seul : une seule variante de build, compatible F-Droid.
 
 ### 4.3 Modules Gradle
 
@@ -778,10 +778,22 @@ Objectif : lever les incertitudes techniques avant d'écrire l'app.
 
 ## 13. Prochaines étapes
 
-1. Choisir le nom et la licence, puis créer le dépôt Git (GitHub).
-2. Phase 0 : banc d'essai Python des modèles de profondeur.
-3. Phase 0 : spike `WallpaperService` + shader + gyroscope dans un squelette Gradle multi-modules.
-4. Phase 0 : spike d'inférence LiteRT avec Depth Anything V2 Small, mesuré sur tes téléphones.
+**Fait.** Nom (GlimmerView) et licence (GPL-3.0) ; Phase 0 (rendu, fond d'écran, inférence mesurée sur appareil, [ADR 0001](docs/adr/0001-runtime-ia.md)) ; charte « Galerie » validée (Claude Design, typo Spectral) ; début de la Phase 1 (3 octobre 2026) :
+
+- LiteRT retiré, modèles vérifiés par SHA-256 ;
+- interface Compose complète selon la charte : vernissage, galerie, œuvre, accrochage, collection, préférences, atelier, tirage, mise au point ;
+- parcours de bout en bout validé sur émulateur : photo → profondeur → aperçu 3D → fond d'écran ;
+- œuvres de démonstration : sept scènes dessinées en plans (profondeur exacte, CC0), en attendant le pack de photos libres ;
+- préférences lues par le fond d'écran (recentrage, mouvements réduits, cadence, économie d'énergie) ;
+- français et anglais.
+
+**Reste pour la v0.1.**
+
+1. Dépôt Git et premier commit, CI GitHub Actions (build, tests, lint), `CONTRIBUTING.md`.
+2. Format `.dwp` (`:format`) : export et partage d'une œuvre, import.
+3. Pack de démarrage de 10 à 20 photos libres (NASA, musées CC0) avec profondeur précalculée.
+4. Tests sur trois téléphones (entrée, milieu, haut de gamme), dont l'aperçu et le fond d'écran au gyroscope.
+5. Publication : GitHub Releases et IzzyOnDroid.
 
 ---
 

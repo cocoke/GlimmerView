@@ -1,6 +1,5 @@
 package app.glimmerview.ml
 
-import android.content.Context
 import android.graphics.Bitmap
 import android.os.Debug
 
@@ -35,12 +34,12 @@ data class BenchResult(
 object DepthBenchmark {
 
     /** Mesure une configuration. Bloquant : à exécuter sur un thread dédié. */
-    fun run(context: Context, store: ModelStore, config: BenchConfig, image: Bitmap, runs: Int): BenchResult {
+    fun run(store: ModelStore, config: BenchConfig, image: Bitmap, runs: Int): BenchResult {
         if (!store.isDownloaded(config.model)) return BenchResult(config, error = "Modèle non téléchargé")
         var estimator: DepthEstimator? = null
         return try {
             val t0 = System.nanoTime()
-            val e = DepthEstimator.create(context, config.model, store.file(config.model), config.backend, config.inputSize)
+            val e = DepthEstimator.create(config.model, store.file(config.model), config.backend, config.inputSize)
             estimator = e
             val initMs = elapsedMs(t0)
 
