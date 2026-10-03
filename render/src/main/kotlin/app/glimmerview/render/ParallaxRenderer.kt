@@ -1,5 +1,6 @@
 package app.glimmerview.render
 
+import android.annotation.SuppressLint
 import android.graphics.Bitmap
 import android.opengl.GLES30
 import android.opengl.GLUtils
@@ -161,6 +162,7 @@ class ParallaxRenderer {
         out[1] = sy / zoom
     }
 
+    @SuppressLint("HalfFloat") // bits bruts des demi-flottants, voulus pour GL_HALF_FLOAT
     private fun uploadIfNeeded() {
         val color: Bitmap
         val depth: DepthMap
@@ -174,7 +176,8 @@ class ParallaxRenderer {
         GLES30.glBindTexture(GLES30.GL_TEXTURE_2D, colorTexture)
         GLUtils.texImage2D(GLES30.GL_TEXTURE_2D, 0, color, 0)
 
-        // Disparité en demi-flottants (R16F) : filtrable linéairement en OpenGL ES 3.0
+        // Disparité en demi-flottants (R16F) : filtrable linéairement en OpenGL ES 3.0.
+        // Les bits bruts des demi-flottants vont tels quels dans le tampon (GL_HALF_FLOAT).
         val buffer = ByteBuffer.allocateDirect(depth.values.size * 2).order(ByteOrder.nativeOrder())
         val shorts = buffer.asShortBuffer()
         for (v in depth.values) shorts.put(Half.toHalf(v))

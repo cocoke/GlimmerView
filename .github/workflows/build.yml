@@ -1,0 +1,54 @@
+name: Build
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Compilation, tests et lint
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - name: Récupérer le code
+        uses: actions/checkout@v7
+
+      - name: Installer le JDK
+        uses: actions/setup-java@v6
+        with:
+          distribution: temurin
+          java-version: 21
+
+      # Valide aussi l'empreinte de gradle-wrapper.jar et met en cache les dépendances.
+      - name: Préparer Gradle
+        uses: gradle/actions/setup-gradle@v6
+
+      # La plateforme Android 37 manque sur les images GitHub : AGP la télécharge au besoin.
+      - name: Compiler, tester et analyser
+        run: ./gradlew assembleDebug testDebugUnitTest lintDebug --console=plain
+
+      - name: Publier l'APK de débogage
+        uses: actions/upload-artifact@v7
+        with:
+          name: glimmerview-debug
+          path: app/build/outputs/apk/debug/*.apk
+          retention-days: 14
+
+      - name: Publier les rapports de tests et de lint
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: rapports
+          path: |
+            */build/reports/
+            */build/test-results/
+          retention-days: 14

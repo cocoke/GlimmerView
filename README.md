@@ -1,5 +1,7 @@
 # GlimmerView
 
+[![Build](https://github.com/cocoke/GlimmerView/actions/workflows/build.yml/badge.svg)](https://github.com/cocoke/GlimmerView/actions/workflows/build.yml)
+
 > *Subtle shifts, stunning screens.*
 
 **GlimmerView** est une application Android libre et gratuite qui transforme n'importe quelle image en fond d'écran 3D : une carte de profondeur est générée sur le téléphone, puis l'image réagit aux mouvements de l'appareil (effet de parallaxe).
@@ -57,6 +59,10 @@ Téléchargés à la demande depuis l'app, jamais versionnés dans Git, vérifi�
 ## Polices
 
 Spectral (Production Type) et Hanken Grotesk, sous licence SIL Open Font License 1.1 ; les licences sont livrées avec l'app (`app/src/main/assets/licenses`).
+
+## Contribuer
+
+Les règles du projet (liberté, vie privée, charte graphique, textes et licences des œuvres) sont dans [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## Licence
 

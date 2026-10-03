@@ -1,12 +1,10 @@
 package app.glimmerview.wallpaper
 
-import android.annotation.TargetApi
 import android.app.WallpaperColors
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
-import android.graphics.Bitmap
 import android.opengl.GLES30
 import android.os.Build
 import android.os.Handler
@@ -17,6 +15,9 @@ import android.os.SystemClock
 import android.service.wallpaper.WallpaperService
 import android.view.Choreographer
 import android.view.SurfaceHolder
+import androidx.annotation.RequiresApi
+import androidx.core.content.ContextCompat
+import androidx.core.graphics.scale
 import app.glimmerview.core.WallpaperSettings
 import app.glimmerview.core.WallpaperStore
 import app.glimmerview.render.EglWindow
@@ -84,12 +85,13 @@ class GlimmerWallpaperService : WallpaperService() {
         override fun onCreate(surfaceHolder: SurfaceHolder) {
             super.onCreate(surfaceHolder)
             setOffsetNotificationsEnabled(false)
-            val filter = IntentFilter(WallpaperStore.ACTION_CHANGED)
-            if (Build.VERSION.SDK_INT >= 33) {
-                registerReceiver(changeReceiver, filter, Context.RECEIVER_NOT_EXPORTED)
-            } else {
-                registerReceiver(changeReceiver, filter)
-            }
+            // Non exporté sur toutes les versions : seule l'app peut envoyer ce signal.
+            ContextCompat.registerReceiver(
+                this@GlimmerWallpaperService,
+                changeReceiver,
+                IntentFilter(WallpaperStore.ACTION_CHANGED),
+                ContextCompat.RECEIVER_NOT_EXPORTED,
+            )
         }
 
         override fun onSurfaceCreated(holder: SurfaceHolder) {
@@ -153,7 +155,7 @@ class GlimmerWallpaperService : WallpaperService() {
             super.onDestroy()
         }
 
-        @TargetApi(27)
+        @RequiresApi(27)
         override fun onComputeColors(): WallpaperColors? = colors as WallpaperColors?
 
         override fun doFrame(frameTimeNanos: Long) {
@@ -216,7 +218,7 @@ class GlimmerWallpaperService : WallpaperService() {
             if (Build.VERSION.SDK_INT >= 27) {
                 val width = 112
                 val height = (width.toFloat() * wallpaper.color.height / wallpaper.color.width).roundToInt().coerceAtLeast(1)
-                colors = WallpaperColors.fromBitmap(Bitmap.createScaledBitmap(wallpaper.color, width, height, true))
+                colors = WallpaperColors.fromBitmap(wallpaper.color.scale(width, height))
                 mainHandler.post { notifyColorsChanged() }
             }
             drawnX = Float.NaN

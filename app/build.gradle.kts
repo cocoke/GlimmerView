@@ -8,7 +8,7 @@ android {
     compileSdk = 37
 
     defaultConfig {
-        // Identifiant provisoire : à confirmer avant la première publication (définitif ensuite).
+        // Identifiant définitif (3 octobre 2026) : lié à la clé de signature, il ne doit plus changer.
         applicationId = "app.glimmerview"
         minSdk = 26
         targetSdk = 36

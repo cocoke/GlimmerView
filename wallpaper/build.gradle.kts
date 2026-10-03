@@ -18,4 +18,5 @@ android {
 dependencies {
     implementation(project(":core"))
     implementation(project(":render"))
+    implementation(libs.androidx.core.ktx)
 }

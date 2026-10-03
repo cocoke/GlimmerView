@@ -549,9 +549,9 @@ Contributeur ─► Pull Request (image + fiche YAML : titre, auteur, source, li
 - **v0.3** : rotation automatique (playlist de favoris toutes les X heures).
 
 **Créateur**
-- **v0.1** : galerie → cadrage → profondeur locale → aperçu 3D → focus en touchant le sujet → enregistrer et appliquer.
-- **v0.2** : inpainting ; éditeur de profondeur (pinceaux rapprocher, éloigner, lisser, aplatir, dégradé, gomme de masque, annuler/rétablir) ; import d'une carte de profondeur, d'une photo « Portrait » ou d'un `.dwp` ; export vidéo MP4 en boucle.
-- **v0.3** : sélection du sujet en le touchant (SAM mobile).
+- **v0.1** : galerie → cadrage → profondeur locale → aperçu 3D → focus en touchant le sujet → enregistrer et appliquer. **Partager une photo depuis une autre app** (galerie, navigateur, messagerie) vers GlimmerView pour en faire un fond 3D *(demande du 3 octobre 2026, peu coûteux)*.
+- **v0.2** : inpainting ; éditeur de profondeur (pinceaux rapprocher, éloigner, lisser, aplatir, dégradé, gomme de masque, annuler/rétablir) ; import d'une carte de profondeur, d'une photo « Portrait » ou d'un `.dwp` ; export vidéo MP4 en boucle. **Reprendre une œuvre existante** pour l'affiner : recadrer, relancer le calcul de profondeur, retoucher la carte *(demande du 3 octobre 2026)*.
+- **v0.3** : sélection du sujet en le touchant (SAM mobile). **Édition détaillée par sujets** : choisir les personnes ou les objets sur lesquels porte la profondeur, par exemple en détectant automatiquement les personnes *(demande du 3 octobre 2026)*.
 - **v0.4** : mode HD via le serveur (opt-in).
 - **Plus tard** : outpainting, génération à partir d'un texte, éléments animés (eau, nuages).
 
@@ -766,8 +766,8 @@ Objectif : lever les incertitudes techniques avant d'écrire l'app.
 ## 12. Décisions à prendre
 
 1. **Nom de l'app** : ✅ **GlimmerView**, slogan « Subtle shifts, stunning screens. ».
-   **Nom de package** : encore à confirmer (provisoire : `app.glimmerview`). Il est définitif, car lié à la clé de signature et à la vérification Google. Alternative sans domaine : `io.github.cocoke.glimmerview`.
-2. **Licence** : ✅ **GPL-3.0**.
+   **Nom de package** : ✅ **`app.glimmerview`** (3 octobre 2026). Il ne changera plus, car il est lié à la clé de signature et à la vérification Google.
+2. **Licence** : ✅ **GPL-3.0**. Reste à préciser plus tard : « GPL-3.0 only » ou « GPL-3.0 or later ».
 3. **Runtime IA** : ✅ **ONNX Runtime**, décidé après les mesures de la Phase 0 ([ADR 0001](docs/adr/0001-runtime-ia.md)).
 4. **Serveur public.** Pas au lancement *(recommandé)* : d'abord auto-hébergeable, puis public seulement s'il est financé.
 5. **Version minimale.** minSdk 26 *(recommandé)*.
@@ -785,15 +785,15 @@ Objectif : lever les incertitudes techniques avant d'écrire l'app.
 - parcours de bout en bout validé sur émulateur : photo → profondeur → aperçu 3D → fond d'écran ;
 - œuvres de démonstration : sept scènes dessinées en plans (profondeur exacte, CC0), en attendant le pack de photos libres ;
 - préférences lues par le fond d'écran (recentrage, mouvements réduits, cadence, économie d'énergie) ;
-- français et anglais.
+- français et anglais ;
+- dépôt GitHub `cocoke/GlimmerView` (privé pour l'instant), CI GitHub Actions (compilation, tests, lint) et `CONTRIBUTING.md`.
 
 **Reste pour la v0.1.**
 
-1. Dépôt Git et premier commit, CI GitHub Actions (build, tests, lint), `CONTRIBUTING.md`.
-2. Format `.dwp` (`:format`) : export et partage d'une œuvre, import.
-3. Pack de démarrage de 10 à 20 photos libres (NASA, musées CC0) avec profondeur précalculée.
-4. Tests sur trois téléphones (entrée, milieu, haut de gamme), dont l'aperçu et le fond d'écran au gyroscope.
-5. Publication : GitHub Releases et IzzyOnDroid.
+1. Format `.dwp` (`:format`) : export et partage d'une œuvre, import.
+2. Pack de démarrage de 10 à 20 photos libres (NASA, musées CC0) avec profondeur précalculée.
+3. Tests sur trois téléphones (entrée, milieu, haut de gamme), dont l'aperçu et le fond d'écran au gyroscope.
+4. Publication : GitHub Releases et IzzyOnDroid.
 
 ---
 
