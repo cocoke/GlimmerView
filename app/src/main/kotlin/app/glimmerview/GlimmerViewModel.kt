@@ -494,6 +494,16 @@ class GlimmerViewModel(application: Application) : AndroidViewModel(application)
 
     // ── Tirage : photo → profondeur → œuvre ───────────────────────────────────
 
+    /**
+     * Photo reçue d'une autre app : on passe le vernissage s'il n'a pas eu lieu et on ouvre
+     * le tirage depuis l'atelier (le retour y ramène).
+     */
+    fun startSharedCreation(uri: Uri) {
+        prefs.edit { putBoolean(KEY_ONBOARDED, true) }
+        selectTab(Route.Atelier)
+        startCreation(uri)
+    }
+
     fun startCreation(uri: Uri) {
         generationJob?.cancel()
         val firstRun = !modelStore.isDownloaded(ModelCatalog.DEFAULT)

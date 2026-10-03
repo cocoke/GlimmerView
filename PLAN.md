@@ -549,7 +549,7 @@ Contributeur ─► Pull Request (image + fiche YAML : titre, auteur, source, li
 - **v0.3** : rotation automatique (playlist de favoris toutes les X heures).
 
 **Créateur**
-- **v0.1** : galerie → cadrage → profondeur locale → aperçu 3D → focus en touchant le sujet → enregistrer et appliquer. **Partager une photo depuis une autre app** (galerie, navigateur, messagerie) vers GlimmerView pour en faire un fond 3D *(demande du 3 octobre 2026, peu coûteux)*.
+- **v0.1** : galerie → cadrage → profondeur locale → aperçu 3D → focus en touchant le sujet → enregistrer et appliquer. **Partager une photo depuis une autre app** (galerie, navigateur, messagerie) vers GlimmerView pour en faire un fond 3D *(demande du 3 octobre 2026, fait)*.
 - **v0.2** : inpainting ; éditeur de profondeur (pinceaux rapprocher, éloigner, lisser, aplatir, dégradé, gomme de masque, annuler/rétablir) ; import d'une carte de profondeur, d'une photo « Portrait » ou d'un `.dwp` ; export vidéo MP4 en boucle. **Reprendre une œuvre existante** pour l'affiner : recadrer, relancer le calcul de profondeur, retoucher la carte *(demande du 3 octobre 2026)*.
 - **v0.3** : sélection du sujet en le touchant (SAM mobile). **Édition détaillée par sujets** : choisir les personnes ou les objets sur lesquels porte la profondeur, par exemple en détectant automatiquement les personnes *(demande du 3 octobre 2026)*.
 - **v0.4** : mode HD via le serveur (opt-in).
@@ -786,14 +786,16 @@ Objectif : lever les incertitudes techniques avant d'écrire l'app.
 - œuvres de démonstration : sept scènes dessinées en plans (profondeur exacte, CC0), en attendant le pack de photos libres ;
 - préférences lues par le fond d'écran (recentrage, mouvements réduits, cadence, économie d'énergie) ;
 - français et anglais ;
-- dépôt GitHub `cocoke/GlimmerView` (privé pour l'instant), CI GitHub Actions (compilation, tests, lint) et `CONTRIBUTING.md`.
+- dépôt GitHub `cocoke/GlimmerView` (privé pour l'instant), CI GitHub Actions (compilation, tests, lint) et `CONTRIBUTING.md` ;
+- partage d'une image depuis une autre app (menu « Partager » d'Android) vers le tirage.
 
 **Reste pour la v0.1.**
 
-1. Format `.dwp` (`:format`) : export et partage d'une œuvre, import.
-2. Pack de démarrage de 10 à 20 photos libres (NASA, musées CC0) avec profondeur précalculée.
-3. Tests sur trois téléphones (entrée, milieu, haut de gamme), dont l'aperçu et le fond d'écran au gyroscope.
-4. Publication : GitHub Releases et IzzyOnDroid.
+1. Appui long sur une œuvre (galerie, collection, dernières créations) : menu pour la modifier ou la supprimer. Pour les œuvres de la galerie, « supprimer » revient à les retirer de la collection *(demande du 3 octobre 2026)*.
+2. Format `.dwp` (`:format`) : export et partage d'une œuvre, import.
+3. Pack de démarrage de 10 à 20 photos libres (NASA, musées CC0) avec profondeur précalculée.
+4. Tests sur trois téléphones (entrée, milieu, haut de gamme), dont l'aperçu et le fond d'écran au gyroscope.
+5. Publication : GitHub Releases et IzzyOnDroid.
 
 ---
 

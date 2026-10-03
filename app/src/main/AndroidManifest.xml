@@ -16,13 +16,22 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.GlimmerView">
 
+        <!-- singleTask : une photo partagée rejoint l'app déjà ouverte au lieu d'en lancer
+             une deuxième copie dans la tâche de l'app d'origine. -->
         <activity
             android:name=".MainActivity"
             android:exported="true"
+            android:launchMode="singleTask"
             android:windowSoftInputMode="adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <!-- Menu « Partager » d'Android : une image venue d'une autre app devient une œuvre 3D -->
+            <intent-filter android:label="@string/share_target_label">
+                <action android:name="android.intent.action.SEND" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="image/*" />
             </intent-filter>
         </activity>
     </application>

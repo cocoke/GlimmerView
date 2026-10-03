@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="share_target_label">Créer un fond 3D</string>
+
     <!-- Navigation -->
     <string name="tab_gallery">Galerie</string>
     <string name="tab_atelier">Atelier</string>
