@@ -1,0 +1,8 @@
+# Fins de ligne normalisées (LF dans le dépôt, quel que soit le poste)
+* text=auto
+gradlew text eol=lf
+*.bat text eol=crlf
+*.jar binary
+*.ttf binary
+*.png binary
+*.webp binary

@@ -1,0 +1,38 @@
+# Gradle / Android
+.gradle/
+.kotlin/
+build/
+local.properties
+captures/
+*.apk
+*.aab
+*.ap_
+*.dex
+.externalNativeBuild/
+.cxx/
+
+# IDE
+.idea/
+*.iml
+.vscode/
+
+# Python (tools/)
+__pycache__/
+*.py[cod]
+.venv/
+.ipynb_checkpoints/
+
+# Modèles et résultats de benchmark (trop lourds pour Git)
+*.tflite
+*.onnx
+*.pte
+tools/**/out/
+
+# Signatures
+*.jks
+*.keystore
+keystore.properties
+
+# Divers
+.DS_Store
+Thumbs.db
