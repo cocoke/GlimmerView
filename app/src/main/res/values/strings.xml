@@ -57,6 +57,37 @@
     <string name="tirage_name_hint">Give it a title, or keep the date.</string>
     <string name="mise_rename">Rename</string>
 
+    <!-- Depth retouch (sketch) -->
+    <string name="mise_retouch">Retouch the depth</string>
+    <string name="sketch_kicker">Sketch</string>
+    <string name="sketch_title">Retouch the *depth*</string>
+    <string name="sketch_loading">Preparing…</string>
+    <string name="sketch_canvas_description">Depth map: light means near, dark means far</string>
+    <string name="sketch_mode_paint">Paint</string>
+    <string name="sketch_mode_zone">Tap an area</string>
+    <string name="sketch_zone_hint">Tap a person or an object on the picture, then choose an action. Tap the area again to tighten it.</string>
+    <string name="sketch_zone_empty">Tap an area of the picture first</string>
+    <string name="sketch_zone_tiny">Area too small: tap another part of the picture</string>
+    <string name="sketch_tool_nearer">Nearer</string>
+    <string name="sketch_tool_farther">Farther</string>
+    <string name="sketch_tool_smooth">Smooth</string>
+    <string name="sketch_tool_flatten">Flatten</string>
+    <string name="sketch_tool_erase">Erase</string>
+    <string name="sketch_brush">Brush</string>
+    <string name="sketch_brush_size">Brush size %1$d of %2$d</string>
+    <string name="sketch_overlay">Overlay the photo</string>
+    <string name="sketch_overlay_sub">Light = near. Paint to correct.</string>
+    <string name="sketch_far">Far</string>
+    <string name="sketch_near">Near</string>
+    <string name="sketch_undo">Undo the last retouch</string>
+    <string name="sketch_redo">Redo</string>
+    <string name="sketch_save">Done</string>
+    <string name="sketch_discard_title">Discard *your retouches*?</string>
+    <string name="sketch_discard_body">The depth will stay as it was before this sketch.</string>
+    <string name="sketch_keep">Keep editing</string>
+    <string name="sketch_discard">Discard</string>
+    <string name="message_sketch_saved">Depth updated</string>
+
     <!-- Opening (first launch) -->
     <string name="vernissage_caption">, 2026 · illustration, five planes</string>
     <string name="vernissage_title">Your pictures gain *depth.*</string>

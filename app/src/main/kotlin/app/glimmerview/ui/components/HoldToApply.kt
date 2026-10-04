@@ -26,7 +26,6 @@ import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
@@ -75,12 +74,12 @@ fun HoldToApply(
 
     Row(
         modifier = modifier
+            .dimWhenDisabled(enabled || done)
             .fillMaxWidth()
             .height(62.dp)
             .clip(shape)
             .background(if (done) GlimmerColors.Ink else Color.Transparent)
             .border(1.dp, GlimmerColors.Ink, shape)
-            .alpha(if (enabled || done) 1f else 0.4f)
             .pointerInput(done, enabled) {
                 if (done || !enabled) return@pointerInput
                 detectTapGestures(

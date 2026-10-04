@@ -550,7 +550,7 @@ Contributeur ─► Pull Request (image + fiche YAML : titre, auteur, source, li
 
 **Créateur**
 - **v0.1** : galerie → cadrage → profondeur locale → aperçu 3D → focus en touchant le sujet → enregistrer et appliquer. **Partager une photo depuis une autre app** (galerie, navigateur, messagerie) vers GlimmerView pour en faire un fond 3D *(demande du 3 octobre 2026, fait)*.
-- **v0.2** : inpainting ; éditeur de profondeur (pinceaux rapprocher, éloigner, lisser, aplatir, dégradé, gomme de masque, annuler/rétablir) ; import d'une carte de profondeur, d'une photo « Portrait » ou d'un `.dwp` ; export vidéo MP4 en boucle. **Reprendre une œuvre existante** pour l'affiner : recadrer, relancer le calcul de profondeur, retoucher la carte *(demande du 3 octobre 2026)*.
+- **v0.2** : inpainting ; ~~éditeur de profondeur~~ *(fait en v0.1 : écran Esquisse, pinceaux et sélection d'une zone au toucher)* ; import d'une carte de profondeur, d'une photo « Portrait » ou d'un `.dwp` ; export vidéo MP4 en boucle. **Reprendre une œuvre existante** pour l'affiner : recadrer, relancer le calcul de profondeur, retoucher la carte *(demande du 3 octobre 2026)*.
 - **v0.3** : sélection du sujet en le touchant (SAM mobile). **Édition détaillée par sujets** : choisir les personnes ou les objets sur lesquels porte la profondeur, par exemple en détectant automatiquement les personnes *(demande du 3 octobre 2026)*.
 - **v0.4** : mode HD via le serveur (opt-in).
 - **Plus tard** : outpainting, génération à partir d'un texte, éléments animés (eau, nuages).
@@ -788,7 +788,8 @@ Objectif : lever les incertitudes techniques avant d'écrire l'app.
 - français et anglais ;
 - dépôt GitHub `cocoke/GlimmerView` (privé pour l'instant), CI GitHub Actions (compilation, tests, lint) et `CONTRIBUTING.md` ;
 - partage d'une image depuis une autre app (menu « Partager » d'Android) vers le tirage ;
-- titre donné à l'œuvre à la fin du tirage, renommage depuis la mise au point.
+- titre donné à l'œuvre à la fin du tirage, renommage depuis la mise au point ;
+- retouche de la profondeur (Esquisse) : pinceaux avancer, reculer, lisser, aplatir et gommer, ou sélection d'une zone au toucher (personne, objet) qu'on avance ou recule d'un geste ; annuler et rétablir ; la carte d'origine est conservée.
 
 **Reste pour la v0.1.**
 

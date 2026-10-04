@@ -183,7 +183,16 @@ fun MiseAuPointScreen(vm: GlimmerViewModel, ref: WorkRef) {
                 )
                 Cartel(stringResource(R.string.mise_focus, focusWordList[focusIndex]))
             }
-            Tirette(stringResource(R.string.mise_hang), onClick = { vm.hang(ref) })
+            Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(14.dp)) {
+                CircleButton(
+                    icon = GlimmerIcons.Brush,
+                    contentDescription = stringResource(R.string.mise_retouch),
+                    onClick = { vm.retouch(ref) },
+                    size = 50.dp,
+                    iconSize = 19.dp,
+                )
+                Tirette(stringResource(R.string.mise_hang), onClick = { vm.hang(ref) }, modifier = Modifier.weight(1f))
+            }
         }
     }
 }

@@ -55,6 +55,37 @@
     <string name="tirage_name_hint">Donnez-lui un titre, ou gardez la date.</string>
     <string name="mise_rename">Renommer</string>
 
+    <!-- Retouche de la profondeur (esquisse) -->
+    <string name="mise_retouch">Retoucher la profondeur</string>
+    <string name="sketch_kicker">Esquisse</string>
+    <string name="sketch_title">Retoucher la *profondeur*</string>
+    <string name="sketch_loading">Préparation…</string>
+    <string name="sketch_canvas_description">Carte de profondeur : clair pour le proche, sombre pour le lointain</string>
+    <string name="sketch_mode_paint">Peindre</string>
+    <string name="sketch_mode_zone">Toucher une zone</string>
+    <string name="sketch_zone_hint">Touchez une personne ou un objet sur l’image, puis choisissez une action. Touchez de nouveau la zone pour la resserrer.</string>
+    <string name="sketch_zone_empty">Touchez d’abord une zone de l’image</string>
+    <string name="sketch_zone_tiny">Zone trop petite : touchez une autre partie de l’image</string>
+    <string name="sketch_tool_nearer">Avancer</string>
+    <string name="sketch_tool_farther">Reculer</string>
+    <string name="sketch_tool_smooth">Lisser</string>
+    <string name="sketch_tool_flatten">Aplatir</string>
+    <string name="sketch_tool_erase">Gommer</string>
+    <string name="sketch_brush">Pinceau</string>
+    <string name="sketch_brush_size">Taille du pinceau %1$d sur %2$d</string>
+    <string name="sketch_overlay">Superposer la photo</string>
+    <string name="sketch_overlay_sub">Clair = proche. Peignez pour corriger.</string>
+    <string name="sketch_far">Loin</string>
+    <string name="sketch_near">Près</string>
+    <string name="sketch_undo">Annuler la dernière retouche</string>
+    <string name="sketch_redo">Rétablir</string>
+    <string name="sketch_save">Valider</string>
+    <string name="sketch_discard_title">Abandonner *les retouches* ?</string>
+    <string name="sketch_discard_body">La profondeur restera telle qu’avant cette esquisse.</string>
+    <string name="sketch_keep">Continuer</string>
+    <string name="sketch_discard">Abandonner</string>
+    <string name="message_sketch_saved">Profondeur retouchée</string>
+
     <!-- Vernissage (premier lancement) -->
     <string name="vernissage_caption">, 2026 · illustration, cinq plans</string>
     <string name="vernissage_title">Vos images prennent *de la profondeur.*</string>

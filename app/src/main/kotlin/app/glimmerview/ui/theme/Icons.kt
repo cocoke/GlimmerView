@@ -26,6 +26,19 @@ object GlimmerIcons {
     val Layers by lazy {
         stroke("layers", "M12 3.5l8.5 4.5-8.5 4.5-8.5-4.5z", "M3.5 12.5l8.5 4.5 8.5-4.5", "M3.5 16.5l8.5 4.5 8.5-4.5")
     }
+    val Minus by lazy { stroke("minus", "M5 12h14") }
+    val Wave by lazy { stroke("wave", "M3 14c3-4 6-4 9 0s6 4 9 0") }
+    val Flat by lazy { stroke("flat", "M4 9h16M4 15h16") }
+    val Eraser by lazy { stroke("eraser", "M8 20h12", "M5 15l8-8 6 6-5 5H8z") }
+    val Undo by lazy { stroke("undo", "M9 14L4 9l5-5", "M4 9h10a6 6 0 0 1 0 12h-3") }
+    val Redo by lazy { stroke("redo", "M15 14l5-5-5-5", "M20 9H10a6 6 0 0 0 0 12h3") }
+    val Eye by lazy {
+        stroke("eye", "M2.5 12s3.5-6 9.5-6 9.5 6 9.5 6-3.5 6-9.5 6-9.5-6-9.5-6z", "M9.5 12a2.5 2.5 0 1 0 5 0a2.5 2.5 0 1 0 -5 0z")
+    }
+    val Pencil by lazy { stroke("pencil", "M4 20h4L19 9l-4-4L4 16z", "M13 7l4 4") }
+
+    /** Accrocher : un cadre suspendu à son clou. */
+    val Hang by lazy { stroke("hang", "M12 3.5v1", "M8 10l4-4.5 4 4.5", "M5 10h14v10H5z") }
     val Dial by lazy {
         stroke("dial", "M4 12a8 8 0 1 0 16 0a8 8 0 1 0 -16 0z", "M12 12l4-3")
     }

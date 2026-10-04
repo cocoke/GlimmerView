@@ -18,6 +18,7 @@ sealed interface Route {
     data class Oeuvre(val ref: WorkRef) : Route
     data class MiseAuPoint(val ref: WorkRef) : Route
     data class Accrocher(val ref: WorkRef) : Route
+    data class Esquisse(val ref: WorkRef.Saved) : Route
     data object Tirage : Route
     data object Lab : Route
 }

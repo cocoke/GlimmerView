@@ -30,6 +30,7 @@ import app.glimmerview.core.WorkInfo
 import app.glimmerview.core.WorkLibrary
 import app.glimmerview.core.WorkOrigin
 import app.glimmerview.data.Contours
+import app.glimmerview.data.DepthSketch
 import app.glimmerview.data.ImageLoading
 import app.glimmerview.data.Scene
 import app.glimmerview.data.SceneArt
@@ -75,6 +76,9 @@ data class WorkCard(
 
 /** Œuvre chargée en pleine résolution pour l'aperçu 3D. */
 class LoadedWork(val ref: WorkRef, val content: PreviewContent)
+
+/** Retouche de la profondeur en cours (écran Esquisse). */
+class SketchSession(val ref: WorkRef.Saved, val color: Bitmap, val sketch: DepthSketch)
 
 sealed interface ModelState {
     data object Absent : ModelState
@@ -214,6 +218,7 @@ class GlimmerViewModel(application: Application) : AndroidViewModel(application)
         if (backStack.size <= 1) return false
         val popped = backStack.removeAt(backStack.lastIndex)
         if (popped == Route.Tirage) cancelCreation()
+        if (popped is Route.Esquisse) sketch = null
         return true
     }
 
@@ -365,6 +370,66 @@ class GlimmerViewModel(application: Application) : AndroidViewModel(application)
             }
             refreshLibrary()
         }
+    }
+
+    // ── Esquisse : retouche de la profondeur ──────────────────────────────────
+
+    var sketch by mutableStateOf<SketchSession?>(null)
+        private set
+
+    /**
+     * Ouvre la retouche. Une œuvre de la galerie est d'abord copiée dans la collection : c'est
+     * cette copie qui est retouchée, et la mise au point d'où l'on vient bascule dessus.
+     */
+    fun retouch(ref: WorkRef) {
+        viewModelScope.launch {
+            val params = if (preview?.ref == ref) previewParams else withContext(Dispatchers.IO) { savedParamsOrDefault(ref) }
+            val id = runCatching { acquire(ref, params) }.getOrElse {
+                message = it.message ?: it.javaClass.simpleName
+                return@launch
+            }
+            val saved = WorkRef.Saved(id)
+            if (ref is WorkRef.Scene) {
+                refreshLibrary()
+                val top = backStack.lastOrNull()
+                if (top is Route.MiseAuPoint && top.ref == ref) backStack[backStack.lastIndex] = Route.MiseAuPoint(saved)
+            }
+            sketch = null
+            navigate(Route.Esquisse(saved))
+            sketch = withContext(Dispatchers.IO) {
+                val stored = checkNotNull(library.load(id)) { "Œuvre introuvable" }
+                val original = library.originalDepth(id)
+                    ?.takeIf { it.width == stored.depth.width && it.height == stored.depth.height }
+                    ?: stored.depth
+                SketchSession(saved, stored.color, DepthSketch(stored.depth.width, stored.depth.height, stored.depth.values.copyOf(), original.values))
+            }
+        }
+    }
+
+    /** Enregistre la profondeur retouchée ; l'œuvre accrochée se met à jour sur l'écran d'accueil. */
+    fun saveSketch() {
+        val session = sketch ?: return
+        val id = session.ref.id
+        viewModelScope.launch {
+            val depth = DepthMap(session.sketch.width, session.sketch.height, session.sketch.result())
+            val params = withContext(Dispatchers.IO) {
+                library.saveDepth(id, depth)
+                val params = library.params(id)
+                if (library.currentId() == id) wallpaperStore.save(session.color, depth, params)
+                params
+            }
+            // Nouveau contenu (nouvelle clé) : l'aperçu 3D recharge la profondeur retouchée.
+            preview = LoadedWork(session.ref, PreviewContent("work:$id:${System.nanoTime()}", session.color, depth))
+            previewParams = params
+            sketch = null
+            message = context.getString(R.string.message_sketch_saved)
+            back()
+        }
+    }
+
+    fun discardSketch() {
+        sketch = null
+        back()
     }
 
     /** Œuvre dont le panneau « Renommer » est ouvert (par-dessus l'écran courant). */

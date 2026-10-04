@@ -116,6 +116,24 @@ class WorkLibrary(context: Context) {
         writeAtomically(File(dir, PARAMS)) { it.write(params.toJson().toByteArray()) }
     }
 
+    /**
+     * Remplace la profondeur d'une œuvre retouchée. La première fois, la carte d'origine est
+     * conservée à part : « Gommer » peut toujours y revenir.
+     */
+    @Synchronized
+    fun saveDepth(id: String, depth: DepthMap) {
+        val dir = dir(id)
+        if (!File(dir, META).exists()) return
+        val original = File(dir, ORIGINAL_DEPTH)
+        if (!original.exists()) File(dir, DEPTH).copyTo(original)
+        writeAtomically(File(dir, DEPTH)) { WallpaperStore.writeDepth(depth, it) }
+    }
+
+    /** Profondeur d'origine (avant toute retouche), ou null si l'œuvre n'a jamais été retouchée. */
+    fun originalDepth(id: String): DepthMap? = runCatching {
+        DataInputStream(File(dir(id), ORIGINAL_DEPTH).inputStream().buffered()).use(WallpaperStore::readDepth)
+    }.getOrNull()
+
     @Synchronized
     fun rename(id: String, title: String) {
         val info = info(id) ?: return
@@ -145,6 +163,7 @@ class WorkLibrary(context: Context) {
         private const val META = "meta.json"
         private const val COLOR = "color.webp"
         private const val DEPTH = "depth.r16"
+        private const val ORIGINAL_DEPTH = "depth-original.r16"
         private const val PARAMS = "params.json"
         private const val THUMB = "thumb.webp"
         private val ID_PATTERN = Regex("[a-z0-9-]{1,64}")

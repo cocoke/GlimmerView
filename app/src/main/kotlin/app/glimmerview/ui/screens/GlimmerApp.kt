@@ -75,6 +75,7 @@ fun GlimmerApp(vm: GlimmerViewModel) {
                     is Route.Oeuvre -> OeuvreScreen(vm, route.ref)
                     is Route.MiseAuPoint -> MiseAuPointScreen(vm, route.ref)
                     is Route.Accrocher -> AccrocherScreen(vm, route.ref)
+                    is Route.Esquisse -> EsquisseScreen(vm, route.ref)
                     Route.Tirage -> TirageScreen(vm)
                     Route.Lab -> LabRoute()
                 }

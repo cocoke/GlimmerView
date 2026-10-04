@@ -18,12 +18,12 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.semantics.Role
@@ -63,6 +63,13 @@ fun Cartel(
         maxLines = 1,
     )
 }
+
+/**
+ * Estompe un contrôle inactif. Couche graphique à valeur variable plutôt que `Modifier.alpha`
+ * conditionnel : la chaîne de modificateurs reste la même quand le contrôle s’active, et son fond
+ * ne disparaît pas.
+ */
+fun Modifier.dimWhenDisabled(enabled: Boolean): Modifier = graphicsLayer { alpha = if (enabled) 1f else 0.4f }
 
 /** Filet de 1 dp. */
 @Composable
@@ -110,12 +117,12 @@ fun CircleButton(
     }
     Box(
         modifier = modifier
+            .dimWhenDisabled(enabled)
             .size(size)
             .clip(CircleShape)
             .background(background)
             .border(1.dp, border, CircleShape)
-            .clickable(enabled = enabled, role = Role.Button, onClickLabel = contentDescription, onClick = onClick)
-            .alpha(if (enabled) 1f else 0.4f),
+            .clickable(enabled = enabled, role = Role.Button, onClickLabel = contentDescription, onClick = onClick),
         contentAlignment = Alignment.Center,
     ) {
         Icon(
@@ -138,13 +145,13 @@ fun Tirette(
 ) {
     Row(
         modifier = modifier
+            .dimWhenDisabled(enabled)
             .fillMaxWidth()
             .height(60.dp)
             .clickable(enabled = enabled, role = Role.Button, onClick = onClick)
             .drawBehind {
                 drawLine(GlimmerColors.Ink, Offset(0f, size.height - 0.5f), Offset(size.width, size.height - 0.5f), 1.dp.toPx())
             }
-            .alpha(if (enabled) 1f else 0.4f)
             .padding(start = 4.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween,
@@ -227,11 +234,11 @@ fun InlineLink(
 fun InkPill(text: String, onClick: () -> Unit, modifier: Modifier = Modifier, enabled: Boolean = true) {
     Box(
         modifier = modifier
+            .dimWhenDisabled(enabled)
             .height(44.dp)
             .clip(RoundedCornerShape(22.dp))
             .background(GlimmerColors.Ink)
             .clickable(enabled = enabled, role = Role.Button, onClick = onClick)
-            .alpha(if (enabled) 1f else 0.4f)
             .padding(horizontal = 18.dp),
         contentAlignment = Alignment.Center,
     ) {
