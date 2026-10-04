@@ -24,6 +24,7 @@ rootProject.name = "GlimmerView"
 
 include(":app")
 include(":core")
+include(":format")
 include(":render")
 include(":ml")
 include(":wallpaper")
