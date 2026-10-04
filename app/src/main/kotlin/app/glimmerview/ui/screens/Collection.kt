@@ -53,7 +53,8 @@ fun CollectionRoom(vm: GlimmerViewModel) {
     )
     val shown = when (vm.collectionTab) {
         1 -> vm.works.filter { it.origin == WorkOrigin.CREATED }
-        2 -> vm.works.filter { it.origin == WorkOrigin.ACQUIRED }
+        // Acquises : venues de la galerie ou reçues dans un fichier .dwp.
+        2 -> vm.works.filter { it.origin != WorkOrigin.CREATED }
         else -> vm.works
     }
     val current = vm.works.firstOrNull { it.id == vm.currentWorkId }

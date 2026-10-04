@@ -36,9 +36,11 @@ import app.glimmerview.GlimmerViewModel
 import app.glimmerview.R
 import app.glimmerview.WorkRef
 import app.glimmerview.core.WorkOrigin
+import app.glimmerview.format.DwpFormat
 import app.glimmerview.ui.components.AccentTitle
 import app.glimmerview.ui.components.Cartel
 import app.glimmerview.ui.components.Hairline
+import app.glimmerview.ui.components.InlineLink
 import app.glimmerview.ui.components.LivingFrame
 import app.glimmerview.ui.theme.GlimmerColors
 import app.glimmerview.ui.theme.GlimmerIcons
@@ -51,6 +53,11 @@ fun AtelierRoom(vm: GlimmerViewModel) {
         if (uri != null) vm.startCreation(uri)
     }
     val pick = { picker.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)) }
+    // Un .dwp inconnu du système est souvent annoncé en application/octet-stream : le contenu est vérifié ensuite.
+    val packagePicker = rememberLauncherForActivityResult(ActivityResultContracts.OpenDocument()) { uri ->
+        if (uri != null) vm.openFile(uri)
+    }
+    val openPackage = { packagePicker.launch(PACKAGE_TYPES) }
     val created = vm.works.filter { it.origin == WorkOrigin.CREATED }.take(3)
 
     RoomPage(padding = androidx.compose.foundation.layout.PaddingValues(start = 20.dp, end = 20.dp, top = 18.dp, bottom = 28.dp)) {
@@ -103,6 +110,11 @@ fun AtelierRoom(vm: GlimmerViewModel) {
             }
         }
 
+        Column(Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(2.dp)) {
+            Text(stringResource(R.string.atelier_received), style = GlimmerType.bodySmall, color = GlimmerColors.Taupe)
+            InlineLink(stringResource(R.string.atelier_open_dwp), onClick = openPackage, style = GlimmerType.italic.copy(fontSize = 15.sp))
+        }
+
         if (created.isNotEmpty()) {
             Row(Modifier.fillMaxWidth().padding(top = 8.dp), verticalAlignment = Alignment.CenterVertically) {
                 Cartel(stringResource(R.string.atelier_recent), color = GlimmerColors.Ink)
@@ -149,3 +161,6 @@ private fun Tip(text: String) {
         Text(text, style = GlimmerType.body.copy(fontSize = 14.5.sp), modifier = Modifier.weight(1f))
     }
 }
+
+/** Types proposés par le sélecteur de fichiers pour ouvrir un paquet. */
+private val PACKAGE_TYPES = arrayOf(DwpFormat.MIME_TYPE, "application/octet-stream", "application/zip", "application/x-zip-compressed")

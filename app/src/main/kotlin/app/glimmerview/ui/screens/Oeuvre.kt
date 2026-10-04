@@ -86,23 +86,32 @@ fun OeuvreScreen(vm: GlimmerViewModel, ref: WorkRef) {
         ) {
             CircleButton(GlimmerIcons.Back, stringResource(R.string.action_back), onClick = { vm.back() }, glass = true)
             Spacer(Modifier.weight(1f))
-            when {
-                ref is WorkRef.Scene -> {
-                    val collected = card.origin != null
-                    CircleButton(
-                        icon = if (collected) GlimmerIcons.Check else GlimmerIcons.Heart,
-                        contentDescription = stringResource(if (collected) R.string.action_uncollect else R.string.action_collect),
-                        onClick = { vm.toggleCollected(ref) },
-                        glass = true,
-                    )
-                }
-                ref is WorkRef.Saved && card.origin == WorkOrigin.CREATED -> {
-                    CircleButton(
-                        icon = GlimmerIcons.Trash,
-                        contentDescription = stringResource(R.string.action_delete),
-                        onClick = { vm.deleteWork(ref.id) },
-                        glass = true,
-                    )
+            Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+                CircleButton(
+                    icon = GlimmerIcons.Share,
+                    contentDescription = stringResource(R.string.action_export),
+                    onClick = { vm.startExport(ref) },
+                    glass = true,
+                )
+                when {
+                    ref is WorkRef.Scene -> {
+                        val collected = card.origin != null
+                        CircleButton(
+                            icon = if (collected) GlimmerIcons.Check else GlimmerIcons.Heart,
+                            contentDescription = stringResource(if (collected) R.string.action_uncollect else R.string.action_collect),
+                            onClick = { vm.toggleCollected(ref) },
+                            glass = true,
+                        )
+                    }
+                    // Une copie d'œuvre de la galerie se retire depuis la galerie ; le reste se supprime ici.
+                    ref is WorkRef.Saved && card.origin != WorkOrigin.ACQUIRED -> {
+                        CircleButton(
+                            icon = GlimmerIcons.Trash,
+                            contentDescription = stringResource(R.string.action_delete),
+                            onClick = { vm.deleteWork(ref.id) },
+                            glass = true,
+                        )
+                    }
                 }
             }
         }

@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.rememberScrollState
@@ -25,9 +26,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.key
+import androidx.compose.material3.Text
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import app.glimmerview.R
+import app.glimmerview.ui.components.GlassChip
 import app.glimmerview.ui.components.RenameSheet
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
@@ -44,6 +48,7 @@ import app.glimmerview.tab
 import app.glimmerview.ui.components.Socle
 import app.glimmerview.ui.components.SystemBarIcons
 import app.glimmerview.ui.theme.GlimmerColors
+import app.glimmerview.ui.theme.GlimmerType
 import app.glimmerview.ui.theme.LocalTilt
 import app.glimmerview.ui.theme.rememberDeviceTilt
 
@@ -91,6 +96,17 @@ private fun Overlays(vm: GlimmerViewModel) {
     val actionsRef = vm.actionsFor
     if (actionsRef != null) {
         key(actionsRef) { WorkActionsSheet(vm, actionsRef) }
+    }
+    val exportRef = vm.exporting
+    if (exportRef != null) {
+        key(exportRef) { ExportSheet(vm, exportRef) }
+    }
+    if (vm.importing) {
+        Box(Modifier.fillMaxSize().navigationBarsPadding().padding(bottom = 96.dp), contentAlignment = Alignment.BottomCenter) {
+            GlassChip {
+                Text(stringResource(R.string.importing), style = GlimmerType.bodySmall)
+            }
+        }
     }
     val renamingId = vm.renaming
     val renamingInfo = vm.works.firstOrNull { it.id == renamingId }

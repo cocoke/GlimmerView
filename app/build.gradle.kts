@@ -42,6 +42,7 @@ android {
 
 dependencies {
     implementation(project(":core"))
+    implementation(project(":format"))
     implementation(project(":render"))
     implementation(project(":ml"))
     implementation(project(":wallpaper"))

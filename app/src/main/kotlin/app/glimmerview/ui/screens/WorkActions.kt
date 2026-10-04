@@ -46,9 +46,10 @@ import kotlinx.coroutines.delay
 
 /**
  * Menu d'une œuvre, ouvert par un appui long sur son cadre : la voir, la régler, retoucher sa
- * profondeur, la renommer, l'accrocher, l'ajouter à la collection ou l'en retirer.
- * Les actions qui changent d'écran partent tout de suite ; celles qui agissent sur place
- * (renommer, ajouter, retirer, supprimer) attendent que le panneau soit refermé.
+ * profondeur, la renommer, l'accrocher, l'exporter, l'ajouter à la collection ou l'en retirer.
+ * Les actions qui changent d'écran partent tout de suite ; celles qui agissent sur place ou
+ * ouvrent un autre panneau (renommer, exporter, ajouter, retirer, supprimer) attendent que
+ * celui-ci soit refermé.
  */
 @Composable
 fun WorkActionsSheet(vm: GlimmerViewModel, ref: WorkRef) {
@@ -92,6 +93,7 @@ fun WorkActionsSheet(vm: GlimmerViewModel, ref: WorkRef) {
                                 null -> R.string.sheet_origin_gallery
                                 WorkOrigin.CREATED -> R.string.sheet_origin_created
                                 WorkOrigin.ACQUIRED -> R.string.sheet_origin_acquired
+                                WorkOrigin.IMPORTED -> R.string.sheet_origin_imported
                             },
                         ),
                     )
@@ -126,6 +128,7 @@ fun WorkActionsSheet(vm: GlimmerViewModel, ref: WorkRef) {
                 ActionRow(GlimmerIcons.Pencil, stringResource(R.string.mise_rename)) { later { vm.startRename(savedId) } }
             }
             ActionRow(GlimmerIcons.Hang, stringResource(R.string.oeuvre_hang)) { now { vm.hang(ref) } }
+            ActionRow(GlimmerIcons.Share, stringResource(R.string.sheet_export)) { later { vm.startExport(ref) } }
             when {
                 ref is WorkRef.Scene && card.origin == null ->
                     ActionRow(GlimmerIcons.Heart, stringResource(R.string.action_collect)) { later { vm.toggleCollected(ref) } }

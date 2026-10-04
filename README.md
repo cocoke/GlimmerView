@@ -20,6 +20,7 @@ Phase 1 en cours, vers la v0.1 (voir [PLAN.md](PLAN.md)). L'interface suit la ch
 - **Œuvre** : aperçu 3D en direct (même moteur OpenGL ES 3 que le fond d'écran) et vue « cyanotype » de la carte de profondeur.
 - **Atelier et tirage** : une photo choisie avec le sélecteur système devient une œuvre. La profondeur est calculée sur le téléphone par Depth Anything V2 Small (ONNX Runtime, modèle de 27 Mo téléchargé une seule fois et vérifié par SHA-256).
 - **Partage** : depuis la galerie photo, le navigateur ou une messagerie, « Partager → GlimmerView » envoie l'image directement au tirage.
+- **Format .dwp** : une œuvre s'exporte dans un fichier ouvert qui réunit l'image, sa profondeur et ses réglages ([spécification](docs/format.md), domaine public). On le partage ou on l'enregistre ; un .dwp reçu s'ouvre depuis l'atelier, avec « Ouvrir avec » ou par le menu « Partager ».
 - **Mise au point** : un diaphragme règle l'intensité (de f/16 à f/4) et une bague de mise au point choisit le plan immobile. On peut aussi toucher le sujet directement sur l'œuvre.
 - **Accrochage** : « maintenir pour accrocher » sur l'accueil (3D), le verrouillage (image fixe) ou les deux.
 - **Collection et préférences** : œuvres créées et acquises ; recentrage, réduction des mouvements, cadence de 30 ou 60 i/s, pause en économie d'énergie.

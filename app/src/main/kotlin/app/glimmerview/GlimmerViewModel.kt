@@ -6,8 +6,10 @@ import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.graphics.Rect
 import android.net.Uri
+import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateListOf
@@ -31,9 +33,12 @@ import app.glimmerview.core.WorkLibrary
 import app.glimmerview.core.WorkOrigin
 import app.glimmerview.data.Contours
 import app.glimmerview.data.DepthSketch
+import app.glimmerview.data.DwpTransfer
 import app.glimmerview.data.ImageLoading
 import app.glimmerview.data.Scene
 import app.glimmerview.data.SceneArt
+import app.glimmerview.format.DwpArchive
+import app.glimmerview.format.DwpException
 import app.glimmerview.ml.Backend
 import app.glimmerview.ml.DepthEstimator
 import app.glimmerview.ml.DepthPostProcessor
@@ -53,6 +58,8 @@ import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.io.BufferedInputStream
+import java.io.File
 import java.text.DateFormat
 import java.util.Date
 import java.util.concurrent.Executors
@@ -276,7 +283,7 @@ class GlimmerViewModel(application: Application) : AndroidViewModel(application)
         artist = info.artist,
         medium = info.medium,
         license = info.license,
-        year = if (info.origin == WorkOrigin.ACQUIRED) SCENE_YEAR else null,
+        year = if (sceneIdOf(info.id) != null) SCENE_YEAR else null,
         origin = info.origin,
     )
 
@@ -485,6 +492,142 @@ class GlimmerViewModel(application: Application) : AndroidViewModel(application)
 
     fun hideActions() {
         actionsFor = null
+    }
+
+    // ── Échange au format .dwp ────────────────────────────────────────────────
+
+    private val transfer = DwpTransfer(application, library)
+
+    /** Œuvre dont le panneau « Exporter » est ouvert. */
+    var exporting by mutableStateOf<WorkRef?>(null)
+        private set
+
+    /** Un fichier reçu est en cours de lecture. */
+    var importing by mutableStateOf(false)
+        private set
+
+    fun startExport(ref: WorkRef) {
+        exporting = ref
+    }
+
+    fun cancelExport() {
+        exporting = null
+    }
+
+    /** Nom proposé pour le fichier (« Crêtes à l'aube.dwp »). */
+    fun exportFileName(ref: WorkRef): String = DwpTransfer.fileName(card(ref)?.title)
+
+    /** Écrit le paquet dans le cache pour le partager ; null (et un message) en cas d'échec. */
+    suspend fun prepareShare(ref: WorkRef): File? {
+        val content = exportContent(ref)
+        return try {
+            withContext(Dispatchers.IO) { transfer.writeToCache(content()) }
+        } catch (e: CancellationException) {
+            throw e
+        } catch (t: Throwable) {
+            exportFailed(t)
+            null
+        }
+    }
+
+    /** « Enregistrer sur le téléphone » : le paquet est écrit dans le document créé par l'utilisateur. */
+    fun saveExport(ref: WorkRef, uri: Uri) {
+        val content = exportContent(ref)
+        viewModelScope.launch {
+            runCatching {
+                withContext(Dispatchers.IO) {
+                    val out = checkNotNull(context.contentResolver.openOutputStream(uri)) { "Écriture impossible" }
+                    out.use { transfer.write(content(), it) }
+                }
+            }
+                .onSuccess { message = context.getString(R.string.message_export_saved) }
+                .onFailure(::exportFailed)
+        }
+    }
+
+    /** Lit l'état de l'aperçu ici (thread principal) ; le paquet est assemblé plus tard, en arrière-plan. */
+    private fun exportContent(ref: WorkRef): () -> DwpTransfer.Content = when (ref) {
+        is WorkRef.Saved -> {
+            val scene = sceneIdOf(ref.id)?.let(SceneArt::find)
+            val build: () -> DwpTransfer.Content = { transfer.ofSaved(ref.id, scene) }
+            build
+        }
+        is WorkRef.Scene -> {
+            val loaded = preview?.takeIf { it.ref == ref }?.content
+            val params = if (loaded != null) previewParams else defaultParams(FocusScale.focus(3))
+            val build: () -> DwpTransfer.Content = {
+                val scene = checkNotNull(SceneArt.find(ref.id)) { "Scène inconnue : ${ref.id}" }
+                transfer.ofScene(
+                    scene,
+                    loaded?.color ?: SceneArt.renderColor(scene, SCENE_WIDTH, SCENE_HEIGHT),
+                    loaded?.depth ?: SceneArt.renderDepth(scene, SCENE_DEPTH_WIDTH, SCENE_DEPTH_HEIGHT),
+                    params,
+                )
+            }
+            build
+        }
+    }
+
+    private fun exportFailed(t: Throwable) {
+        Log.w(TAG, "Export .dwp impossible", t)
+        message = context.getString(R.string.message_export_failed, t.message ?: t.javaClass.simpleName)
+    }
+
+    /**
+     * Fichier reçu (« Ouvrir avec », partage, atelier) : un paquet .dwp rejoint la collection et
+     * s'ouvre ; une image part au tirage ; le reste est refusé avec une explication.
+     */
+    fun openFile(uri: Uri) {
+        if (importing) return
+        importing = true
+        viewModelScope.launch {
+            val outcome = runCatching {
+                withContext(Dispatchers.IO) {
+                    val input = checkNotNull(context.contentResolver.openInputStream(uri)) { "Fichier illisible" }
+                    BufferedInputStream(input).use { stream ->
+                        if (DwpArchive.looksLikeZip(stream)) {
+                            transfer.import(stream, THUMB_WIDTH) { depth -> defaultParams(subjectFocus(depth)) }
+                        } else {
+                            null
+                        }
+                    }
+                }
+            }
+            importing = false
+            outcome
+                .onSuccess { info ->
+                    when {
+                        info != null -> {
+                            prefs.edit { putBoolean(KEY_ONBOARDED, true) }
+                            refreshLibrary()
+                            selectTab(Route.Collection)
+                            openWork(WorkRef.Saved(info.id))
+                            message = context.getString(R.string.message_imported)
+                        }
+                        isImage(uri) -> startSharedCreation(uri)
+                        else -> message = context.getString(R.string.import_error_not_dwp)
+                    }
+                }
+                .onFailure {
+                    Log.w(TAG, "Import .dwp impossible", it)
+                    message = context.getString(importError(it))
+                }
+        }
+    }
+
+    private suspend fun isImage(uri: Uri): Boolean = withContext(Dispatchers.IO) {
+        if (context.contentResolver.getType(uri)?.startsWith("image/") == true) return@withContext true
+        val bounds = BitmapFactory.Options().apply { inJustDecodeBounds = true }
+        runCatching { context.contentResolver.openInputStream(uri)?.use { BitmapFactory.decodeStream(it, null, bounds) } }
+        bounds.outWidth > 0
+    }
+
+    private fun importError(t: Throwable): Int = when ((t as? DwpException)?.reason) {
+        DwpException.Reason.NOT_DWP -> R.string.import_error_not_dwp
+        DwpException.Reason.UNSUPPORTED_VERSION -> R.string.import_error_version
+        DwpException.Reason.TOO_LARGE -> R.string.import_error_too_large
+        DwpException.Reason.MISSING_ENTRY, DwpException.Reason.CORRUPT -> R.string.import_error_corrupt
+        null -> R.string.import_error_unreadable
     }
 
     /** Copie une œuvre de la galerie dans la collection (identifiant stable) et renvoie son identifiant. */
@@ -772,6 +915,7 @@ class GlimmerViewModel(application: Application) : AndroidViewModel(application)
     }
 
     companion object {
+        private const val TAG = "GlimmerView"
         private const val KEY_ONBOARDED = "onboarded"
         private const val SCENE_PREFIX = "scene-"
         private const val SCENE_YEAR = 2026

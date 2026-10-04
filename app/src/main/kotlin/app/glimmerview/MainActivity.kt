@@ -26,7 +26,7 @@ class MainActivity : ComponentActivity() {
         )
         super.onCreate(savedInstanceState)
         // Après une rotation, l'intention de départ a déjà été traitée.
-        if (savedInstanceState == null) handleShare(intent)
+        if (savedInstanceState == null) handleIncoming(intent)
         setContent {
             GlimmerTheme {
                 GlimmerApp(viewModel)
@@ -37,15 +37,22 @@ class MainActivity : ComponentActivity() {
     override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
         setIntent(intent)
-        handleShare(intent)
+        handleIncoming(intent)
     }
 
-    /** Image partagée depuis une autre app : elle part directement au tirage. */
-    private fun handleShare(intent: Intent) {
-        if (intent.action != Intent.ACTION_SEND || intent.type?.startsWith("image/") != true) return
-        val uri = IntentCompat.getParcelableExtra(intent, Intent.EXTRA_STREAM, Uri::class.java)
-            ?: intent.clipData?.takeIf { it.itemCount > 0 }?.getItemAt(0)?.uri
-            ?: return
-        viewModel.startSharedCreation(uri)
+    /**
+     * Fichier venu d'une autre app : une image partagée part directement au tirage ; un paquet
+     * .dwp (partagé, ou ouvert avec « Ouvrir avec ») rejoint la collection.
+     */
+    private fun handleIncoming(intent: Intent) {
+        when (intent.action) {
+            Intent.ACTION_SEND -> {
+                val uri = IntentCompat.getParcelableExtra(intent, Intent.EXTRA_STREAM, Uri::class.java)
+                    ?: intent.clipData?.takeIf { it.itemCount > 0 }?.getItemAt(0)?.uri
+                    ?: return
+                if (intent.type?.startsWith("image/") == true) viewModel.startSharedCreation(uri) else viewModel.openFile(uri)
+            }
+            Intent.ACTION_VIEW -> intent.data?.let(viewModel::openFile)
+        }
     }
 }

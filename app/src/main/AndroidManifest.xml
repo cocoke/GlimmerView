@@ -33,6 +33,32 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <data android:mimeType="image/*" />
             </intent-filter>
+            <!-- Paquet .dwp partagé depuis une autre app -->
+            <intent-filter android:label="@string/import_target_label">
+                <action android:name="android.intent.action.SEND" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="application/x-dwp+zip" />
+            </intent-filter>
+            <!-- « Ouvrir avec » : un .dwp touché dans Fichiers ou une messagerie. Le système ne connaît pas
+                 l'extension et l'annonce souvent en application/octet-stream ; le contenu est vérifié avant tout import. -->
+            <intent-filter android:label="@string/import_target_label">
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:scheme="content" />
+                <data android:mimeType="application/x-dwp+zip" />
+                <data android:mimeType="application/octet-stream" />
+            </intent-filter>
         </activity>
+
+        <!-- Partage des fichiers .dwp exportés (dossier exports/ du cache) -->
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.exports"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/exports" />
+        </provider>
     </application>
 </manifest>

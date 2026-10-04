@@ -40,9 +40,12 @@
     </plurals>
     <string name="license_cc0" translatable="false">CC0 1.0</string>
     <string name="artist_you">You</string>
+    <string name="artist_anonymous">Anonymous</string>
     <string name="medium_photo">Photograph, depth computed on device</string>
+    <string name="medium_imported">Image with depth, .dwp file</string>
     <string name="license_personal">Personal use</string>
     <string name="work_untitled">Untitled, %1$s</string>
+    <string name="work_untitled_plain">Untitled</string>
 
     <!-- Messages -->
     <string name="message_collected">Added to your collection</string>
@@ -243,4 +246,27 @@
     <string name="prefs_licenses">Spectral and Hanken Grotesk fonts (OFL) · Depth Anything V2 Small model (Apache-2.0) · ONNX Runtime (MIT)</string>
     <string name="prefs_lab">Lab</string>
     <string name="prefs_lab_sub">Performance measurements on this device</string>
+
+    <!-- Format .dwp : export, partage, import -->
+    <string name="import_target_label">Add to GlimmerView</string>
+    <string name="action_export">Export</string>
+    <string name="sheet_export">Export as a .dwp file</string>
+    <string name="sheet_origin_imported">Imported</string>
+    <string name="export_kicker">Export the work</string>
+    <string name="export_body">The image, its depth and your settings in a single .dwp file, which opens in GlimmerView on another phone.</string>
+    <string name="export_share">Share</string>
+    <string name="export_save">Save to the phone</string>
+    <string name="export_preparing">Preparing…</string>
+    <string name="export_chooser">Share the work</string>
+    <string name="message_export_saved">File saved</string>
+    <string name="message_export_failed">Could not export the work: %1$s</string>
+    <string name="atelier_received">Received a work from someone?</string>
+    <string name="atelier_open_dwp">Open a .dwp file</string>
+    <string name="importing">Opening the file…</string>
+    <string name="message_imported">Work added to your collection</string>
+    <string name="import_error_not_dwp">This file is not a .dwp work</string>
+    <string name="import_error_version">This file needs a newer version of GlimmerView</string>
+    <string name="import_error_too_large">This file is too large to be opened</string>
+    <string name="import_error_corrupt">This file is damaged or incomplete</string>
+    <string name="import_error_unreadable">Could not read the file</string>
 </resources>

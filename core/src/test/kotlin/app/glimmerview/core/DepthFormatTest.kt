@@ -30,4 +30,15 @@ class DepthFormatTest {
         // Bornage aux bords
         assertEquals(1f, depth.sample(1.5f, 0.5f), 1e-6f)
     }
+
+    @Test
+    fun `scaled map averages each area and keeps the aspect ratio`() {
+        // Colonnes alternées 0 / 1 : chaque pixel réduit (2×2) vaut la moyenne, 0,5.
+        val depth = DepthMap(8, 4, FloatArray(32) { (it % 2).toFloat() })
+        val small = depth.scaledToFit(4)
+        assertEquals(4, small.width)
+        assertEquals(2, small.height)
+        small.values.forEach { assertEquals(0.5f, it, 1e-6f) }
+        assertEquals(depth, depth.scaledToFit(8))
+    }
 }

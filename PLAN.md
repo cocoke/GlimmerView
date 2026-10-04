@@ -460,6 +460,7 @@ mon-fond.dwp  (archive ZIP)
 ```
 
 - La spécification est versionnée dans `docs/format.md` et publiée sous **CC0**, pour que d'autres apps puissent l'implémenter.
+- *Version 1 fixée le 4 octobre 2026 : [docs/format.md](docs/format.md) fait foi. Par rapport à l'ébauche ci-dessus : `defaults.strength` remplace `intensity`, champs `medium`, `language` et `created` ajoutés, type MIME `application/x-dwp+zip`, carte de profondeur à une résolution libre.*
 - Lecture tolérante : les champs inconnus sont ignorés.
 - Validation à l'import : tailles, dimensions, protection contre les « zip bombs ».
 - On peut aussi importer une image accompagnée de sa propre carte de profondeur (PNG), ou une photo « Portrait » de Google Camera dont la profondeur est embarquée (format *Dynamic Depth*).
@@ -550,7 +551,7 @@ Contributeur ─► Pull Request (image + fiche YAML : titre, auteur, source, li
 
 **Créateur**
 - **v0.1** : galerie → cadrage → profondeur locale → aperçu 3D → focus en touchant le sujet → enregistrer et appliquer. **Partager une photo depuis une autre app** (galerie, navigateur, messagerie) vers GlimmerView pour en faire un fond 3D *(demande du 3 octobre 2026, fait)*.
-- **v0.2** : inpainting ; ~~éditeur de profondeur~~ *(fait en v0.1 : écran Esquisse, pinceaux et sélection d'une zone au toucher)* ; import d'une carte de profondeur, d'une photo « Portrait » ou d'un `.dwp` ; export vidéo MP4 en boucle. **Reprendre une œuvre existante** pour l'affiner : recadrer, relancer le calcul de profondeur, retoucher la carte *(demande du 3 octobre 2026)*.
+- **v0.2** : inpainting ; ~~éditeur de profondeur~~ *(fait en v0.1 : écran Esquisse, pinceaux et sélection d'une zone au toucher)* ; import d'une carte de profondeur ou d'une photo « Portrait » (~~import d'un `.dwp`~~ *fait en v0.1*) ; export vidéo MP4 en boucle. **Reprendre une œuvre existante** pour l'affiner : recadrer, relancer le calcul de profondeur, retoucher la carte *(demande du 3 octobre 2026)*.
 - **v0.3** : sélection du sujet en le touchant (SAM mobile). **Édition détaillée par sujets** : choisir les personnes ou les objets sur lesquels porte la profondeur, par exemple en détectant automatiquement les personnes *(demande du 3 octobre 2026)*.
 - **v0.4** : mode HD via le serveur (opt-in).
 - **Plus tard** : outpainting, génération à partir d'un texte, éléments animés (eau, nuages).
@@ -790,14 +791,14 @@ Objectif : lever les incertitudes techniques avant d'écrire l'app.
 - partage d'une image depuis une autre app (menu « Partager » d'Android) vers le tirage ;
 - titre donné à l'œuvre à la fin du tirage, renommage depuis la mise au point ;
 - retouche de la profondeur (Esquisse) : pinceaux avancer, reculer, lisser, aplatir et gommer, ou sélection d'une zone au toucher (personne, objet) qu'on avance ou recule d'un geste ; annuler et rétablir ; la carte d'origine est conservée ;
-- appui long sur une œuvre (galerie, collection, dernières créations) : menu pour la voir, régler l'effet, retoucher la profondeur, la renommer, l'accrocher, l'ajouter à la collection, l'en retirer ou la supprimer (en deux touchers).
+- appui long sur une œuvre (galerie, collection, dernières créations) : menu pour la voir, régler l'effet, retoucher la profondeur, la renommer, l'accrocher, l'exporter, l'ajouter à la collection, l'en retirer ou la supprimer (en deux touchers) ;
+- format `.dwp` (module `:format`, [spécification](docs/format.md) en CC0) : export d'une œuvre (partager, enregistrer sur le téléphone) et import depuis l'atelier, « Ouvrir avec » ou le menu Partager d'Android ; auteur et licence conservés, garde-fous contre les fichiers piégés.
 
 **Reste pour la v0.1.**
 
-1. Format `.dwp` (`:format`) : export et partage d'une œuvre, import.
-2. Pack de démarrage de 10 à 20 photos libres (NASA, musées CC0) avec profondeur précalculée.
-3. Tests sur trois téléphones (entrée, milieu, haut de gamme), dont l'aperçu et le fond d'écran au gyroscope.
-4. Publication : GitHub Releases et IzzyOnDroid.
+1. Pack de démarrage de 10 à 20 photos libres (NASA, musées CC0) avec profondeur précalculée.
+2. Tests sur trois téléphones (entrée, milieu, haut de gamme), dont l'aperçu et le fond d'écran au gyroscope.
+3. Publication : GitHub Releases et IzzyOnDroid.
 
 ---
 

@@ -38,9 +38,12 @@
         <item quantity="other">Illustration numérique, %1$d plans</item>
     </plurals>
     <string name="artist_you">Vous</string>
+    <string name="artist_anonymous">Anonyme</string>
     <string name="medium_photo">Photographie, profondeur calculée sur l’appareil</string>
+    <string name="medium_imported">Image en relief, fichier .dwp</string>
     <string name="license_personal">Usage personnel</string>
     <string name="work_untitled">Sans titre, %1$s</string>
+    <string name="work_untitled_plain">Sans titre</string>
 
     <!-- Messages -->
     <string name="message_collected">Ajoutée à votre collection</string>
@@ -241,4 +244,27 @@
     <string name="prefs_licenses">Polices Spectral et Hanken Grotesk (OFL) · modèle Depth Anything V2 Small (Apache-2.0) · ONNX Runtime (MIT)</string>
     <string name="prefs_lab">Laboratoire</string>
     <string name="prefs_lab_sub">Mesures de performance sur cet appareil</string>
+
+    <!-- Format .dwp : export, partage, import -->
+    <string name="import_target_label">Ajouter à GlimmerView</string>
+    <string name="action_export">Exporter</string>
+    <string name="sheet_export">Exporter en fichier .dwp</string>
+    <string name="sheet_origin_imported">Œuvre importée</string>
+    <string name="export_kicker">Exporter l’œuvre</string>
+    <string name="export_body">L’image, sa profondeur et vos réglages, réunis dans un fichier .dwp qui s’ouvre dans GlimmerView sur un autre téléphone.</string>
+    <string name="export_share">Partager</string>
+    <string name="export_save">Enregistrer sur le téléphone</string>
+    <string name="export_preparing">Préparation…</string>
+    <string name="export_chooser">Partager l’œuvre</string>
+    <string name="message_export_saved">Fichier enregistré</string>
+    <string name="message_export_failed">Export impossible : %1$s</string>
+    <string name="atelier_received">On vous a envoyé une œuvre ?</string>
+    <string name="atelier_open_dwp">Ouvrir un fichier .dwp</string>
+    <string name="importing">Ouverture du fichier…</string>
+    <string name="message_imported">Œuvre ajoutée à votre collection</string>
+    <string name="import_error_not_dwp">Ce fichier n’est pas une œuvre .dwp</string>
+    <string name="import_error_version">Ce fichier demande une version plus récente de GlimmerView</string>
+    <string name="import_error_too_large">Ce fichier est trop volumineux pour être ouvert</string>
+    <string name="import_error_corrupt">Ce fichier est abîmé ou incomplet</string>
+    <string name="import_error_unreadable">Lecture du fichier impossible</string>
 </resources>

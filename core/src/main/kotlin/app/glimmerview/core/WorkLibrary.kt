@@ -15,6 +15,9 @@ enum class WorkOrigin {
 
     /** Œuvre de la galerie que l'utilisateur a accrochée ou réglée. */
     ACQUIRED,
+
+    /** Œuvre reçue dans un fichier .dwp. */
+    IMPORTED,
 }
 
 /** Fiche d'une œuvre : ce qu'affiche le cartel. */
@@ -88,6 +91,12 @@ class WorkLibrary(context: Context) {
 
     fun thumbnail(id: String): Bitmap? = BitmapFactory.decodeFile(File(dir(id), THUMB).path)
 
+    /** Image telle qu'elle est stockée (WebP) : l'export la reprend sans la réencoder. */
+    fun colorBytes(id: String): ByteArray? = runCatching { File(dir(id), COLOR).readBytes() }.getOrNull()
+
+    /** Manifest d'origine d'une œuvre importée (auteur, licence, source), pour la réexporter fidèlement. */
+    fun source(id: String): String? = runCatching { File(dir(id), SOURCE).readText() }.getOrNull()
+
     fun load(id: String): StoredWork? = runCatching {
         val dir = dir(id)
         val info = WorkInfo.fromJson(File(dir, META).readText())
@@ -98,13 +107,23 @@ class WorkLibrary(context: Context) {
     }.getOrNull()
 
     @Synchronized
-    fun save(info: WorkInfo, color: Bitmap, depth: DepthMap, params: ParallaxParams, thumbnail: Bitmap): WorkInfo {
+    fun save(
+        info: WorkInfo,
+        color: Bitmap,
+        depth: DepthMap,
+        params: ParallaxParams,
+        thumbnail: Bitmap,
+        source: String? = null,
+        /** Image déjà encodée en WebP, gardée telle quelle (import d'un .dwp, sans perte supplémentaire). */
+        colorBytes: ByteArray? = null,
+    ): WorkInfo {
         val dir = dir(info.id).apply { mkdirs() }
         File(dir, META).delete()
-        writeAtomically(File(dir, COLOR)) { color.compress(webpFormat(), 95, it) }
+        writeAtomically(File(dir, COLOR)) { if (colorBytes != null) it.write(colorBytes) else color.compress(webpFormat(), 95, it) }
         writeAtomically(File(dir, DEPTH)) { WallpaperStore.writeDepth(depth, it) }
         writeAtomically(File(dir, PARAMS)) { it.write(params.toJson().toByteArray()) }
         writeAtomically(File(dir, THUMB)) { thumbnail.compress(webpFormat(), 90, it) }
+        if (source != null) writeAtomically(File(dir, SOURCE)) { it.write(source.toByteArray()) }
         writeAtomically(File(dir, META)) { it.write(info.toJson().toByteArray()) }
         return info
     }
@@ -166,6 +185,7 @@ class WorkLibrary(context: Context) {
         private const val ORIGINAL_DEPTH = "depth-original.r16"
         private const val PARAMS = "params.json"
         private const val THUMB = "thumb.webp"
+        private const val SOURCE = "source.json"
         private val ID_PATTERN = Regex("[a-z0-9-]{1,64}")
 
         fun newId(): String =
