@@ -107,6 +107,7 @@ fun EsquisseScreen(vm: GlimmerViewModel, ref: WorkRef.Saved) {
     val context = LocalContext.current
     val zoneEmpty = stringResource(R.string.sketch_zone_empty)
     val zoneTiny = stringResource(R.string.sketch_zone_tiny)
+    val canvasDescription = stringResource(R.string.sketch_canvas_description)
 
     // Lecture de la version : recompose quand la carte change (annuler, valider…).
     val version = canvas?.version ?: 0
@@ -163,7 +164,7 @@ fun EsquisseScreen(vm: GlimmerViewModel, ref: WorkRef.Saved) {
                                 cursor = null
                             }
                         }
-                        .semantics { contentDescription = context.getString(R.string.sketch_canvas_description) },
+                        .semantics { contentDescription = canvasDescription },
                 ) {
                     // Lire la version abonne ce dessin aux retouches : il est refait à chaque changement.
                     if (canvas.version < 0) return@Canvas
