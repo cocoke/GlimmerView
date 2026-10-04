@@ -117,6 +117,8 @@ fun AtelierRoom(vm: GlimmerViewModel) {
                         elevation = 8.dp,
                         contentDescription = info.title,
                         onClick = { vm.openWork(ref) },
+                        onLongClick = { vm.showActions(ref) },
+                        onLongClickLabel = stringResource(R.string.action_more),
                         modifier = Modifier.weight(1f).height(132.dp),
                     )
                 }

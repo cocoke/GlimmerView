@@ -789,15 +789,15 @@ Objectif : lever les incertitudes techniques avant d'écrire l'app.
 - dépôt GitHub `cocoke/GlimmerView` (privé pour l'instant), CI GitHub Actions (compilation, tests, lint) et `CONTRIBUTING.md` ;
 - partage d'une image depuis une autre app (menu « Partager » d'Android) vers le tirage ;
 - titre donné à l'œuvre à la fin du tirage, renommage depuis la mise au point ;
-- retouche de la profondeur (Esquisse) : pinceaux avancer, reculer, lisser, aplatir et gommer, ou sélection d'une zone au toucher (personne, objet) qu'on avance ou recule d'un geste ; annuler et rétablir ; la carte d'origine est conservée.
+- retouche de la profondeur (Esquisse) : pinceaux avancer, reculer, lisser, aplatir et gommer, ou sélection d'une zone au toucher (personne, objet) qu'on avance ou recule d'un geste ; annuler et rétablir ; la carte d'origine est conservée ;
+- appui long sur une œuvre (galerie, collection, dernières créations) : menu pour la voir, régler l'effet, retoucher la profondeur, la renommer, l'accrocher, l'ajouter à la collection, l'en retirer ou la supprimer (en deux touchers).
 
 **Reste pour la v0.1.**
 
-1. Appui long sur une œuvre (galerie, collection, dernières créations) : menu pour la modifier ou la supprimer. Pour les œuvres de la galerie, « supprimer » revient à les retirer de la collection *(demande du 3 octobre 2026)*.
-2. Format `.dwp` (`:format`) : export et partage d'une œuvre, import.
-3. Pack de démarrage de 10 à 20 photos libres (NASA, musées CC0) avec profondeur précalculée.
-4. Tests sur trois téléphones (entrée, milieu, haut de gamme), dont l'aperçu et le fond d'écran au gyroscope.
-5. Publication : GitHub Releases et IzzyOnDroid.
+1. Format `.dwp` (`:format`) : export et partage d'une œuvre, import.
+2. Pack de démarrage de 10 à 20 photos libres (NASA, musées CC0) avec profondeur précalculée.
+3. Tests sur trois téléphones (entrée, milieu, haut de gamme), dont l'aperçu et le fond d'écran au gyroscope.
+4. Publication : GitHub Releases et IzzyOnDroid.
 
 ---
 

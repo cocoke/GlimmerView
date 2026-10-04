@@ -17,7 +17,15 @@ object GlimmerIcons {
     val Check by lazy { stroke("check", "M5 12.5l4.5 4.5L19 7.5") }
     val Lift by lazy { stroke("lift", "M6 14l6-6 6 6") }
     val Chevron by lazy { stroke("chevron", "M9 6l6 6-6 6") }
-    val Brush by lazy { stroke("brush", "M4 20l4-1 11-11-3-3L5 16z", "M14 6l3 3") }
+    /** Pinceau : manche, virole et touffe de poils en goutte (à ne pas confondre avec le crayon). */
+    val Brush by lazy {
+        stroke(
+            "brush",
+            "M14.1 9.9L20.5 3.5",
+            "M13.1 8.8l2.1 2.1-2.3 2.3-2.1-2.1z",
+            "M10.8 11.1c-1.8.2-3.3 1.6-3.6 3.6-.3 2-1.2 3.6-3.2 5.3 2.7.3 5.7-.3 7.6-2.3 1.5-1.6 1.5-3.7 1.3-4.5",
+        )
+    }
     val Heart by lazy {
         stroke("heart", "M12 19.5s-7-4.2-7-9.7a3.9 3.9 0 0 1 7-2.4 3.9 3.9 0 0 1 7 2.4c0 5.5-7 9.7-7 9.7z")
     }
@@ -38,7 +46,9 @@ object GlimmerIcons {
     val Pencil by lazy { stroke("pencil", "M4 20h4L19 9l-4-4L4 16z", "M13 7l4 4") }
 
     /** Accrocher : un cadre suspendu à son clou. */
-    val Hang by lazy { stroke("hang", "M12 3.5v1", "M8 10l4-4.5 4 4.5", "M5 10h14v10H5z") }
+    val Hang by lazy {
+        stroke("hang", "M12 3.5v1", "M8 10l4-4.5 4 4.5", "M5 10h14v10H5z", "M7.5 17.5l3-3 2.5 2.5 1.5-1.5 2 2")
+    }
     val Dial by lazy {
         stroke("dial", "M4 12a8 8 0 1 0 16 0a8 8 0 1 0 -16 0z", "M12 12l4-3")
     }

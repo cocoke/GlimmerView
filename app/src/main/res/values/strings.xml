@@ -18,6 +18,7 @@
     <string name="action_download">Download</string>
     <string name="action_collect">Add to my collection</string>
     <string name="action_uncollect">Remove from my collection</string>
+    <string name="action_more">show the actions</string>
 
     <!-- Gallery rooms and works -->
     <string name="room_all">All</string>
@@ -87,6 +88,14 @@
     <string name="sketch_keep">Keep editing</string>
     <string name="sketch_discard">Discard</string>
     <string name="message_sketch_saved">Depth updated</string>
+
+    <!-- Menu d’une œuvre (appui long) -->
+    <string name="sheet_origin_gallery">From the gallery</string>
+    <string name="sheet_origin_created">Your creation</string>
+    <string name="sheet_origin_acquired">In your collection</string>
+    <string name="sheet_on_display">On display</string>
+    <string name="sheet_confirm_delete">Tap again to delete</string>
+    <string name="sheet_confirm_remove">Tap again to remove</string>
 
     <!-- Opening (first launch) -->
     <string name="vernissage_caption">, 2026 · illustration, five planes</string>

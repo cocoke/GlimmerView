@@ -282,6 +282,12 @@ class GlimmerViewModel(application: Application) : AndroidViewModel(application)
 
     fun isCollected(sceneId: String): Boolean = works.any { it.id == SCENE_PREFIX + sceneId }
 
+    /** Vrai si l'œuvre (ou sa copie dans la collection) est accrochée en fond d'écran. */
+    fun isOnDisplay(ref: WorkRef): Boolean = currentWorkId != null && currentWorkId == when (ref) {
+        is WorkRef.Saved -> ref.id
+        is WorkRef.Scene -> SCENE_PREFIX + ref.id
+    }
+
     private fun sceneIdOf(savedId: String): String? = savedId.removePrefix(SCENE_PREFIX).takeIf { savedId.startsWith(SCENE_PREFIX) }
 
     private suspend fun refreshLibrary() {
@@ -452,14 +458,33 @@ class GlimmerViewModel(application: Application) : AndroidViewModel(application)
         viewModelScope.launch(Dispatchers.IO) { library.rename(id, clean) }
     }
 
-    fun deleteWork(id: String) {
+    /**
+     * Retire une œuvre de la collection (une création est supprimée, une acquisition rendue à la
+     * galerie). [leave] referme l'écran de l'œuvre d'où l'on vient ; le menu d'appui long reste sur place.
+     */
+    fun deleteWork(id: String, leave: Boolean = true) {
+        val acquired = works.firstOrNull { it.id == id }?.origin == WorkOrigin.ACQUIRED
         viewModelScope.launch {
             withContext(Dispatchers.IO) { library.delete(id) }
             if (preview?.ref == WorkRef.Saved(id)) preview = null
             refreshLibrary()
-            message = context.getString(R.string.message_deleted)
-            back()
+            message = context.getString(if (acquired) R.string.message_removed else R.string.message_deleted)
+            if (leave) back()
         }
+    }
+
+    // ── Menu d'une œuvre (appui long sur un cadre) ───────────────────────────
+
+    /** Œuvre dont le menu d'actions est ouvert, par-dessus la salle courante. */
+    var actionsFor by mutableStateOf<WorkRef?>(null)
+        private set
+
+    fun showActions(ref: WorkRef) {
+        actionsFor = ref
+    }
+
+    fun hideActions() {
+        actionsFor = null
     }
 
     /** Copie une œuvre de la galerie dans la collection (identifiant stable) et renvoie son identifiant. */

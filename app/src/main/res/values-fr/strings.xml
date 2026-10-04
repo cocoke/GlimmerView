@@ -16,6 +16,7 @@
     <string name="action_download">Télécharger</string>
     <string name="action_collect">Ajouter à ma collection</string>
     <string name="action_uncollect">Retirer de ma collection</string>
+    <string name="action_more">afficher les actions</string>
 
     <!-- Salles et œuvres de la galerie -->
     <string name="room_all">Tout</string>
@@ -85,6 +86,14 @@
     <string name="sketch_keep">Continuer</string>
     <string name="sketch_discard">Abandonner</string>
     <string name="message_sketch_saved">Profondeur retouchée</string>
+
+    <!-- Menu d’une œuvre (appui long) -->
+    <string name="sheet_origin_gallery">Œuvre de la galerie</string>
+    <string name="sheet_origin_created">Votre création</string>
+    <string name="sheet_origin_acquired">Dans votre collection</string>
+    <string name="sheet_on_display">Accrochée</string>
+    <string name="sheet_confirm_delete">Toucher encore pour supprimer</string>
+    <string name="sheet_confirm_remove">Toucher encore pour retirer</string>
 
     <!-- Vernissage (premier lancement) -->
     <string name="vernissage_caption">, 2026 · illustration, cinq plans</string>

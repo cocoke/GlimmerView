@@ -152,6 +152,8 @@ private fun SalonFrame(vm: GlimmerViewModel, info: WorkInfo, ratio: Float) {
                 elevation = 10.dp,
                 contentDescription = info.title,
                 onClick = { vm.openWork(ref) },
+                onLongClick = { vm.showActions(ref) },
+                onLongClickLabel = stringResource(R.string.action_more),
                 modifier = Modifier.fillMaxWidth().height(maxWidth * ratio),
             )
         }

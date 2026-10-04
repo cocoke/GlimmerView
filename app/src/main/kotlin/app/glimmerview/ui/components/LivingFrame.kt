@@ -5,7 +5,7 @@ import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.Box
@@ -24,7 +24,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
@@ -50,6 +52,8 @@ fun LivingFrame(
     still: Boolean = false,
     contentDescription: String? = null,
     onClick: (() -> Unit)? = null,
+    onLongClick: (() -> Unit)? = null,
+    onLongClickLabel: String? = null,
 ) {
     val tilt = LocalTilt.current
     val shape = RoundedCornerShape(radius)
@@ -57,8 +61,21 @@ fun LivingFrame(
     val pressed by interaction.collectIsPressedAsState()
     val press by animateFloatAsState(if (pressed) 0.975f else 1f, tween(160), label = "press")
 
-    val clickModifier = if (onClick != null) {
-        Modifier.clickable(interactionSource = interaction, indication = null, role = Role.Button, onClick = onClick)
+    val haptics = LocalHapticFeedback.current
+    val clickModifier = if (onClick != null || onLongClick != null) {
+        Modifier.combinedClickable(
+            interactionSource = interaction,
+            indication = null,
+            role = Role.Button,
+            onLongClickLabel = onLongClickLabel,
+            onLongClick = onLongClick?.let { action ->
+                {
+                    haptics.performHapticFeedback(HapticFeedbackType.LongPress)
+                    action()
+                }
+            },
+            onClick = onClick ?: {},
+        )
     } else {
         Modifier
     }

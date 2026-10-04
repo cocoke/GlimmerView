@@ -104,6 +104,8 @@ private fun Featured(vm: GlimmerViewModel, scene: Scene) {
                 mat = 13.dp,
                 contentDescription = card.title,
                 onClick = { vm.openWork(ref) },
+                onLongClick = { vm.showActions(ref) },
+                onLongClickLabel = stringResource(R.string.action_more),
                 modifier = Modifier.size(frameWidth, frameWidth * (274f / 214f)),
             )
             Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(4.dp)) {
@@ -141,6 +143,8 @@ private fun Acquisition(vm: GlimmerViewModel, scene: Scene, height: Int, modifie
             elevation = 10.dp,
             contentDescription = card.title,
             onClick = { vm.openWork(ref) },
+            onLongClick = { vm.showActions(ref) },
+            onLongClickLabel = stringResource(R.string.action_more),
             modifier = Modifier.fillMaxWidth().height(height.dp),
         )
         Box {

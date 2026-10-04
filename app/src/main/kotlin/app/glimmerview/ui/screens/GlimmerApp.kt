@@ -88,6 +88,10 @@ fun GlimmerApp(vm: GlimmerViewModel) {
 /** Panneaux posés par-dessus n'importe quel écran. */
 @Composable
 private fun Overlays(vm: GlimmerViewModel) {
+    val actionsRef = vm.actionsFor
+    if (actionsRef != null) {
+        key(actionsRef) { WorkActionsSheet(vm, actionsRef) }
+    }
     val renamingId = vm.renaming
     val renamingInfo = vm.works.firstOrNull { it.id == renamingId }
     if (renamingId != null && renamingInfo != null) {
