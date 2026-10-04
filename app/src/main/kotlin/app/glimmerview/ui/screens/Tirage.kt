@@ -18,6 +18,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.layout.width
@@ -26,7 +27,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
@@ -38,12 +42,14 @@ import androidx.compose.ui.graphics.FilterQuality
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.ProgressBarRangeInfo
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.progressBarRangeInfo
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import app.glimmerview.GenStage
@@ -56,6 +62,7 @@ import app.glimmerview.ui.components.CircleButton
 import app.glimmerview.ui.components.Hairline
 import app.glimmerview.ui.components.SystemBarIcons
 import app.glimmerview.ui.components.Tirette
+import app.glimmerview.ui.components.TitleField
 import app.glimmerview.ui.theme.GlimmerColors
 import app.glimmerview.ui.theme.GlimmerIcons
 import app.glimmerview.ui.theme.GlimmerType
@@ -80,12 +87,15 @@ fun TirageScreen(vm: GlimmerViewModel) {
     val percent by animateFloatAsState(target, tween(if (stage == GenStage.DEPTH) 1600 else 700, easing = FastOutSlowInEasing), label = "percent")
     val done = stage == GenStage.DONE
     val failed = stage == GenStage.FAILED
+    var title by rememberSaveable(stateSaver = TextFieldValue.Saver) { mutableStateOf(TextFieldValue("")) }
+    val focusManager = LocalFocusManager.current
 
     Column(
         modifier = Modifier
             .fillMaxSize()
             .background(GlimmerColors.Plaster)
             .systemBarsPadding()
+            .imePadding()
             .padding(start = 24.dp, end = 24.dp, top = 16.dp, bottom = 20.dp),
         verticalArrangement = Arrangement.spacedBy(14.dp),
     ) {
@@ -125,6 +135,7 @@ fun TirageScreen(vm: GlimmerViewModel) {
             Text(
                 text = when {
                     failed -> generation.error ?: ""
+                    done -> stringResource(R.string.tirage_name_hint)
                     stage == GenStage.DOWNLOAD -> stringResource(R.string.tirage_download, (generation.downloadFraction * 100).roundToInt())
                     else -> stringResource(R.string.tirage_privacy)
                 },
@@ -133,16 +144,29 @@ fun TirageScreen(vm: GlimmerViewModel) {
             )
         }
 
-        Column {
-            Step("I", stringResource(R.string.tirage_step_depth), stage, from = GenStage.DEPTH, to = GenStage.CONTOURS, generation)
-            Step("II", stringResource(R.string.tirage_step_contours), stage, from = GenStage.CONTOURS, to = GenStage.FINISH, generation)
-            Step("III", stringResource(R.string.tirage_step_finish), stage, from = GenStage.FINISH, to = GenStage.DONE, generation)
+        if (done) {
+            // Une fois le tirage fini, les étapes laissent place au titre de l'œuvre.
+            Column(verticalArrangement = Arrangement.spacedBy(2.dp)) {
+                Cartel(stringResource(R.string.tirage_name_label))
+                TitleField(
+                    value = title,
+                    onValueChange = { title = it },
+                    placeholder = generation.defaultTitle.orEmpty(),
+                    onDone = { focusManager.clearFocus() },
+                )
+            }
+        } else {
+            Column {
+                Step("I", stringResource(R.string.tirage_step_depth), stage, from = GenStage.DEPTH, to = GenStage.CONTOURS, generation)
+                Step("II", stringResource(R.string.tirage_step_contours), stage, from = GenStage.CONTOURS, to = GenStage.FINISH, generation)
+                Step("III", stringResource(R.string.tirage_step_finish), stage, from = GenStage.FINISH, to = GenStage.DONE, generation)
+            }
         }
 
         if (failed) {
             Tirette(stringResource(R.string.tirage_retry), onClick = { vm.back() })
         } else {
-            Tirette(stringResource(R.string.tirage_open), onClick = vm::openCreation, enabled = done)
+            Tirette(stringResource(R.string.tirage_open), onClick = { vm.openCreation(title.text) }, enabled = done)
         }
     }
 }

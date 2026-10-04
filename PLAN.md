@@ -787,7 +787,8 @@ Objectif : lever les incertitudes techniques avant d'écrire l'app.
 - préférences lues par le fond d'écran (recentrage, mouvements réduits, cadence, économie d'énergie) ;
 - français et anglais ;
 - dépôt GitHub `cocoke/GlimmerView` (privé pour l'instant), CI GitHub Actions (compilation, tests, lint) et `CONTRIBUTING.md` ;
-- partage d'une image depuis une autre app (menu « Partager » d'Android) vers le tirage.
+- partage d'une image depuis une autre app (menu « Partager » d'Android) vers le tirage ;
+- titre donné à l'œuvre à la fin du tirage, renommage depuis la mise au point.
 
 **Reste pour la v0.1.**
 

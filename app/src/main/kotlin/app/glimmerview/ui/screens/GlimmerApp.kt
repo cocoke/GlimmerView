@@ -24,7 +24,11 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.key
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
+import app.glimmerview.R
+import app.glimmerview.ui.components.RenameSheet
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
@@ -57,22 +61,44 @@ fun GlimmerApp(vm: GlimmerViewModel) {
     BackHandler(enabled = vm.backStack.size > 1) { vm.back() }
 
     CompositionLocalProvider(LocalTilt provides tilt) {
-        AnimatedContent(
-            targetState = vm.route,
-            transitionSpec = { fadeIn(tween(240)) togetherWith fadeOut(tween(160)) },
-            // Les quatre salles partagent le même socle : on ne fond que leur contenu.
-            contentKey = { if (it.tab != null) "salles" else it },
-            label = "route",
-        ) { route ->
-            when (route) {
-                Route.Vernissage -> VernissageScreen(vm)
-                Route.Galerie, Route.Atelier, Route.Collection, Route.Preferences -> Rooms(vm, route)
-                is Route.Oeuvre -> OeuvreScreen(vm, route.ref)
-                is Route.MiseAuPoint -> MiseAuPointScreen(vm, route.ref)
-                is Route.Accrocher -> AccrocherScreen(vm, route.ref)
-                Route.Tirage -> TirageScreen(vm)
-                Route.Lab -> LabRoute()
+        Box(Modifier.fillMaxSize()) {
+            AnimatedContent(
+                targetState = vm.route,
+                transitionSpec = { fadeIn(tween(240)) togetherWith fadeOut(tween(160)) },
+                // Les quatre salles partagent le même socle : on ne fond que leur contenu.
+                contentKey = { if (it.tab != null) "salles" else it },
+                label = "route",
+            ) { route ->
+                when (route) {
+                    Route.Vernissage -> VernissageScreen(vm)
+                    Route.Galerie, Route.Atelier, Route.Collection, Route.Preferences -> Rooms(vm, route)
+                    is Route.Oeuvre -> OeuvreScreen(vm, route.ref)
+                    is Route.MiseAuPoint -> MiseAuPointScreen(vm, route.ref)
+                    is Route.Accrocher -> AccrocherScreen(vm, route.ref)
+                    Route.Tirage -> TirageScreen(vm)
+                    Route.Lab -> LabRoute()
+                }
             }
+            Overlays(vm)
+        }
+    }
+}
+
+/** Panneaux posés par-dessus n'importe quel écran. */
+@Composable
+private fun Overlays(vm: GlimmerViewModel) {
+    val renamingId = vm.renaming
+    val renamingInfo = vm.works.firstOrNull { it.id == renamingId }
+    if (renamingId != null && renamingInfo != null) {
+        key(renamingId) {
+            RenameSheet(
+                kicker = stringResource(R.string.rename_kicker),
+                currentTitle = renamingInfo.title,
+                cancelLabel = stringResource(R.string.action_cancel),
+                saveLabel = stringResource(R.string.rename_save),
+                onRename = { vm.renameWork(renamingId, it) },
+                onDismiss = vm::cancelRename,
+            )
         }
     }
 }

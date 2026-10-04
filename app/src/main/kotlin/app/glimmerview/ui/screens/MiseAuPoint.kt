@@ -35,6 +35,7 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
@@ -50,6 +51,7 @@ import app.glimmerview.ui.components.CircleButton
 import app.glimmerview.ui.components.Diaphragm
 import app.glimmerview.ui.components.FocusRing
 import app.glimmerview.ui.components.GlassChip
+import app.glimmerview.ui.components.InlineLink
 import app.glimmerview.ui.components.SystemBarIcons
 import app.glimmerview.ui.components.Tirette
 import app.glimmerview.ui.components.WireSwitch
@@ -139,6 +141,20 @@ fun MiseAuPointScreen(vm: GlimmerViewModel, ref: WorkRef) {
                 .padding(start = 24.dp, end = 24.dp, top = 20.dp, bottom = 18.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp),
         ) {
+            vm.card(ref)?.let { card ->
+                Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+                    Text(
+                        text = card.title,
+                        style = GlimmerType.italic.copy(fontSize = 18.sp),
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
+                        modifier = Modifier.weight(1f).padding(end = 12.dp),
+                    )
+                    if (ref is WorkRef.Saved) {
+                        InlineLink(stringResource(R.string.mise_rename), onClick = { vm.startRename(ref.id) })
+                    }
+                }
+            }
             Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(20.dp)) {
                 Diaphragm(image = vm.thumbnail(ref), aperture = 0.15f + level * 0.2f)
                 Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(2.dp)) {

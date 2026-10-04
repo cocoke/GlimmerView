@@ -40,6 +40,7 @@ import app.glimmerview.ml.InputSize
 import app.glimmerview.ml.ModelCatalog
 import app.glimmerview.ml.ModelStore
 import app.glimmerview.ml.RawDepth
+import app.glimmerview.ui.components.MAX_TITLE_LENGTH
 import app.glimmerview.ui.components.PreviewContent
 import app.glimmerview.wallpaper.GlimmerWallpaperService
 import kotlinx.coroutines.CancellationException
@@ -95,6 +96,8 @@ data class Generation(
     val error: String? = null,
     /** Premier tirage : le modèle doit d'abord être téléchargé. */
     val firstRun: Boolean = false,
+    /** Titre donné par défaut à l'œuvre (« Sans titre, 4 oct. 2026 »), proposé en indice. */
+    val defaultTitle: String? = null,
 )
 
 enum class Placement { HOME, LOCK, BOTH }
@@ -364,6 +367,26 @@ class GlimmerViewModel(application: Application) : AndroidViewModel(application)
         }
     }
 
+    /** Œuvre dont le panneau « Renommer » est ouvert (par-dessus l'écran courant). */
+    var renaming by mutableStateOf<String?>(null)
+        private set
+
+    fun startRename(id: String) {
+        renaming = id
+    }
+
+    fun cancelRename() {
+        renaming = null
+    }
+
+    /** Renomme une œuvre de la collection : affiché tout de suite, enregistré en arrière-plan. */
+    fun renameWork(id: String, title: String) {
+        val clean = title.trim().replace(Regex("\\s+"), " ").take(MAX_TITLE_LENGTH)
+        if (clean.isEmpty()) return
+        works = works.map { if (it.id == id) it.copy(title = clean) else it }
+        viewModelScope.launch(Dispatchers.IO) { library.rename(id, clean) }
+    }
+
     fun deleteWork(id: String) {
         viewModelScope.launch {
             withContext(Dispatchers.IO) { library.delete(id) }
@@ -528,7 +551,7 @@ class GlimmerViewModel(application: Application) : AndroidViewModel(application)
                 refreshLibrary()
                 preview = LoadedWork(WorkRef.Saved(info.id), PreviewContent("work:${info.id}", photo, depth))
                 previewParams = withContext(Dispatchers.IO) { library.params(info.id) }
-                update { copy(stage = GenStage.DONE, resultId = info.id) }
+                update { copy(stage = GenStage.DONE, resultId = info.id, defaultTitle = info.title) }
             } catch (e: CancellationException) {
                 throw e
             } catch (t: Throwable) {
@@ -541,9 +564,10 @@ class GlimmerViewModel(application: Application) : AndroidViewModel(application)
         generation = generation?.block()
     }
 
-    /** Fin du tirage : la mise au point remplace l'écran de tirage dans la pile. */
-    fun openCreation() {
+    /** Fin du tirage : l'œuvre reçoit son titre, la mise au point remplace l'écran de tirage dans la pile. */
+    fun openCreation(title: String = "") {
         val id = generation?.resultId ?: return
+        if (title.isNotBlank()) renameWork(id, title)
         if (route == Route.Tirage) backStack.removeAt(backStack.lastIndex)
         generation = null
         navigate(Route.MiseAuPoint(WorkRef.Saved(id)))

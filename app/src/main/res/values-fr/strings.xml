@@ -48,6 +48,13 @@
     <string name="message_apply_failed">Accrochage impossible : %1$s</string>
     <string name="message_apply_cancelled">Le fond d’écran n’a pas été changé</string>
 
+    <!-- Nommage -->
+    <string name="rename_kicker">Titre de l’œuvre</string>
+    <string name="rename_save">Valider</string>
+    <string name="tirage_name_label">Titre</string>
+    <string name="tirage_name_hint">Donnez-lui un titre, ou gardez la date.</string>
+    <string name="mise_rename">Renommer</string>
+
     <!-- Vernissage (premier lancement) -->
     <string name="vernissage_caption">, 2026 · illustration, cinq plans</string>
     <string name="vernissage_title">Vos images prennent *de la profondeur.*</string>

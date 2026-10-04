@@ -50,6 +50,13 @@
     <string name="message_apply_failed">Could not hang the artwork: %1$s</string>
     <string name="message_apply_cancelled">The wallpaper was not changed</string>
 
+    <!-- Naming -->
+    <string name="rename_kicker">Title of the work</string>
+    <string name="rename_save">Save</string>
+    <string name="tirage_name_label">Title</string>
+    <string name="tirage_name_hint">Give it a title, or keep the date.</string>
+    <string name="mise_rename">Rename</string>
+
     <!-- Opening (first launch) -->
     <string name="vernissage_caption">, 2026 · illustration, five planes</string>
     <string name="vernissage_title">Your pictures gain *depth.*</string>

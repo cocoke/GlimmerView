@@ -222,6 +222,23 @@ fun InlineLink(
     )
 }
 
+/** Petite pastille d'encre pour une action brève (« Valider »). */
+@Composable
+fun InkPill(text: String, onClick: () -> Unit, modifier: Modifier = Modifier, enabled: Boolean = true) {
+    Box(
+        modifier = modifier
+            .height(44.dp)
+            .clip(RoundedCornerShape(22.dp))
+            .background(GlimmerColors.Ink)
+            .clickable(enabled = enabled, role = Role.Button, onClick = onClick)
+            .alpha(if (enabled) 1f else 0.4f)
+            .padding(horizontal = 18.dp),
+        contentAlignment = Alignment.Center,
+    ) {
+        Text(text, style = GlimmerType.body.copy(fontSize = 14.sp), fontWeight = FontWeight.Medium, color = GlimmerColors.Plaster)
+    }
+}
+
 /** Pastille en verre dépoli posée sur une œuvre (indications, légendes). */
 @Composable
 fun GlassChip(modifier: Modifier = Modifier, content: @Composable () -> Unit) {
