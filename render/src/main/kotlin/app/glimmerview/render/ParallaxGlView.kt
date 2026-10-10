@@ -39,6 +39,12 @@ class ParallaxGlView(context: Context) : GLSurfaceView(context) {
     /** Appelé sur le thread principal. */
     var onStats: ((PreviewStats) -> Unit)? = null
 
+    /** Appelé sur le thread principal quand l'image transmise par [setContent] a été dessinée une première fois. */
+    var onContentShown: ((Any) -> Unit)? = null
+
+    @Volatile
+    private var pendingShown: Any? = null
+
     @Volatile
     private var tiltX = 0f
 
@@ -70,14 +76,21 @@ class ParallaxGlView(context: Context) : GLSurfaceView(context) {
                 val start = System.nanoTime()
                 renderer.draw(tiltX, tiltY)
                 if (measureGpu) GLES30.glFinish()
+                val shown = pendingShown
+                if (shown != null && renderer.showsLatestContent) {
+                    pendingShown = null
+                    post { onContentShown?.invoke(shown) }
+                }
                 recordFrame(start, System.nanoTime())
             }
         })
         renderMode = RENDERMODE_WHEN_DIRTY
     }
 
-    fun setContent(color: Bitmap, depth: DepthMap) {
+    /** [token] est rendu à [onContentShown] quand l'image apparaît à l'écran. */
+    fun setContent(color: Bitmap, depth: DepthMap, token: Any = color) {
         renderer.setContent(color, depth)
+        pendingShown = token
         requestRender()
     }
 

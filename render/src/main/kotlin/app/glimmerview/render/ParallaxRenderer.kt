@@ -82,6 +82,10 @@ class ParallaxRenderer {
         GLES30.glViewport(0, 0, viewWidth, viewHeight)
     }
 
+    /** Vrai quand la dernière image transmise est sur le GPU (à lire sur le thread GL, après [draw]). */
+    val showsLatestContent: Boolean
+        get() = texturesReady && synchronized(lock) { !needsUpload }
+
     /** Remplace l'image et sa carte de profondeur (thread-safe, envoyées au GPU au prochain rendu). */
     fun setContent(color: Bitmap, depth: DepthMap) {
         synchronized(lock) {

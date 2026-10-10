@@ -61,6 +61,7 @@ import app.glimmerview.ui.components.CircleButton
 import app.glimmerview.ui.components.GlassChip
 import app.glimmerview.ui.components.Hairline
 import app.glimmerview.ui.components.ParallaxPreview
+import app.glimmerview.ui.components.PreviewContent
 import app.glimmerview.ui.components.SystemBarIcons
 import app.glimmerview.ui.components.Tirette
 import app.glimmerview.ui.theme.GlimmerColors
@@ -179,28 +180,36 @@ fun ArtworkStage(
     val loaded = vm.preview?.takeIf { it.ref == ref }
     val bottomInset = with(density) { (fillAbove.toDp() - 30.dp).coerceAtLeast(0.dp) }
     Box(modifier.fillMaxSize().padding(bottom = bottomInset)) {
-        val thumb = vm.thumbnail(ref)
-        if (thumb != null) {
-            Image(thumb, contentDescription = null, contentScale = ContentScale.Crop, modifier = Modifier.fillMaxSize())
-        }
-        if (loaded != null) {
-            ParallaxPreview(
-                content = loaded.content,
-                params = vm.previewParams,
-                depthView = depthView,
-                modifier = Modifier.fillMaxSize(),
-            )
-        } else if (vm.previewError != null) {
-            GlassChip(Modifier.align(Alignment.Center)) {
-                Text(vm.previewError ?: "", style = GlimmerType.bodySmall)
+        // Le moteur 3D est posé dès l'ouverture de l'écran, même avant que l'œuvre soit chargée : ajoutée
+        // après coup, sa surface pouvait rester cachée derrière la vignette (constaté sur Samsung).
+        var shown by remember(ref) { mutableStateOf<PreviewContent?>(null) }
+        ParallaxPreview(
+            content = loaded?.content,
+            params = vm.previewParams,
+            depthView = depthView,
+            modifier = Modifier.fillMaxSize(),
+            onShown = { shown = it },
+        )
+        // Par-dessus, la vignette (ou un fond uni) jusqu'à la première image 3D de l'œuvre.
+        if (loaded == null || shown !== loaded.content) {
+            val thumb = vm.thumbnail(ref)
+            if (thumb != null) {
+                Image(thumb, contentDescription = null, contentScale = ContentScale.Crop, modifier = Modifier.fillMaxSize())
+            } else {
+                Box(Modifier.fillMaxSize().background(GlimmerColors.Linen))
             }
-        } else {
-            // Œuvre de la bibliothèque pas encore sur le téléphone : son paquet arrive.
-            val download = vm.libraryDownload?.takeIf { (ref as? WorkRef.Gallery)?.id == it.first }
-            if (download != null) {
-                GlassChip(Modifier.align(Alignment.Center)) {
-                    Text(stringResource(R.string.library_downloading, (download.second * 100).toInt()), style = GlimmerType.bodySmall)
-                }
+        }
+        // Œuvre de la bibliothèque pas encore sur le téléphone : son paquet arrive, ou ne peut pas arriver.
+        val download = vm.libraryDownload?.takeIf { (ref as? WorkRef.Gallery)?.id == it.first }
+        val status = when {
+            loaded != null -> null
+            vm.previewError != null -> vm.previewError
+            download != null -> stringResource(R.string.library_downloading, (download.second * 100).toInt())
+            else -> null
+        }
+        if (status != null) {
+            GlassChip(Modifier.align(Alignment.Center)) {
+                Text(status, style = GlimmerType.bodySmall)
             }
         }
         overlay()

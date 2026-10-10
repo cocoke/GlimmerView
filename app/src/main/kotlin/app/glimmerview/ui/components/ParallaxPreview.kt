@@ -8,6 +8,7 @@ import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalView
@@ -30,15 +31,24 @@ fun ParallaxPreview(
     params: ParallaxParams,
     depthView: Boolean,
     modifier: Modifier = Modifier,
+    /** Appelé quand [content] est dessiné pour la première fois (la vignette posée dessus peut s'effacer). */
+    onShown: (PreviewContent) -> Unit = {},
 ) {
     val lifecycleOwner = LocalLifecycleOwner.current
+    val shown by rememberUpdatedState(onShown)
     var view by remember { mutableStateOf<ParallaxGlView?>(null) }
     AndroidView(
-        factory = { context -> ParallaxGlView(context).also { it.measureGpu = false; view = it } },
+        factory = { context ->
+            ParallaxGlView(context).also { glView ->
+                glView.measureGpu = false
+                glView.onContentShown = { token -> (token as? PreviewContent)?.let { shown(it) } }
+                view = glView
+            }
+        },
         modifier = modifier,
         update = { glView ->
             if (content != null && glView.tag !== content) {
-                glView.setContent(content.color, content.depth)
+                glView.setContent(content.color, content.depth, content)
                 glView.tag = content
             }
             glView.setParams(params)

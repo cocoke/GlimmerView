@@ -1,5 +1,9 @@
 # Journal des versions
 
+## 0.1.1 — 10 octobre 2026 (pré-version)
+
+- Correctif : à la première ouverture de l'app, l'aperçu 3D d'une œuvre restait figé sur certains téléphones (Samsung) tant qu'on n'était pas passé par « Régler l'effet ». Le moteur 3D est maintenant posé dès l'ouverture de l'écran, et la vignette s'efface à sa première image.
+
 ## 0.1.0 — 10 octobre 2026 (pré-version)
 
 Première version publique de GlimmerView : des fonds d'écran en relief qui suivent les mouvements du

@@ -27,8 +27,8 @@ android {
         applicationId = "app.glimmerview"
         minSdk = 26
         targetSdk = 36
-        versionCode = 3
-        versionName = "0.1.0"
+        versionCode = 4
+        versionName = "0.1.1"
 
         // Bibliothèque de la galerie (docs/library.md) : index, aperçus et paquets .dwp, servis par GitHub Pages.
         buildConfigField("String", "LIBRARY_URL", "\"https://cocoke.github.io/GlimmerView/\"")
