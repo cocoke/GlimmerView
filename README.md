@@ -28,6 +28,15 @@ Phase 1 en cours, vers la v0.1 (voir [PLAN.md](PLAN.md)). L'interface suit la ch
 
 Langues : français et anglais.
 
+## Télécharger
+
+La dernière version est sur la page des [releases](https://github.com/cocoke/GlimmerView/releases) (nouveautés : [CHANGELOG](CHANGELOG.md)) :
+
+- `GlimmerView-<version>-arm64-v8a.apk` pour presque tous les téléphones récents ;
+- `armeabi-v7a` pour les téléphones 32 bits plus anciens, `x86_64` pour les émulateurs et Chromebooks.
+
+Pour recevoir les mises à jour automatiquement, ajoutez le dépôt dans [Obtainium](https://github.com/ImranR98/Obtainium). Toutes les versions sont signées par la même clé (empreinte SHA-256 du certificat : `fd:ca:33:14:7c:80:35:4f:4c:91:f6:22:54:bb:50:2a:b5:b1:fb:0e:91:91:8f:94:e4:25:8d:92:81:60:47:ab`).
+
 ## Compiler
 
 Prérequis : JDK 17+, SDK Android (plateforme 37), Android Studio récent (compatible AGP 9.4).
@@ -46,10 +55,11 @@ Installer sur un téléphone branché (débogage USB activé) :
 
 | Module | Rôle |
 |---|---|
-| `app` | Interface (Jetpack Compose) : thème « Galerie », écrans, œuvres dessinées, laboratoire |
+| `app` | Interface (Jetpack Compose) : thème « Galerie », écrans, galerie et bibliothèque, œuvres dessinées, laboratoire |
 | `core` | Modèles de données, collection d'œuvres, fond d'écran actif et préférences partagés avec le fond d'écran |
 | `render` | Moteur de rendu OpenGL ES 3, capteurs, aperçu |
-| `ml` | Estimation de profondeur (ONNX Runtime), post-traitement, benchmarks |
+| `ml` | Estimation de profondeur (ONNX Runtime, télémétrie désactivée), post-traitement, benchmarks |
+| `format` | Lecture et écriture du format ouvert `.dwp` ([spécification](docs/format.md)) |
 | `wallpaper` | Service de fond d'écran animé (process séparé) |
 
 ## Modèles d'IA

@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Téléchargement des modèles d'IA à la demande -->
     <uses-permission android:name="android.permission.INTERNET" />
 
     <!-- Image fixe sur l'écran de verrouillage, ou retour à l'œuvre animée (permission normale) -->
     <uses-permission android:name="android.permission.SET_WALLPAPER" />
+
+    <!-- Ajoutée par ONNX Runtime pour sa télémétrie, retirée avec elle (voir OrtPrivacy) -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" tools:node="remove" />
 
     <application
         android:allowBackup="false"
@@ -49,6 +53,13 @@
                 <data android:mimeType="application/octet-stream" />
             </intent-filter>
         </activity>
+
+        <!-- ONNX Runtime lance sa télémétrie Microsoft au démarrage de chaque processus : jamais dans GlimmerView -->
+        <provider
+            android:name="ai.onnxruntime.TelemetryInitializer"
+            android:authorities="${applicationId}.onnxruntime_telemetry_initializer"
+            tools:ignore="MissingClass"
+            tools:node="remove" />
 
         <!-- Partage des fichiers .dwp exportés (dossier exports/ du cache) -->
         <provider

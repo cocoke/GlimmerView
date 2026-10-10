@@ -15,7 +15,7 @@ internal class OrtDepthEstimator(
     override val inputSize: InputSize,
 ) : DepthEstimator {
 
-    private val environment = OrtEnvironment.getEnvironment()
+    private val environment = OrtPrivacy.environment()
 
     private val options = OrtSession.SessionOptions().apply {
         setOptimizationLevel(OrtSession.SessionOptions.OptLevel.ALL_OPT)

@@ -1,7 +1,22 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.compose)
 }
+
+/**
+ * Clé de signature des versions publiées : jamais dans le dépôt. Le fichier de propriétés
+ * (storeFile, storePassword, keyAlias, keyPassword) est cherché dans keystore.properties à la
+ * racine du projet (ignoré par Git), sinon dans ~/.glimmerview/keystore.properties.
+ */
+val releaseKeystore: Properties? = listOf(
+    rootProject.file("keystore.properties"),
+    File(System.getProperty("user.home"), ".glimmerview/keystore.properties"),
+).firstOrNull { it.isFile }?.let { file -> Properties().apply { file.inputStream().use(::load) } }
+
+/** Un APK par architecture, seulement quand on construit une version publiée. */
+val buildingRelease = gradle.startParameter.taskNames.any { it.contains("Release", ignoreCase = true) }
 
 android {
     namespace = "app.glimmerview"
@@ -12,25 +27,46 @@ android {
         applicationId = "app.glimmerview"
         minSdk = 26
         targetSdk = 36
-        versionCode = 2
-        versionName = "0.1.0-dev"
+        versionCode = 3
+        versionName = "0.1.0"
 
         // Bibliothèque de la galerie (docs/library.md) : index, aperçus et paquets .dwp, servis par GitHub Pages.
         buildConfigField("String", "LIBRARY_URL", "\"https://cocoke.github.io/GlimmerView/\"")
+    }
 
-        ndk {
-            // Téléphones (arm64) + émulateur (x86_64) : suffisant pour la Phase 0.
-            abiFilters += listOf("arm64-v8a", "x86_64")
+    signingConfigs {
+        if (releaseKeystore != null) {
+            create("release") {
+                storeFile = file(releaseKeystore.getProperty("storeFile"))
+                storePassword = releaseKeystore.getProperty("storePassword")
+                keyAlias = releaseKeystore.getProperty("keyAlias")
+                keyPassword = releaseKeystore.getProperty("keyPassword")
+            }
+        }
+    }
+
+    splits {
+        abi {
+            // ONNX Runtime pèse environ 33 Mo par architecture : un APK chacune plutôt qu'un APK universel.
+            isEnable = buildingRelease
+            reset()
+            include("arm64-v8a", "armeabi-v7a", "x86_64")
+            isUniversalApk = false
         }
     }
 
     buildTypes {
         debug {
             applicationIdSuffix = ".debug"
+            // Téléphones (arm64) + émulateur (x86_64). Gradle refuse ce filtre à côté du découpage par architecture.
+            if (!buildingRelease) ndk { abiFilters += listOf("arm64-v8a", "x86_64") }
         }
         release {
-            isMinifyEnabled = false
-            signingConfig = signingConfigs.getByName("debug")
+            isMinifyEnabled = true
+            isShrinkResources = true
+            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            // Sans clé (CI, contributeurs), la version publiée reste non signée.
+            signingConfig = signingConfigs.findByName("release")
         }
     }
     compileOptions {
