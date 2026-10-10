@@ -16,7 +16,7 @@
 
 Phase 1 en cours, vers la v0.1 (voir [PLAN.md](PLAN.md)). L'interface suit la charte « Galerie » : murs plâtre, encre, un seul accent bleu de Prusse, titres en Spectral et cartels en Hanken Grotesk.
 
-- **Galerie** : sept œuvres dessinées en plans (domaine public, CC0), présentées dans des cadres qui basculent avec le téléphone.
+- **Galerie** : douze œuvres du domaine public (estampes de Hiroshige et Hokusai, Van Gogh, Pissarro, Friedrich, photos de la NASA…, voir [le pack](tools/pack/README.md)) et sept scènes dessinées en plans, présentées dans des cadres qui basculent avec le téléphone.
 - **Œuvre** : aperçu 3D en direct (même moteur OpenGL ES 3 que le fond d'écran) et vue « cyanotype » de la carte de profondeur.
 - **Atelier et tirage** : une photo choisie avec le sélecteur système devient une œuvre. La profondeur est calculée sur le téléphone par Depth Anything V2 Small (ONNX Runtime, modèle de 27 Mo téléchargé une seule fois et vérifié par SHA-256).
 - **Partage** : depuis la galerie photo, le navigateur ou une messagerie, « Partager → GlimmerView » envoie l'image directement au tirage.

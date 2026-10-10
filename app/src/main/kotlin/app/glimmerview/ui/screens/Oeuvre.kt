@@ -94,7 +94,7 @@ fun OeuvreScreen(vm: GlimmerViewModel, ref: WorkRef) {
                     glass = true,
                 )
                 when {
-                    ref is WorkRef.Scene -> {
+                    ref is WorkRef.Gallery -> {
                         val collected = card.origin != null
                         CircleButton(
                             icon = if (collected) GlimmerIcons.Check else GlimmerIcons.Heart,

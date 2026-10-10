@@ -130,9 +130,9 @@ fun WorkActionsSheet(vm: GlimmerViewModel, ref: WorkRef) {
             ActionRow(GlimmerIcons.Hang, stringResource(R.string.oeuvre_hang)) { now { vm.hang(ref) } }
             ActionRow(GlimmerIcons.Share, stringResource(R.string.sheet_export)) { later { vm.startExport(ref) } }
             when {
-                ref is WorkRef.Scene && card.origin == null ->
+                ref is WorkRef.Gallery && card.origin == null ->
                     ActionRow(GlimmerIcons.Heart, stringResource(R.string.action_collect)) { later { vm.toggleCollected(ref) } }
-                ref is WorkRef.Scene ->
+                ref is WorkRef.Gallery ->
                     ConfirmRow(
                         label = stringResource(R.string.action_uncollect),
                         confirmLabel = stringResource(R.string.sheet_confirm_remove),

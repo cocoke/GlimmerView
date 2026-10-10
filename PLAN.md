@@ -784,7 +784,7 @@ Objectif : lever les incertitudes techniques avant d'écrire l'app.
 - LiteRT retiré, modèles vérifiés par SHA-256 ;
 - interface Compose complète selon la charte : vernissage, galerie, œuvre, accrochage, collection, préférences, atelier, tirage, mise au point ;
 - parcours de bout en bout validé sur émulateur : photo → profondeur → aperçu 3D → fond d'écran ;
-- œuvres de démonstration : sept scènes dessinées en plans (profondeur exacte, CC0), en attendant le pack de photos libres ;
+- œuvres de démonstration : sept scènes dessinées en plans (profondeur exacte, CC0) ;
 - préférences lues par le fond d'écran (recentrage, mouvements réduits, cadence, économie d'énergie) ;
 - français et anglais ;
 - dépôt GitHub `cocoke/GlimmerView` (privé pour l'instant), CI GitHub Actions (compilation, tests, lint) et `CONTRIBUTING.md` ;
@@ -792,13 +792,14 @@ Objectif : lever les incertitudes techniques avant d'écrire l'app.
 - titre donné à l'œuvre à la fin du tirage, renommage depuis la mise au point ;
 - retouche de la profondeur (Esquisse) : pinceaux avancer, reculer, lisser, aplatir et gommer, ou sélection d'une zone au toucher (personne, objet) qu'on avance ou recule d'un geste ; annuler et rétablir ; la carte d'origine est conservée ;
 - appui long sur une œuvre (galerie, collection, dernières créations) : menu pour la voir, régler l'effet, retoucher la profondeur, la renommer, l'accrocher, l'exporter, l'ajouter à la collection, l'en retirer ou la supprimer (en deux touchers) ;
-- format `.dwp` (module `:format`, [spécification](docs/format.md) en CC0) : export d'une œuvre (partager, enregistrer sur le téléphone) et import depuis l'atelier, « Ouvrir avec » ou le menu Partager d'Android ; auteur et licence conservés, garde-fous contre les fichiers piégés.
+- format `.dwp` (module `:format`, [spécification](docs/format.md) en CC0) : export d'une œuvre (partager, enregistrer sur le téléphone) et import depuis l'atelier, « Ouvrir avec » ou le menu Partager d'Android ; auteur et licence conservés, garde-fous contre les fichiers piégés ;
+- pack de démarrage : douze œuvres du domaine public (Met en CC0, NASA) recadrées au format d'écran, profondeur précalculée sur PC avec le modèle de l'app en plus haute résolution ([tools/pack](tools/pack/README.md)), à côté des sept scènes dessinées ;
+- accrochage : le maintien remplit tout le bouton, visible même sous le doigt.
 
 **Reste pour la v0.1.**
 
-1. Pack de démarrage de 10 à 20 photos libres (NASA, musées CC0) avec profondeur précalculée.
-2. Tests sur trois téléphones (entrée, milieu, haut de gamme), dont l'aperçu et le fond d'écran au gyroscope.
-3. Publication : GitHub Releases et IzzyOnDroid.
+1. Tests sur trois téléphones (entrée, milieu, haut de gamme), dont l'aperçu et le fond d'écran au gyroscope.
+2. Publication : GitHub Releases et IzzyOnDroid.
 
 ---
 

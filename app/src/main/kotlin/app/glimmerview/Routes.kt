@@ -2,9 +2,10 @@ package app.glimmerview
 
 import app.glimmerview.ui.components.SocleTab
 
-/** Une œuvre, qu'elle vienne de la galerie (scène dessinée) ou de la collection personnelle. */
+/** Une œuvre, qu'elle soit exposée dans la galerie ou rangée dans la collection personnelle. */
 sealed interface WorkRef {
-    data class Scene(val id: String) : WorkRef
+    /** Œuvre de la galerie ([app.glimmerview.data.Exhibit]). */
+    data class Gallery(val id: String) : WorkRef
     data class Saved(val id: String) : WorkRef
 }
 

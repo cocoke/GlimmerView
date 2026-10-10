@@ -65,7 +65,7 @@ fun VernissageScreen(vm: GlimmerViewModel) {
         ) {
             Box(Modifier.weight(1f).fillMaxWidth(), contentAlignment = Alignment.Center) {
                 LivingFrame(
-                    image = vm.sceneFrames["dawn"],
+                    image = vm.galleryFrames["dawn"],
                     mat = 16.dp,
                     modifier = Modifier.fillMaxHeight().aspectRatio(262f / 340f, matchHeightConstraintsFirst = true),
                 )

@@ -66,15 +66,23 @@ class DwpTransfer(private val context: Context, private val library: WorkLibrary
         return Content(manifest, color, stored.depth, thumbnail(stored.color))
     }
 
-    /** Œuvre de la galerie qui n'est pas dans la collection, telle qu'elle est affichée. */
-    fun ofScene(scene: Scene, color: Bitmap, depth: DepthMap, params: ParallaxParams): Content {
-        val manifest = sceneManifest(scene).copy(
-            title = context.getString(scene.title),
-            width = color.width,
-            height = color.height,
+    /**
+     * Œuvre de la galerie qui n'est pas dans la collection, telle qu'elle est affichée ([title] et
+     * [medium] dans la langue de l'app). Une œuvre du pack garde son image et son attribution.
+     */
+    fun ofGallery(exhibit: Exhibit, title: String, medium: String, content: GalleryContent, params: ParallaxParams): Content {
+        val packaged = content.packaged
+        val base = packaged?.manifest ?: sceneManifest((exhibit as Exhibit.Drawn).scene)
+        val manifest = base.copy(
+            title = title,
+            medium = medium,
+            language = languageTag(),
+            width = content.color.width,
+            height = content.color.height,
             defaults = defaultsOf(params),
         )
-        return Content(manifest, webp(color, COLOR_QUALITY), depth, thumbnail(color))
+        val color = packaged?.color ?: webp(content.color, COLOR_QUALITY)
+        return Content(manifest, color, content.depth, thumbnail(content.color))
     }
 
     /** Écrit le paquet dans le cache, d'où il est partagé ; les exports précédents sont effacés. */
@@ -217,6 +225,7 @@ class DwpTransfer(private val context: Context, private val library: WorkLibrary
         val version = id.lastIndexOf('-')
         return when {
             id.equals(CC0, ignoreCase = true) -> context.getString(R.string.license_cc0)
+            id.equals(PUBLIC_DOMAIN, ignoreCase = true) -> context.getString(R.string.license_public_domain)
             id.startsWith("CC-", ignoreCase = true) && version > 3 -> "CC " + id.substring(3, version) + " " + id.substring(version + 1)
             else -> id
         }
@@ -242,6 +251,7 @@ class DwpTransfer(private val context: Context, private val library: WorkLibrary
         private const val DEPTH_MODEL = "depth-anything-v2-small"
         private const val COLLECTIVE = "GlimmerView Collective"
         private const val CC0 = "CC0-1.0"
+        private const val PUBLIC_DOMAIN = "public-domain"
         private const val SCENE_ID_PREFIX = "glimmerview-"
         private const val EXPORT_DIR = "exports"
         private const val COLOR_QUALITY = 95

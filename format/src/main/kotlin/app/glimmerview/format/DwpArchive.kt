@@ -22,6 +22,9 @@ class DwpPackage(
     val thumbnail: ByteArray?,
 )
 
+/** Fiche et image principale d'un paquet, sans sa profondeur. */
+class DwpImage(val manifest: DwpManifest, val color: ByteArray)
+
 /** Lecture et écriture des archives `.dwp`. */
 object DwpArchive {
 
@@ -51,6 +54,24 @@ object DwpArchive {
      * Le flux n'est pas fermé.
      */
     fun read(input: InputStream, limits: DwpLimits = DwpLimits()): DwpPackage {
+        val files = entries(input, limits)
+        val manifest = manifestOf(files)
+        val layer = manifest.mainLayer
+        val color = files[layer.color] ?: missing(layer.color)
+        val depthBytes = files[layer.depth] ?: missing(layer.depth)
+        val depth = GrayPng.decode(depthBytes, limits.maxDepthSide, limits.maxDepthPixels)
+        return DwpPackage(manifest, color, depth, manifest.thumbnail?.let(files::get))
+    }
+
+    /** Fiche et image principale seulement, sans décoder la profondeur : pour les vignettes. Le flux n'est pas fermé. */
+    fun readImage(input: InputStream, limits: DwpLimits = DwpLimits()): DwpImage {
+        val files = entries(input, limits)
+        val manifest = manifestOf(files)
+        return DwpImage(manifest, files[manifest.mainLayer.color] ?: missing(manifest.mainLayer.color))
+    }
+
+    /** Tous les fichiers de l'archive, lus dans les limites de [limits]. */
+    private fun entries(input: InputStream, limits: DwpLimits): Map<String, ByteArray> {
         val source = BufferedInputStream(input)
         if (!looksLikeZip(source)) throw DwpException(DwpException.Reason.NOT_DWP, "Ce fichier n'est pas une archive ZIP")
         val files = HashMap<String, ByteArray>()
@@ -87,15 +108,13 @@ object DwpArchive {
             // Nom de fichier mal encodé dans l'archive.
             throw DwpException(DwpException.Reason.CORRUPT, "Archive ZIP illisible : ${e.message}", e)
         }
+        return files
+    }
 
-        val manifestBytes = files[DwpFormat.MANIFEST]
+    private fun manifestOf(files: Map<String, ByteArray>): DwpManifest {
+        val bytes = files[DwpFormat.MANIFEST]
             ?: throw DwpException(DwpException.Reason.NOT_DWP, "${DwpFormat.MANIFEST} absent de l'archive")
-        val manifest = DwpManifest.parse(manifestBytes.toString(Charsets.UTF_8))
-        val layer = manifest.mainLayer
-        val color = files[layer.color] ?: missing(layer.color)
-        val depthBytes = files[layer.depth] ?: missing(layer.depth)
-        val depth = GrayPng.decode(depthBytes, limits.maxDepthSide, limits.maxDepthPixels)
-        return DwpPackage(manifest, color, depth, manifest.thumbnail?.let(files::get))
+        return DwpManifest.parse(bytes.toString(Charsets.UTF_8))
     }
 
     /** Vrai si le flux commence comme une archive ZIP (« PK\u0003\u0004 ») ; le flux est rembobiné. */

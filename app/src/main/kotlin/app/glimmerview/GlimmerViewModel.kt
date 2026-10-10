@@ -34,8 +34,11 @@ import app.glimmerview.core.WorkOrigin
 import app.glimmerview.data.Contours
 import app.glimmerview.data.DepthSketch
 import app.glimmerview.data.DwpTransfer
+import app.glimmerview.data.Exhibit
+import app.glimmerview.data.Gallery
+import app.glimmerview.data.GalleryContent
+import app.glimmerview.data.GallerySource
 import app.glimmerview.data.ImageLoading
-import app.glimmerview.data.Scene
 import app.glimmerview.data.SceneArt
 import app.glimmerview.format.DwpArchive
 import app.glimmerview.format.DwpException
@@ -75,8 +78,8 @@ data class WorkCard(
     val artist: String,
     val medium: String,
     val license: String,
-    /** Année affichée après le titre (œuvres de la galerie), null pour les créations datées. */
-    val year: Int?,
+    /** Date affichée après le titre (œuvres de la galerie), null pour les créations datées. */
+    val year: String?,
     /** Null pour une œuvre de la galerie qui n'est pas (encore) dans la collection. */
     val origin: WorkOrigin?,
 )
@@ -138,12 +141,14 @@ class GlimmerViewModel(application: Application) : AndroidViewModel(application)
 
     // ── Galerie ───────────────────────────────────────────────────────────────
 
-    val scenes: List<Scene> = SceneArt.all
-    /** Vignettes plein écran (format 9:20), comme l'œuvre accrochée. */
-    val sceneThumbs = mutableStateMapOf<String, ImageBitmap>()
+    val exhibits: List<Exhibit> = Gallery.all
+    private val gallerySource = GallerySource(application)
 
-    /** Vignettes au format des cadres : la scène est recomposée, tous ses plans restent visibles. */
-    val sceneFrames = mutableStateMapOf<String, ImageBitmap>()
+    /** Vignettes plein écran (format 9:20), comme l'œuvre accrochée. */
+    val galleryThumbs = mutableStateMapOf<String, ImageBitmap>()
+
+    /** Vignettes au format des cadres : une scène est recomposée (tous ses plans restent visibles), une œuvre du pack recadrée. */
+    val galleryFrames = mutableStateMapOf<String, ImageBitmap>()
 
     /** Salle affichée : 0 = toutes, puis l'ordre de [app.glimmerview.data.Room]. */
     var room by mutableIntStateOf(0)
@@ -192,12 +197,12 @@ class GlimmerViewModel(application: Application) : AndroidViewModel(application)
         modelState = if (modelStore.isDownloaded(ModelCatalog.DEFAULT)) ModelState.Ready else ModelState.Absent
         // Les cadres de la galerie d'abord (premier écran), dessinés en parallèle.
         viewModelScope.launch {
-            scenes.map { scene ->
-                async(Dispatchers.Default) { scene.id to SceneArt.renderColor(scene, FRAME_WIDTH, FRAME_HEIGHT) }
-            }.awaitAll().forEach { (id, frame) -> sceneFrames[id] = frame.asImageBitmap() }
-            scenes.map { scene ->
-                async(Dispatchers.Default) { scene.id to SceneArt.renderColor(scene, PREVIEW_THUMB_WIDTH, PREVIEW_THUMB_HEIGHT) }
-            }.awaitAll().forEach { (id, thumb) -> sceneThumbs[id] = thumb.asImageBitmap() }
+            exhibits.map { exhibit ->
+                async(Dispatchers.Default) { exhibit.id to picture(exhibit, FRAME_WIDTH, FRAME_HEIGHT) }
+            }.awaitAll().forEach { (id, frame) -> frame?.let { galleryFrames[id] = it.asImageBitmap() } }
+            exhibits.map { exhibit ->
+                async(Dispatchers.Default) { exhibit.id to picture(exhibit, PREVIEW_THUMB_WIDTH, PREVIEW_THUMB_HEIGHT) }
+            }.awaitAll().forEach { (id, thumb) -> thumb?.let { galleryThumbs[id] = it.asImageBitmap() } }
         }
         viewModelScope.launch {
             settings = withContext(Dispatchers.IO) {
@@ -252,30 +257,58 @@ class GlimmerViewModel(application: Application) : AndroidViewModel(application)
     // ── Fiches et vignettes ───────────────────────────────────────────────────
 
     fun card(ref: WorkRef): WorkCard? = when (ref) {
-        is WorkRef.Scene -> SceneArt.find(ref.id)?.let(::sceneCard)
+        is WorkRef.Gallery -> Gallery.find(ref.id)?.let(::galleryCard)
         is WorkRef.Saved -> works.firstOrNull { it.id == ref.id }?.let(::savedCard)
     }
 
     fun thumbnail(ref: WorkRef): ImageBitmap? = when (ref) {
-        is WorkRef.Scene -> sceneThumbs[ref.id]
-        is WorkRef.Saved -> workThumbs[ref.id] ?: sceneIdOf(ref.id)?.let { sceneThumbs[it] }
+        is WorkRef.Gallery -> galleryThumbs[ref.id]
+        is WorkRef.Saved -> workThumbs[ref.id] ?: exhibitIdOf(ref.id)?.let { galleryThumbs[it] }
     }
 
     /** Image d'un cadre : les scènes au format du cadre, les photos recadrées au centre. */
     fun frameImage(ref: WorkRef): ImageBitmap? = when (ref) {
-        is WorkRef.Scene -> sceneFrames[ref.id]
-        is WorkRef.Saved -> sceneIdOf(ref.id)?.let { sceneFrames[it] } ?: workThumbs[ref.id]
+        is WorkRef.Gallery -> galleryFrames[ref.id]
+        is WorkRef.Saved -> exhibitIdOf(ref.id)?.let { galleryFrames[it] } ?: workThumbs[ref.id]
     }
 
-    fun sceneCard(scene: Scene) = WorkCard(
-        ref = WorkRef.Scene(scene.id),
-        title = context.getString(scene.title),
-        artist = context.getString(R.string.artist_collective),
-        medium = context.resources.getQuantityString(R.plurals.medium_scene, scene.planes, scene.planes),
-        license = context.getString(R.string.license_cc0),
-        year = SCENE_YEAR,
-        origin = if (isCollected(scene.id)) WorkOrigin.ACQUIRED else null,
+    fun galleryCard(exhibit: Exhibit) = WorkCard(
+        ref = WorkRef.Gallery(exhibit.id),
+        title = context.getString(exhibit.title).let {
+            if ((exhibit as? Exhibit.Packaged)?.detail == true) context.getString(R.string.exhibit_detail, it) else it
+        },
+        artist = when (exhibit) {
+            is Exhibit.Drawn -> context.getString(R.string.artist_collective)
+            is Exhibit.Packaged -> exhibit.artist
+        },
+        medium = when (exhibit) {
+            is Exhibit.Drawn -> context.resources.getQuantityString(R.plurals.medium_scene, exhibit.scene.planes, exhibit.scene.planes)
+            is Exhibit.Packaged -> context.getString(exhibit.medium)
+        },
+        license = context.getString(
+            if ((exhibit as? Exhibit.Packaged)?.publicDomain == true) R.string.license_public_domain else R.string.license_cc0,
+        ),
+        year = yearOf(exhibit),
+        origin = if (isCollected(exhibit.id)) WorkOrigin.ACQUIRED else null,
     )
+
+    private fun yearOf(exhibit: Exhibit): String = when (exhibit) {
+        is Exhibit.Drawn -> SCENE_YEAR.toString()
+        is Exhibit.Packaged -> if (exhibit.circa) context.getString(R.string.year_circa, exhibit.year) else exhibit.year
+    }
+
+    /** Image d'une œuvre de la galerie au format demandé ; null si son paquet est illisible. */
+    private fun picture(exhibit: Exhibit, width: Int, height: Int): Bitmap? =
+        runCatching { gallerySource.picture(exhibit, width, height) }
+            .onFailure { Log.w(TAG, "Œuvre de la galerie illisible : ${exhibit.id}", it) }
+            .getOrNull()
+
+    /** Réglages par défaut d'une œuvre de la galerie : pour le pack, le plan immobile conseillé par son paquet. */
+    private fun galleryParams(id: String): ParallaxParams {
+        val exhibit = Gallery.find(id) as? Exhibit.Packaged
+        val focus = exhibit?.let { runCatching { gallerySource.image(it).manifest.defaults?.focus }.getOrNull() }
+        return defaultParams(focus ?: FocusScale.focus(3))
+    }
 
     private fun savedCard(info: WorkInfo) = WorkCard(
         ref = WorkRef.Saved(info.id),
@@ -283,19 +316,19 @@ class GlimmerViewModel(application: Application) : AndroidViewModel(application)
         artist = info.artist,
         medium = info.medium,
         license = info.license,
-        year = if (sceneIdOf(info.id) != null) SCENE_YEAR else null,
+        year = exhibitIdOf(info.id)?.let(Gallery::find)?.let(::yearOf),
         origin = info.origin,
     )
 
-    fun isCollected(sceneId: String): Boolean = works.any { it.id == SCENE_PREFIX + sceneId }
+    fun isCollected(exhibitId: String): Boolean = works.any { it.id == GALLERY_PREFIX + exhibitId }
 
     /** Vrai si l'œuvre (ou sa copie dans la collection) est accrochée en fond d'écran. */
     fun isOnDisplay(ref: WorkRef): Boolean = currentWorkId != null && currentWorkId == when (ref) {
         is WorkRef.Saved -> ref.id
-        is WorkRef.Scene -> SCENE_PREFIX + ref.id
+        is WorkRef.Gallery -> GALLERY_PREFIX + ref.id
     }
 
-    private fun sceneIdOf(savedId: String): String? = savedId.removePrefix(SCENE_PREFIX).takeIf { savedId.startsWith(SCENE_PREFIX) }
+    private fun exhibitIdOf(savedId: String): String? = savedId.removePrefix(GALLERY_PREFIX).takeIf { savedId.startsWith(GALLERY_PREFIX) }
 
     private suspend fun refreshLibrary() {
         val (list, current) = withContext(Dispatchers.IO) { library.list() to library.currentId() }
@@ -327,17 +360,20 @@ class GlimmerViewModel(application: Application) : AndroidViewModel(application)
     }
 
     private suspend fun loadWork(ref: WorkRef): Pair<LoadedWork, ParallaxParams> = when (ref) {
-        is WorkRef.Scene -> withContext(Dispatchers.Default) {
-            val scene = checkNotNull(SceneArt.find(ref.id)) { "Scène inconnue : ${ref.id}" }
-            val color = SceneArt.renderColor(scene, SCENE_WIDTH, SCENE_HEIGHT)
-            val depth = SceneArt.renderDepth(scene, SCENE_DEPTH_WIDTH, SCENE_DEPTH_HEIGHT)
-            LoadedWork(ref, PreviewContent("scene:${scene.id}", color, depth)) to defaultParams(FocusScale.focus(3))
+        is WorkRef.Gallery -> withContext(Dispatchers.Default) {
+            val exhibit = checkNotNull(Gallery.find(ref.id)) { "Œuvre inconnue : ${ref.id}" }
+            val content = loadExhibit(exhibit)
+            val focus = content.packaged?.manifest?.defaults?.focus ?: FocusScale.focus(3)
+            LoadedWork(ref, PreviewContent("gallery:${exhibit.id}", content.color, content.depth)) to defaultParams(focus)
         }
         is WorkRef.Saved -> withContext(Dispatchers.IO) {
             val stored = checkNotNull(library.load(ref.id)) { "Œuvre introuvable" }
             LoadedWork(ref, PreviewContent("work:${ref.id}", stored.color, stored.depth)) to stored.params
         }
     }
+
+    private fun loadExhibit(exhibit: Exhibit): GalleryContent =
+        gallerySource.load(exhibit, SCENE_WIDTH, SCENE_HEIGHT, SCENE_DEPTH_WIDTH, SCENE_DEPTH_HEIGHT)
 
     private fun defaultParams(focus: Float) = ParallaxParams(
         strength = ApertureScale.strength(settings.apertureLevel),
@@ -371,14 +407,14 @@ class GlimmerViewModel(application: Application) : AndroidViewModel(application)
     // ── Collection ────────────────────────────────────────────────────────────
 
     /** Ajoute une œuvre de la galerie à la collection, ou l'en retire. */
-    fun toggleCollected(ref: WorkRef.Scene) {
+    fun toggleCollected(ref: WorkRef.Gallery) {
         viewModelScope.launch {
-            val id = SCENE_PREFIX + ref.id
+            val id = GALLERY_PREFIX + ref.id
             if (isCollected(ref.id)) {
                 withContext(Dispatchers.IO) { library.delete(id) }
                 message = context.getString(R.string.message_removed)
             } else {
-                acquire(ref, if (preview?.ref == ref) previewParams else defaultParams(FocusScale.focus(3)))
+                acquire(ref, if (preview?.ref == ref) previewParams else withContext(Dispatchers.IO) { galleryParams(ref.id) })
                 message = context.getString(R.string.message_collected)
             }
             refreshLibrary()
@@ -402,7 +438,7 @@ class GlimmerViewModel(application: Application) : AndroidViewModel(application)
                 return@launch
             }
             val saved = WorkRef.Saved(id)
-            if (ref is WorkRef.Scene) {
+            if (ref is WorkRef.Gallery) {
                 refreshLibrary()
                 val top = backStack.lastOrNull()
                 if (top is Route.MiseAuPoint && top.ref == ref) backStack[backStack.lastIndex] = Route.MiseAuPoint(saved)
@@ -548,21 +584,24 @@ class GlimmerViewModel(application: Application) : AndroidViewModel(application)
     /** Lit l'état de l'aperçu ici (thread principal) ; le paquet est assemblé plus tard, en arrière-plan. */
     private fun exportContent(ref: WorkRef): () -> DwpTransfer.Content = when (ref) {
         is WorkRef.Saved -> {
-            val scene = sceneIdOf(ref.id)?.let(SceneArt::find)
+            val scene = (exhibitIdOf(ref.id)?.let(Gallery::find) as? Exhibit.Drawn)?.scene
             val build: () -> DwpTransfer.Content = { transfer.ofSaved(ref.id, scene) }
             build
         }
-        is WorkRef.Scene -> {
-            val loaded = preview?.takeIf { it.ref == ref }?.content
-            val params = if (loaded != null) previewParams else defaultParams(FocusScale.focus(3))
+        is WorkRef.Gallery -> {
+            val loaded = preview?.takeIf { it.ref == ref }
+            val current = previewParams
             val build: () -> DwpTransfer.Content = {
-                val scene = checkNotNull(SceneArt.find(ref.id)) { "Scène inconnue : ${ref.id}" }
-                transfer.ofScene(
-                    scene,
-                    loaded?.color ?: SceneArt.renderColor(scene, SCENE_WIDTH, SCENE_HEIGHT),
-                    loaded?.depth ?: SceneArt.renderDepth(scene, SCENE_DEPTH_WIDTH, SCENE_DEPTH_HEIGHT),
-                    params,
-                )
+                val exhibit = checkNotNull(Gallery.find(ref.id)) { "Œuvre inconnue : ${ref.id}" }
+                val card = galleryCard(exhibit)
+                // Une œuvre du pack repart de son paquet (image sans réencodage, attribution d'origine).
+                val content = if (exhibit is Exhibit.Drawn && loaded != null) {
+                    GalleryContent(loaded.content.color, loaded.content.depth, null)
+                } else {
+                    loadExhibit(exhibit)
+                }
+                val params = if (loaded != null) current else galleryParams(exhibit.id)
+                transfer.ofGallery(exhibit, card.title, card.medium, content, params)
             }
             build
         }
@@ -633,16 +672,22 @@ class GlimmerViewModel(application: Application) : AndroidViewModel(application)
     /** Copie une œuvre de la galerie dans la collection (identifiant stable) et renvoie son identifiant. */
     private suspend fun acquire(ref: WorkRef, params: ParallaxParams): String = when (ref) {
         is WorkRef.Saved -> ref.id
-        is WorkRef.Scene -> withContext(Dispatchers.Default) {
-            val id = SCENE_PREFIX + ref.id
+        is WorkRef.Gallery -> withContext(Dispatchers.Default) {
+            val id = GALLERY_PREFIX + ref.id
             if (library.contains(id)) {
                 library.saveParams(id, params)
             } else {
-                val scene = checkNotNull(SceneArt.find(ref.id)) { "Scène inconnue : ${ref.id}" }
+                val exhibit = checkNotNull(Gallery.find(ref.id)) { "Œuvre inconnue : ${ref.id}" }
                 val loaded = preview?.takeIf { it.ref == ref }?.content
-                val color = loaded?.color ?: SceneArt.renderColor(scene, SCENE_WIDTH, SCENE_HEIGHT)
-                val depth = loaded?.depth ?: SceneArt.renderDepth(scene, SCENE_DEPTH_WIDTH, SCENE_DEPTH_HEIGHT)
-                val card = sceneCard(scene)
+                // Une œuvre du pack est copiée depuis son paquet : image d'origine, attribution conservée pour l'export.
+                val content = if (exhibit is Exhibit.Drawn && loaded != null) {
+                    GalleryContent(loaded.color, loaded.depth, null)
+                } else {
+                    loadExhibit(exhibit)
+                }
+                val color = content.color
+                val depth = content.depth
+                val card = galleryCard(exhibit)
                 val info = WorkInfo(
                     id = id,
                     title = card.title,
@@ -654,7 +699,12 @@ class GlimmerViewModel(application: Application) : AndroidViewModel(application)
                     width = color.width,
                     height = color.height,
                 )
-                library.save(info, color, depth, params, SceneArt.renderColor(scene, THUMB_WIDTH, THUMB_HEIGHT))
+                val thumbnail = when (exhibit) {
+                    is Exhibit.Drawn -> SceneArt.renderColor(exhibit.scene, THUMB_WIDTH, THUMB_HEIGHT)
+                    is Exhibit.Packaged -> scaleToWidth(color, THUMB_WIDTH)
+                }
+                val pkg = content.packaged
+                library.save(info, color, depth, params, thumbnail, source = pkg?.manifest?.toJson(), colorBytes = pkg?.color)
             }
             id
         }
@@ -698,7 +748,7 @@ class GlimmerViewModel(application: Application) : AndroidViewModel(application)
 
     private fun savedParamsOrDefault(ref: WorkRef): ParallaxParams = when (ref) {
         is WorkRef.Saved -> library.params(ref.id)
-        is WorkRef.Scene -> defaultParams(FocusScale.focus(3))
+        is WorkRef.Gallery -> galleryParams(ref.id)
     }
 
     /** Intention du sélecteur système, qui propose GlimmerView en aperçu. */
@@ -917,7 +967,7 @@ class GlimmerViewModel(application: Application) : AndroidViewModel(application)
     companion object {
         private const val TAG = "GlimmerView"
         private const val KEY_ONBOARDED = "onboarded"
-        private const val SCENE_PREFIX = "scene-"
+        private const val GALLERY_PREFIX = "scene-"
         private const val SCENE_YEAR = 2026
         private const val THUMB_WIDTH = 720
         private const val THUMB_HEIGHT = 1600

@@ -31,6 +31,26 @@
     <string name="scene_dunes">Erg</string>
     <string name="scene_lagoon">Lagune</string>
     <string name="scene_domes">Dômes</string>
+
+    <!-- Pack de démarrage : œuvres du Met (CC0) et de la NASA (domaine public) -->
+    <string name="exhibit_wave">La Grande Vague de Kanagawa</string>
+    <string name="exhibit_earthset">Coucher de Terre vu d’Orion</string>
+    <string name="exhibit_cypresses">Cyprès</string>
+    <string name="exhibit_montmartre">Le Boulevard Montmartre, matin d’hiver</string>
+    <string name="exhibit_asakusa">Rizières d’Asakusa pendant la fête du Coq</string>
+    <string name="exhibit_arrays">Clair de lune sur les panneaux solaires</string>
+    <string name="exhibit_maples">Érables à Mama</string>
+    <string name="exhibit_san_marco">La Place Saint-Marc</string>
+    <string name="exhibit_eagle">La Plaine de Jūmantsubo à Fukagawa Susaki</string>
+    <string name="exhibit_moon">Deux hommes contemplant la lune</string>
+    <string name="exhibit_shower">Averse soudaine sur le pont Shin-Ōhashi</string>
+    <string name="exhibit_oxbow">Le Méandre</string>
+    <string name="exhibit_detail">%1$s (détail)</string>
+    <string name="year_circa">vers %1$s</string>
+    <string name="medium_woodblock">Estampe, gravure sur bois en couleurs</string>
+    <string name="medium_oil">Huile sur toile</string>
+    <string name="medium_digital_photo">Photographie numérique</string>
+    <string name="license_public_domain">Domaine public</string>
     <string name="artist_collective">Collectif GlimmerView</string>
     <plurals name="medium_scene">
         <item quantity="one">Illustration numérique, %1$d plan</item>

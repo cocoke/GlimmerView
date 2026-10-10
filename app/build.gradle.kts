@@ -38,6 +38,10 @@ android {
         compose = true
         buildConfig = true
     }
+    androidResources {
+        // Les paquets .dwp de la galerie contiennent déjà des images compressées (WebP, PNG).
+        noCompress += "dwp"
+    }
 }
 
 dependencies {

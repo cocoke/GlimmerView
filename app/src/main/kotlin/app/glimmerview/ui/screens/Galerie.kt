@@ -26,7 +26,7 @@ import app.glimmerview.GlimmerViewModel
 import app.glimmerview.R
 import app.glimmerview.WorkRef
 import app.glimmerview.data.Room
-import app.glimmerview.data.Scene
+import app.glimmerview.data.Exhibit
 import app.glimmerview.ui.components.AccentTitle
 import app.glimmerview.ui.components.Cartel
 import app.glimmerview.ui.components.CircleButton
@@ -43,7 +43,7 @@ import app.glimmerview.ui.theme.GlimmerType
 @Composable
 fun GalerieRoom(vm: GlimmerViewModel) {
     val rooms = listOf(stringResource(R.string.room_all)) + Room.entries.map { stringResource(it.label) }
-    val shown = if (vm.room == 0) vm.scenes else vm.scenes.filter { it.room == Room.entries[vm.room - 1] }
+    val shown = if (vm.room == 0) vm.exhibits else vm.exhibits.filter { it.room == Room.entries[vm.room - 1] }
     val featured = shown.firstOrNull()
     val others = shown.drop(1)
 
@@ -83,8 +83,8 @@ fun GalerieRoom(vm: GlimmerViewModel) {
         }
         others.chunked(2).forEachIndexed { row, pair ->
             Row(horizontalArrangement = Arrangement.spacedBy(18.dp)) {
-                pair.forEachIndexed { column, scene ->
-                    Acquisition(vm, scene, height = if ((row + column) % 2 == 0) 190 else 214, modifier = Modifier.weight(1f))
+                pair.forEachIndexed { column, exhibit ->
+                    Acquisition(vm, exhibit, height = if ((row + column) % 2 == 0) 190 else 214, modifier = Modifier.weight(1f))
                 }
                 if (pair.size == 1) Spacer(Modifier.weight(1f))
             }
@@ -93,9 +93,9 @@ fun GalerieRoom(vm: GlimmerViewModel) {
 }
 
 @Composable
-private fun Featured(vm: GlimmerViewModel, scene: Scene) {
-    val card = vm.sceneCard(scene)
-    val ref = WorkRef.Scene(scene.id)
+private fun Featured(vm: GlimmerViewModel, exhibit: Exhibit) {
+    val card = vm.galleryCard(exhibit)
+    val ref = WorkRef.Gallery(exhibit.id)
     BoxWithConstraints(Modifier.fillMaxWidth().padding(top = 6.dp)) {
         val frameWidth = maxWidth * 0.58f
         Row(horizontalArrangement = Arrangement.spacedBy(16.dp), verticalAlignment = Alignment.Bottom) {
@@ -133,9 +133,9 @@ private fun Featured(vm: GlimmerViewModel, scene: Scene) {
 }
 
 @Composable
-private fun Acquisition(vm: GlimmerViewModel, scene: Scene, height: Int, modifier: Modifier = Modifier) {
-    val card = vm.sceneCard(scene)
-    val ref = WorkRef.Scene(scene.id)
+private fun Acquisition(vm: GlimmerViewModel, exhibit: Exhibit, height: Int, modifier: Modifier = Modifier) {
+    val card = vm.galleryCard(exhibit)
+    val ref = WorkRef.Gallery(exhibit.id)
     Column(modifier, verticalArrangement = Arrangement.spacedBy(10.dp)) {
         LivingFrame(
             image = vm.frameImage(ref),
@@ -154,7 +154,7 @@ private fun Acquisition(vm: GlimmerViewModel, scene: Scene, height: Int, modifie
                         append(card.title)
                     }
                     append(" · ")
-                    append(stringResource(scene.room.label).lowercase())
+                    append(stringResource(exhibit.room.label).lowercase())
                 },
                 style = GlimmerType.caption,
                 color = GlimmerColors.Taupe,

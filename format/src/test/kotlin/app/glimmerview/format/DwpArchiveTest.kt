@@ -64,6 +64,15 @@ class DwpArchiveTest {
     }
 
     @Test
+    fun imageCanBeReadWithoutTheDepth() {
+        val out = ByteArrayOutputStream()
+        DwpArchive.write(out, DwpManifest(title = "Vignette"), color, depth)
+        val image = DwpArchive.readImage(ByteArrayInputStream(out.toByteArray()))
+        assertEquals("Vignette", image.manifest.title)
+        assertArrayEquals(color, image.color)
+    }
+
+    @Test
     fun unknownFieldsAreIgnoredAndTheLastLayerIsTheMainImage() {
         val manifest = """
             {

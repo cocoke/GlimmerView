@@ -34,7 +34,7 @@ Un objet JSON encodé en UTF-8. Seul `format` est obligatoire.
 | `id` | texte | Identifiant stable de l'œuvre, choisi par son producteur. |
 | `title` | texte | Titre. |
 | `author` | objet `{ "name", "url" }` ou texte | Auteur. L'attribution est obligatoire pour les licences CC BY. |
-| `license` | texte | Identifiant [SPDX](https://spdx.org/licenses/) : `CC0-1.0`, `CC-BY-4.0`, `CC-BY-SA-4.0`… Absent : tous droits réservés. |
+| `license` | texte | Identifiant [SPDX](https://spdx.org/licenses/) : `CC0-1.0`, `CC-BY-4.0`, `CC-BY-SA-4.0`… ou `public-domain` pour une œuvre du domaine public sans licence (photos de la NASA, par exemple). Absent : tous droits réservés. |
 | `sourceUrl` | texte | Page d'origine de l'image. |
 | `aiGenerated` | booléen | Image produite par une IA générative. Absent : inconnu. |
 | `medium` | texte | Technique, comme sur un cartel de musée (« Photographie »). |
