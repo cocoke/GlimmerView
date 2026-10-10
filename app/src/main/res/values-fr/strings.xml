@@ -20,6 +20,8 @@
 
     <!-- Salles et œuvres de la galerie -->
     <string name="room_all">Tout</string>
+    <string name="room_mountains">Montagnes</string>
+    <string name="room_water">Eaux</string>
     <string name="room_nature">Nature</string>
     <string name="room_space">Espace</string>
     <string name="room_cities">Villes</string>
@@ -45,11 +47,31 @@
     <string name="exhibit_moon">Deux hommes contemplant la lune</string>
     <string name="exhibit_shower">Averse soudaine sur le pont Shin-Ōhashi</string>
     <string name="exhibit_oxbow">Le Méandre</string>
+    <string name="exhibit_plagnes">Lac des Plagnes</string>
+    <string name="exhibit_seceda">Seceda au-dessus des nuages</string>
+    <string name="exhibit_nosy_iranja">Nosy Iranja</string>
+    <string name="exhibit_deadvlei">Deadvlei</string>
+    <string name="exhibit_seljalandsfoss">Seljalandsfoss</string>
+    <string name="exhibit_empire_state">Empire State Building</string>
+    <string name="exhibit_machu_picchu">Machu Picchu</string>
+    <string name="exhibit_aasee">Ponton sur l’Aasee</string>
+    <string name="exhibit_fanal">Forêt de lauriers de Fanal</string>
+    <string name="exhibit_pillars">Piliers de la Création</string>
+    <string name="exhibit_twelve_apostles">Les Douze Apôtres</string>
+    <string name="exhibit_frosted_path">Chemin sous le givre</string>
+    <string name="exhibit_gosaikunda">Lac Gosaikunda</string>
+    <string name="exhibit_hallasan">L’Escalier du mont Hallasan</string>
+    <string name="exhibit_ogoy">Tempête de neige sur le Baïkal</string>
+    <string name="exhibit_multnomah">Chutes de Multnomah</string>
+    <string name="exhibit_eisriesenwelt">Grotte de l’Eisriesenwelt</string>
+    <string name="exhibit_berlin">La Tour de télévision de Berlin</string>
+    <string name="exhibit_rio">Rio de Janeiro à l’aube</string>
     <string name="exhibit_detail">%1$s (détail)</string>
     <string name="year_circa">vers %1$s</string>
     <string name="medium_woodblock">Estampe, gravure sur bois en couleurs</string>
     <string name="medium_oil">Huile sur toile</string>
     <string name="medium_digital_photo">Photographie numérique</string>
+    <string name="medium_webb">Image du télescope spatial James-Webb</string>
     <string name="license_public_domain">Domaine public</string>
     <string name="artist_collective">Collectif GlimmerView</string>
     <plurals name="medium_scene">

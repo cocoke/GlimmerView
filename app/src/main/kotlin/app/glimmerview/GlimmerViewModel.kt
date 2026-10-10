@@ -285,9 +285,11 @@ class GlimmerViewModel(application: Application) : AndroidViewModel(application)
             is Exhibit.Drawn -> context.resources.getQuantityString(R.plurals.medium_scene, exhibit.scene.planes, exhibit.scene.planes)
             is Exhibit.Packaged -> context.getString(exhibit.medium)
         },
-        license = context.getString(
-            if ((exhibit as? Exhibit.Packaged)?.publicDomain == true) R.string.license_public_domain else R.string.license_cc0,
-        ),
+        license = when {
+            exhibit !is Exhibit.Packaged -> context.getString(R.string.license_cc0)
+            exhibit.publicDomain -> context.getString(R.string.license_public_domain)
+            else -> exhibit.license
+        },
         year = yearOf(exhibit),
         origin = if (isCollected(exhibit.id)) WorkOrigin.ACQUIRED else null,
     )

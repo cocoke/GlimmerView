@@ -22,6 +22,8 @@
 
     <!-- Gallery rooms and works -->
     <string name="room_all">All</string>
+    <string name="room_mountains">Mountains</string>
+    <string name="room_water">Waters</string>
     <string name="room_nature">Nature</string>
     <string name="room_space">Space</string>
     <string name="room_cities">Cities</string>
@@ -47,11 +49,31 @@
     <string name="exhibit_moon">Two Men Contemplating the Moon</string>
     <string name="exhibit_shower">Sudden Shower over Shin-Ōhashi Bridge</string>
     <string name="exhibit_oxbow">The Oxbow</string>
+    <string name="exhibit_plagnes">Lac des Plagnes</string>
+    <string name="exhibit_seceda">Seceda above the Clouds</string>
+    <string name="exhibit_nosy_iranja">Nosy Iranja</string>
+    <string name="exhibit_deadvlei">Deadvlei</string>
+    <string name="exhibit_seljalandsfoss">Seljalandsfoss</string>
+    <string name="exhibit_empire_state">Empire State Building</string>
+    <string name="exhibit_machu_picchu">Machu Picchu</string>
+    <string name="exhibit_aasee">Pier on Lake Aasee</string>
+    <string name="exhibit_fanal">Laurel Forest of Fanal</string>
+    <string name="exhibit_pillars">Pillars of Creation</string>
+    <string name="exhibit_twelve_apostles">The Twelve Apostles</string>
+    <string name="exhibit_frosted_path">Frosted Path</string>
+    <string name="exhibit_gosaikunda">Lake Gosaikunda</string>
+    <string name="exhibit_hallasan">Stairs of Mount Hallasan</string>
+    <string name="exhibit_ogoy">Snowstorm on Lake Baikal</string>
+    <string name="exhibit_multnomah">Multnomah Falls</string>
+    <string name="exhibit_eisriesenwelt">Eisriesenwelt Cave</string>
+    <string name="exhibit_berlin">Berlin TV Tower</string>
+    <string name="exhibit_rio">Rio de Janeiro at Dawn</string>
     <string name="exhibit_detail">%1$s (detail)</string>
     <string name="year_circa">ca. %1$s</string>
     <string name="medium_woodblock">Woodblock print, ink and color on paper</string>
     <string name="medium_oil">Oil on canvas</string>
     <string name="medium_digital_photo">Digital photograph</string>
+    <string name="medium_webb">James Webb Space Telescope image</string>
     <string name="license_public_domain">Public domain</string>
     <string name="artist_collective">GlimmerView Collective</string>
     <plurals name="medium_scene">

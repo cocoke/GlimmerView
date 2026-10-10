@@ -793,7 +793,7 @@ Objectif : lever les incertitudes techniques avant d'écrire l'app.
 - retouche de la profondeur (Esquisse) : pinceaux avancer, reculer, lisser, aplatir et gommer, ou sélection d'une zone au toucher (personne, objet) qu'on avance ou recule d'un geste ; annuler et rétablir ; la carte d'origine est conservée ;
 - appui long sur une œuvre (galerie, collection, dernières créations) : menu pour la voir, régler l'effet, retoucher la profondeur, la renommer, l'accrocher, l'exporter, l'ajouter à la collection, l'en retirer ou la supprimer (en deux touchers) ;
 - format `.dwp` (module `:format`, [spécification](docs/format.md) en CC0) : export d'une œuvre (partager, enregistrer sur le téléphone) et import depuis l'atelier, « Ouvrir avec » ou le menu Partager d'Android ; auteur et licence conservés, garde-fous contre les fichiers piégés ;
-- pack de démarrage : douze œuvres du domaine public (Met en CC0, NASA) recadrées au format d'écran, profondeur précalculée sur PC avec le modèle de l'app en plus haute résolution ([tools/pack](tools/pack/README.md)), à côté des sept scènes dessinées ;
+- pack de démarrage : 31 œuvres recadrées au format d'écran, profondeur précalculée sur PC avec le modèle de l'app en plus haute résolution ([tools/pack](tools/pack/README.md)) : douze œuvres du domaine public (Met en CC0, NASA) et dix-neuf photos de paysages, de villes et d'espace (Wikimedia Commons, surtout CC BY-SA), à côté des sept scènes dessinées ; galerie en sept salles ;
 - accrochage : le maintien remplit tout le bouton, visible même sous le doigt.
 
 **Reste pour la v0.1.**

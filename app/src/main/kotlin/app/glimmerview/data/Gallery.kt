@@ -42,32 +42,61 @@ sealed interface Exhibit {
         val circa: Boolean = false,
         /** Œuvre d'art recadrée au format de l'écran : « (détail) » sur le cartel. */
         val detail: Boolean = false,
+        /** Licence affichée sur le cartel ; ignorée pour une œuvre du domaine public. */
+        val license: String = Gallery.CC0,
         val publicDomain: Boolean = false,
     ) : Exhibit {
         val asset: String get() = "gallery/$id.dwp"
     }
 }
 
-/** La galerie : d'abord le pack de démarrage (musées et NASA), puis les scènes dessinées. */
+/**
+ * La galerie : le pack de démarrage (photos de Wikimedia Commons, musées et NASA, en alternance),
+ * puis les scènes dessinées. La première œuvre d'une salle y est « à l'affiche ».
+ */
 object Gallery {
+
+    const val CC0 = "CC0 1.0"
+    private const val BY_SA_3 = "CC BY-SA 3.0"
+    private const val BY_SA_4 = "CC BY-SA 4.0"
 
     private val WOODBLOCK = R.string.medium_woodblock
     private val OIL = R.string.medium_oil
     private val PHOTO = R.string.medium_digital_photo
+    private val WEBB = R.string.medium_webb
 
-    private val packaged = listOf(
+    internal val packaged = listOf(
+        Exhibit.Packaged("commons-lac-des-plagnes", Room.WATER, R.string.exhibit_plagnes, "Krzysztof Golik", PHOTO, "2020", license = BY_SA_4),
         Exhibit.Packaged("met-39799", Room.ART, R.string.exhibit_wave, "Katsushika Hokusai", WOODBLOCK, "1830–1832", circa = true, detail = true),
+        Exhibit.Packaged("commons-seceda", Room.MOUNTAINS, R.string.exhibit_seceda, "Wolfgang Moroder", PHOTO, "2016", license = BY_SA_3),
         Exhibit.Packaged("nasa-art002e021278", Room.SPACE, R.string.exhibit_earthset, "NASA", PHOTO, "2026", publicDomain = true),
+        Exhibit.Packaged("commons-nosy-iranja", Room.WATER, R.string.exhibit_nosy_iranja, "Diego Delso", PHOTO, "2025", license = BY_SA_4),
         Exhibit.Packaged("met-437980", Room.NATURE, R.string.exhibit_cypresses, "Vincent van Gogh", OIL, "1889", detail = true),
+        Exhibit.Packaged("commons-deadvlei", Room.NATURE, R.string.exhibit_deadvlei, "Diego Delso", PHOTO, "2018", license = BY_SA_4),
         Exhibit.Packaged("met-437310", Room.CITIES, R.string.exhibit_montmartre, "Camille Pissarro", OIL, "1897", detail = true),
+        Exhibit.Packaged("commons-seljalandsfoss", Room.WATER, R.string.exhibit_seljalandsfoss, "Diego Delso", PHOTO, "2014", license = BY_SA_4),
         Exhibit.Packaged("met-36539", Room.ART, R.string.exhibit_asakusa, "Utagawa Hiroshige", WOODBLOCK, "1857", detail = true),
+        Exhibit.Packaged("commons-empire-state", Room.CITIES, R.string.exhibit_empire_state, "Daniel Schwen", PHOTO, "2008", license = BY_SA_4),
         Exhibit.Packaged("nasa-iss073e0039722", Room.SPACE, R.string.exhibit_arrays, "NASA", PHOTO, "2025", publicDomain = true),
+        Exhibit.Packaged("commons-machu-picchu", Room.MOUNTAINS, R.string.exhibit_machu_picchu, "Martin St-Amant", PHOTO, "2009", license = BY_SA_3),
         Exhibit.Packaged("met-37096", Room.NATURE, R.string.exhibit_maples, "Utagawa Hiroshige", WOODBLOCK, "1857", detail = true),
+        Exhibit.Packaged("commons-aasee-pier", Room.WATER, R.string.exhibit_aasee, "Dietmar Rabich", PHOTO, "2020", license = BY_SA_4),
         Exhibit.Packaged("met-435839", Room.CITIES, R.string.exhibit_san_marco, "Canaletto", OIL, "1725–1730", circa = true, detail = true),
+        Exhibit.Packaged("commons-fanal-forest", Room.NATURE, R.string.exhibit_fanal, "Dietmar Rabich", PHOTO, "2025", license = BY_SA_4),
         Exhibit.Packaged("met-55733", Room.NATURE, R.string.exhibit_eagle, "Utagawa Hiroshige", WOODBLOCK, "1856", detail = true),
+        Exhibit.Packaged("commons-pillars-of-creation", Room.SPACE, R.string.exhibit_pillars, "NASA, ESA, CSA, STScI", WEBB, "2022", publicDomain = true),
         Exhibit.Packaged("met-438417", Room.ART, R.string.exhibit_moon, "Caspar David Friedrich", OIL, "1825–1830", circa = true, detail = true),
+        Exhibit.Packaged("commons-twelve-apostles", Room.WATER, R.string.exhibit_twelve_apostles, "Dietmar Rabich", PHOTO, "2019", license = BY_SA_4),
         Exhibit.Packaged("met-55433", Room.CITIES, R.string.exhibit_shower, "Utagawa Hiroshige", WOODBLOCK, "1857", detail = true),
+        Exhibit.Packaged("commons-frosted-path", Room.NATURE, R.string.exhibit_frosted_path, "Dietmar Rabich", PHOTO, "2021", license = BY_SA_4),
         Exhibit.Packaged("met-10497", Room.NATURE, R.string.exhibit_oxbow, "Thomas Cole", OIL, "1836", detail = true),
+        Exhibit.Packaged("commons-gosaikunda", Room.MOUNTAINS, R.string.exhibit_gosaikunda, "Sergey Pesterev", PHOTO, "2014", license = BY_SA_4),
+        Exhibit.Packaged("commons-hallasan-stairs", Room.NATURE, R.string.exhibit_hallasan, "Basile Morin", PHOTO, "2024", license = BY_SA_4),
+        Exhibit.Packaged("commons-ogoy-island", Room.WATER, R.string.exhibit_ogoy, "Sergey Pesterev", PHOTO, "2018", license = BY_SA_4),
+        Exhibit.Packaged("commons-multnomah-falls", Room.WATER, R.string.exhibit_multnomah, "King of Hearts", PHOTO, "2019", license = BY_SA_4),
+        Exhibit.Packaged("commons-eisriesenwelt", Room.MOUNTAINS, R.string.exhibit_eisriesenwelt, "Diego Delso", PHOTO, "2019", license = BY_SA_4),
+        Exhibit.Packaged("commons-berlin-tv-tower", Room.CITIES, R.string.exhibit_berlin, "Diego Delso", PHOTO, "2016", license = BY_SA_4),
+        Exhibit.Packaged("commons-rio-sunrise", Room.CITIES, R.string.exhibit_rio, "Donatas Dabravolskas", PHOTO, "2018", license = BY_SA_4),
     )
 
     val all: List<Exhibit> by lazy { packaged + SceneArt.all.map { Exhibit.Drawn(it) } }

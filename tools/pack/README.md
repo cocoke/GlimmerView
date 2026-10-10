@@ -1,7 +1,9 @@
 # Pack de démarrage de la galerie
 
-Douze œuvres du domaine public livrées avec l'app, une par paquet `.dwp` dans
+Trente et une œuvres livrées avec l'app : douze œuvres d'art du domaine public et dix-neuf photos de paysages, de villes et d'espace, une par paquet `.dwp` dans
 `app/src/main/assets/gallery/`. Elles s'ajoutent aux sept scènes dessinées du Collectif GlimmerView.
+
+Le pack pèse 36,8 Mo, rangé sans recompression dans l'APK.
 
 ## Reconstruire le pack
 
@@ -27,6 +29,8 @@ techniques affichés dans l'app, en français et en anglais, sont dans les resso
 
 ## Œuvres et droits
 
+### Œuvres d'art et photos de la NASA
+
 | Œuvre | Auteur | Source | Droits |
 |---|---|---|---|
 | *Under the Wave off Kanagawa (The Great Wave)*, vers 1830–1832 | Katsushika Hokusai | [Met 39799](https://www.metmuseum.org/art/collection/search/39799) | CC0 (Met Open Access) |
@@ -41,6 +45,32 @@ techniques affichés dans l'app, en français et en anglais, sont dans les resso
 | *Two Men Contemplating the Moon*, vers 1825–1830 | Caspar David Friedrich | [Met 438417](https://www.metmuseum.org/art/collection/search/438417) | CC0 (Met Open Access) |
 | *Sudden Shower over Shin-Ōhashi Bridge and Atake*, 1857 | Utagawa Hiroshige | [Met 55433](https://www.metmuseum.org/art/collection/search/55433) | CC0 (Met Open Access) |
 | *View from Mount Holyoke… (The Oxbow)*, 1836 | Thomas Cole | [Met 10497](https://www.metmuseum.org/art/collection/search/10497) | CC0 (Met Open Access) |
+
+### Photos de Wikimedia Commons
+
+Photos choisies parmi les « images de qualité » de Commons, auteur et licence vérifiés sur chaque page. Elles ont été **recadrées** au format d'écran et accompagnées d'une **carte de profondeur calculée** : ces paquets dérivés restent sous la licence de la photo (CC BY-SA : même licence, auteur cité). L'app affiche l'auteur et la licence sur le cartel de chaque œuvre.
+
+| Photo | Auteur | Source | Licence |
+|---|---|---|---|
+| *Machu Picchu*, 2009 | Martin St-Amant | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:80_-_Machu_Picchu_-_Juin_2009_-_edit.jpg) | [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/deed.fr) |
+| *Seceda above the clouds, Dolomites*, 2016 | Wolfgang Moroder | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Odles_da_Seceda_da_duman_tl_nibl_Gherd%C3%ABina.jpg) | [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/deed.fr) |
+| *Lac des Plagnes, French Alps*, 2020 | Krzysztof Golik | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Lac_des_Plagnes_07.jpg) | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/deed.fr) |
+| *Lake Gosaikunda, Nepal*, 2014 | Sergey Pesterev | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Lake_Gosaikunda.jpg) | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/deed.fr) |
+| *Pier on Lake Aasee, Münster*, 2020 | Dietmar Rabich | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:M%C3%BCnster,_Aasee,_Pier_--_2020_--_9215-7.jpg) | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/deed.fr) |
+| *Nosy Iranja, Madagascar*, 2025 | Diego Delso | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Nosy_Iranja,_Madagascar,_2025-09-17,_DD_21.jpg) | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/deed.fr) |
+| *The Twelve Apostles, Port Campbell National Park*, 2019 | Dietmar Rabich | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Princetown_(AU),_Port_Campbell_National_Park,_Twelve_Apostles_--_2019_--_0930.jpg) | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/deed.fr) |
+| *Snowstorm near Ogoy Island, Lake Baikal*, 2018 | Sergey Pesterev | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Snowstorm_near_Ogoy_island.jpg) | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/deed.fr) |
+| *Laurel forest of Fanal, Madeira*, 2025 | Dietmar Rabich | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Fanal_(Madeira,_Portugal),_Lorbeerwald_--_2025_--_1546.jpg) | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/deed.fr) |
+| *Forest stairs on Mount Hallasan, Jeju*, 2024 | Basile Morin | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Wooden_staircase_steps_in_the_forest_of_Hallasan_Park_Eorimok_Trail_at_dusk_on_Jeju_Island_in_South_Korea.jpg) | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/deed.fr) |
+| *Seljalandsfoss, Iceland*, 2014 | Diego Delso | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Seljalandsfoss,_Su%C3%B0urland,_Islandia,_2014-08-16,_DD_189-191_HDR.JPG) | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/deed.fr) |
+| *Multnomah Falls, Oregon*, 2019 | King of Hearts | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Multnomah_Falls_October_2019_stack.jpg) | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/deed.fr) |
+| *Frosted path near Dülmen*, 2021 | Dietmar Rabich | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:D%C3%BClmen,_Kirchspiel,_Dernekamp,_Wirtschaftsweg_--_2021_--_9407.jpg) | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/deed.fr) |
+| *Deadvlei, Namibia*, 2018 | Diego Delso | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Dead_Vlei,_Sossusvlei,_Namibia,_2018-08-06,_DD_086.jpg) | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/deed.fr) |
+| *Eisriesenwelt cave, Tennen Mountains*, 2019 | Diego Delso | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Eisriesenwelt,_Macizos_de_Tennen,_Austria,_2019-05-18,_DD_58.jpg) | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/deed.fr) |
+| *Empire State Building, New York*, 2008 | Daniel Schwen | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Empire_State_Building_pano.jpg) | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/deed.fr) |
+| *Berlin TV Tower at night*, 2016 | Diego Delso | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Fernsehturm,_Berl%C3%ADn,_Alemania,_2016-04-21,_DD_40-42_HDR.jpg) | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/deed.fr) |
+| *Rio de Janeiro at sunrise*, 2018 | Donatas Dabravolskas | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Contrasts_of_Rio_de_Janeiro_-_Rocinha,_Ipanema,_and_Mountains_at_Sunrise.jpg) | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/deed.fr) |
+| *Pillars of Creation (NIRCam)*, 2022 | NASA, ESA, CSA, STScI | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Pillars_of_Creation_(NIRCam_Image).jpg) | Domaine public |
 
 Les images de la NASA ne sont pas protégées par le droit d'auteur. La NASA demande d'être citée et
 interdit de laisser croire à son soutien : l'app la cite comme autrice, sans logo ni mention de partenariat.

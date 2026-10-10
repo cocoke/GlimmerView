@@ -16,6 +16,8 @@ import kotlin.math.sin
 
 /** Salles de la galerie. */
 enum class Room(@StringRes val label: Int) {
+    MOUNTAINS(R.string.room_mountains),
+    WATER(R.string.room_water),
     NATURE(R.string.room_nature),
     SPACE(R.string.room_space),
     CITIES(R.string.room_cities),
@@ -161,7 +163,7 @@ object SceneArt {
     private fun dawn() = Scene(
         id = "dawn",
         title = R.string.scene_dawn,
-        room = Room.NATURE,
+        room = Room.MOUNTAINS,
         sky = 0xFFEFE6D8.toInt(),
         orb = Orb(0.68f, 0.28f, 0.22f, 0xFFE4C9A1.toInt()),
         layers = listOf(
@@ -233,7 +235,7 @@ object SceneArt {
     private fun lagoon() = Scene(
         id = "lagoon",
         title = R.string.scene_lagoon,
-        room = Room.NATURE,
+        room = Room.WATER,
         sky = 0xFFE6E9E4.toInt(),
         orb = Orb(0.74f, 0.22f, 0.16f, 0xFFF1E9D6.toInt()),
         layers = listOf(
