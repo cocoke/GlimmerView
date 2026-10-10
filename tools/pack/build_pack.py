@@ -47,6 +47,7 @@ MEAN = np.array([0.485, 0.456, 0.406], dtype=np.float32)
 STD = np.array([0.229, 0.224, 0.225], dtype=np.float32)
 USER_AGENT = "GlimmerView-pack/0.1 (open-source wallpaper app)"
 APP = "GlimmerView pack builder"
+FIXED_DATE = (2026, 1, 1, 0, 0, 0)
 
 
 def load_catalog():
@@ -189,10 +190,14 @@ def manifest(work, color, focus):
 
 
 def write_package(path, manifest_bytes, color_bytes, depth_bytes, thumbnail_bytes):
+    """Archive reproductible : date fixe, pour qu'une reconstruction à l'identique ne change pas le fichier."""
+    entries = (("manifest.json", manifest_bytes, zipfile.ZIP_DEFLATED), ("color.webp", color_bytes, zipfile.ZIP_STORED),
+               ("depth.png", depth_bytes, zipfile.ZIP_STORED), ("thumbnail.webp", thumbnail_bytes, zipfile.ZIP_STORED))
     with zipfile.ZipFile(path, "w") as archive:
-        archive.writestr("manifest.json", manifest_bytes, compress_type=zipfile.ZIP_DEFLATED)
-        for name, data in (("color.webp", color_bytes), ("depth.png", depth_bytes), ("thumbnail.webp", thumbnail_bytes)):
-            archive.writestr(name, data, compress_type=zipfile.ZIP_STORED)
+        for name, data, method in entries:
+            info = zipfile.ZipInfo(name, date_time=FIXED_DATE)
+            info.compress_type = method
+            archive.writestr(info, data)
 
 
 def cyanotype(depth):
