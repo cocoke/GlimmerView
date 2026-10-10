@@ -1,6 +1,39 @@
 {
-  "comment": "Pack de démarrage de la galerie. Cadrage au format d'écran 9:20 : x = centre horizontal, top/bottom = bande verticale gardée (fractions de l'image source). Images de Wikimedia Commons : version réduite (url), auteur et licence vérifiés sur la page (sourceUrl). focus (facultatif) = plan immobile ; sinon la profondeur médiane du centre.",
+  "comment": "Catalogue de la bibliothèque, dans l'ordre de la galerie. Cadrage au format d'écran 9:20 : x = centre horizontal, top/bottom = bande verticale gardée (fractions de l'image source). titles/mediums : textes affichés dans l'app ; title/medium/created : fiche du paquet .dwp (anglais). bundled : paquet livré dans l'APK. Images de Wikimedia Commons : version réduite (url), auteur et licence vérifiés sur la page (sourceUrl). focus (facultatif) : plan immobile ; sinon la profondeur médiane du centre.",
+  "revision": 1,
   "works": [
+    {
+      "id": "commons-lac-des-plagnes",
+      "file": "commons-40",
+      "room": "WATER",
+      "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c0/Lac_des_Plagnes_07.jpg/3840px-Lac_des_Plagnes_07.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Lac_des_Plagnes_07.jpg",
+      "author": "Krzysztof Golik",
+      "title": "Lac des Plagnes, French Alps",
+      "created": "2020",
+      "medium": "Photograph",
+      "license": "CC-BY-SA-4.0",
+      "tags": [
+        "water"
+      ],
+      "crop": {
+        "x": 0.5,
+        "top": 0,
+        "bottom": 1
+      },
+      "titles": {
+        "fr": "Lac des Plagnes",
+        "en": "Lac des Plagnes"
+      },
+      "mediums": {
+        "fr": "Photographie numérique",
+        "en": "Digital photograph"
+      },
+      "year": "2020",
+      "circa": false,
+      "detail": false,
+      "bundled": true
+    },
     {
       "id": "met-39799",
       "file": "wave",
@@ -19,247 +52,19 @@
         "x": 0.47,
         "top": 0.03,
         "bottom": 0.97
-      }
-    },
-    {
-      "id": "nasa-art002e021278",
-      "file": "earthset",
-      "room": "SPACE",
-      "url": "http://images-assets.nasa.gov/image/art002e021278/art002e021278~orig.jpg",
-      "sourceUrl": "https://images.nasa.gov/details/art002e021278",
-      "author": "NASA",
-      "title": "Earthset from Orion (Artemis II)",
-      "created": "2026-04-06",
-      "medium": "Digital photograph",
-      "license": "public-domain",
-      "tags": [
-        "space"
-      ],
-      "crop": {
-        "x": 0.45,
-        "top": 0.0,
-        "bottom": 1.0
-      }
-    },
-    {
-      "id": "met-437980",
-      "file": "cypresses",
-      "room": "NATURE",
-      "url": "https://images.metmuseum.org/CRDImages/ep/original/DP130999.jpg",
-      "sourceUrl": "https://www.metmuseum.org/art/collection/search/437980",
-      "author": "Vincent van Gogh",
-      "title": "Cypresses",
-      "created": "1889",
-      "medium": "Oil on canvas",
-      "license": "CC0-1.0",
-      "tags": [
-        "nature"
-      ],
-      "crop": {
-        "x": 0.47,
-        "top": 0.02,
-        "bottom": 0.98
-      }
-    },
-    {
-      "id": "met-437310",
-      "file": "montmartre",
-      "room": "CITIES",
-      "url": "https://images.metmuseum.org/CRDImages/ep/original/DP-21959-001.jpg",
-      "sourceUrl": "https://www.metmuseum.org/art/collection/search/437310",
-      "author": "Camille Pissarro",
-      "title": "The Boulevard Montmartre on a Winter Morning",
-      "created": "1897",
-      "medium": "Oil on canvas",
-      "license": "CC0-1.0",
-      "tags": [
-        "cities"
-      ],
-      "crop": {
-        "x": 0.5,
-        "top": 0.02,
-        "bottom": 0.9
-      }
-    },
-    {
-      "id": "met-36539",
-      "file": "cat",
-      "room": "ART",
-      "url": "https://images.metmuseum.org/CRDImages/as/original/DP121510.jpg",
-      "sourceUrl": "https://www.metmuseum.org/art/collection/search/36539",
-      "author": "Utagawa Hiroshige",
-      "title": "Asakusa Ricefields and Torinomachi Festival",
-      "created": "1857",
-      "medium": "Polychrome woodblock print",
-      "license": "CC0-1.0",
-      "tags": [
-        "art"
-      ],
-      "crop": {
-        "x": 0.52,
-        "top": 0.02,
-        "bottom": 0.98
-      }
-    },
-    {
-      "id": "nasa-iss073e0039722",
-      "file": "arrays",
-      "room": "SPACE",
-      "url": "http://images-assets.nasa.gov/image/iss073e0039722/iss073e0039722~orig.jpg",
-      "sourceUrl": "https://images.nasa.gov/details/iss073e0039722",
-      "author": "NASA",
-      "title": "Moonlight on the International Space Station's solar arrays",
-      "created": "2025-04-23",
-      "medium": "Digital photograph",
-      "license": "public-domain",
-      "tags": [
-        "space"
-      ],
-      "crop": {
-        "x": 0.76,
-        "top": 0.0,
-        "bottom": 1.0
-      }
-    },
-    {
-      "id": "met-37096",
-      "file": "maples",
-      "room": "NATURE",
-      "url": "https://images.metmuseum.org/CRDImages/as/original/DP121529.jpg",
-      "sourceUrl": "https://www.metmuseum.org/art/collection/search/37096",
-      "author": "Utagawa Hiroshige",
-      "title": "Maples at Mama",
-      "created": "1857",
-      "medium": "Polychrome woodblock print",
-      "license": "CC0-1.0",
-      "tags": [
-        "nature"
-      ],
-      "crop": {
-        "x": 0.55,
-        "top": 0.02,
-        "bottom": 0.98
-      }
-    },
-    {
-      "id": "met-435839",
-      "file": "sanmarco",
-      "room": "CITIES",
-      "url": "https://images.metmuseum.org/CRDImages/ep/original/DP-14286-009.jpg",
-      "sourceUrl": "https://www.metmuseum.org/art/collection/search/435839",
-      "author": "Canaletto",
-      "title": "Piazza San Marco",
-      "created": "1725",
-      "medium": "Oil on canvas",
-      "license": "CC0-1.0",
-      "tags": [
-        "cities"
-      ],
-      "crop": {
-        "x": 0.6,
-        "top": 0.0,
-        "bottom": 1.0
-      }
-    },
-    {
-      "id": "met-55733",
-      "file": "eagle",
-      "room": "NATURE",
-      "url": "https://images.metmuseum.org/CRDImages/as/original/DP121668.jpg",
-      "sourceUrl": "https://www.metmuseum.org/art/collection/search/55733",
-      "author": "Utagawa Hiroshige",
-      "title": "Jumantsubo Plain at Fukagawa Susaki",
-      "created": "1856",
-      "medium": "Polychrome woodblock print",
-      "license": "CC0-1.0",
-      "tags": [
-        "nature"
-      ],
-      "crop": {
-        "x": 0.55,
-        "top": 0.02,
-        "bottom": 0.98
-      }
-    },
-    {
-      "id": "met-438417",
-      "file": "moon",
-      "room": "ART",
-      "url": "https://images.metmuseum.org/CRDImages/ep/original/DP-31997-001-NEW.jpg",
-      "sourceUrl": "https://www.metmuseum.org/art/collection/search/438417",
-      "author": "Caspar David Friedrich",
-      "title": "Two Men Contemplating the Moon",
-      "created": "1825",
-      "medium": "Oil on canvas",
-      "license": "CC0-1.0",
-      "tags": [
-        "art"
-      ],
-      "crop": {
-        "x": 0.35,
-        "top": 0.03,
-        "bottom": 0.97
-      }
-    },
-    {
-      "id": "met-55433",
-      "file": "shower",
-      "room": "CITIES",
-      "url": "https://images.metmuseum.org/CRDImages/as/original/DP130156.jpg",
-      "sourceUrl": "https://www.metmuseum.org/art/collection/search/55433",
-      "author": "Utagawa Hiroshige",
-      "title": "Sudden Shower over Shin-Ohashi Bridge and Atake",
-      "created": "1857",
-      "medium": "Polychrome woodblock print",
-      "license": "CC0-1.0",
-      "tags": [
-        "cities"
-      ],
-      "crop": {
-        "x": 0.55,
-        "top": 0.02,
-        "bottom": 0.98
-      }
-    },
-    {
-      "id": "met-10497",
-      "file": "oxbow",
-      "room": "NATURE",
-      "url": "https://images.metmuseum.org/CRDImages/ad/original/DP-12550-001.jpg",
-      "sourceUrl": "https://www.metmuseum.org/art/collection/search/10497",
-      "author": "Thomas Cole",
-      "title": "View from Mount Holyoke, Northampton, Massachusetts, after a Thunderstorm (The Oxbow)",
-      "created": "1836",
-      "medium": "Oil on canvas",
-      "license": "CC0-1.0",
-      "tags": [
-        "nature"
-      ],
-      "crop": {
-        "x": 0.62,
-        "top": 0.01,
-        "bottom": 0.99
-      }
-    },
-    {
-      "id": "commons-machu-picchu",
-      "file": "commons-1",
-      "room": "MOUNTAINS",
-      "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/62/80_-_Machu_Picchu_-_Juin_2009_-_edit.jpg/3840px-80_-_Machu_Picchu_-_Juin_2009_-_edit.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
-      "sourceUrl": "https://commons.wikimedia.org/wiki/File:80_-_Machu_Picchu_-_Juin_2009_-_edit.jpg",
-      "author": "Martin St-Amant",
-      "title": "Machu Picchu",
-      "created": "2009",
-      "medium": "Photograph",
-      "license": "CC-BY-SA-3.0",
-      "tags": [
-        "mountains"
-      ],
-      "crop": {
-        "x": 0.48,
-        "top": 0,
-        "bottom": 1
-      }
+      },
+      "titles": {
+        "fr": "La Grande Vague de Kanagawa",
+        "en": "The Great Wave off Kanagawa"
+      },
+      "mediums": {
+        "fr": "Estampe, gravure sur bois en couleurs",
+        "en": "Woodblock print, ink and color on paper"
+      },
+      "year": "1830–1832",
+      "circa": true,
+      "detail": true,
+      "bundled": false
     },
     {
       "id": "commons-seceda",
@@ -279,67 +84,51 @@
         "x": 0.42,
         "top": 0,
         "bottom": 1
-      }
+      },
+      "titles": {
+        "fr": "Seceda au-dessus des nuages",
+        "en": "Seceda above the Clouds"
+      },
+      "mediums": {
+        "fr": "Photographie numérique",
+        "en": "Digital photograph"
+      },
+      "year": "2016",
+      "circa": false,
+      "detail": false,
+      "bundled": false
     },
     {
-      "id": "commons-lac-des-plagnes",
-      "file": "commons-40",
-      "room": "WATER",
-      "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c0/Lac_des_Plagnes_07.jpg/3840px-Lac_des_Plagnes_07.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
-      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Lac_des_Plagnes_07.jpg",
-      "author": "Krzysztof Golik",
-      "title": "Lac des Plagnes, French Alps",
-      "created": "2020",
-      "medium": "Photograph",
-      "license": "CC-BY-SA-4.0",
+      "id": "nasa-art002e021278",
+      "file": "earthset",
+      "room": "SPACE",
+      "url": "http://images-assets.nasa.gov/image/art002e021278/art002e021278~orig.jpg",
+      "sourceUrl": "https://images.nasa.gov/details/art002e021278",
+      "author": "NASA",
+      "title": "Earthset from Orion (Artemis II)",
+      "created": "2026-04-06",
+      "medium": "Digital photograph",
+      "license": "public-domain",
       "tags": [
-        "water"
+        "space"
       ],
       "crop": {
-        "x": 0.5,
+        "x": 0.45,
         "top": 0,
         "bottom": 1
-      }
-    },
-    {
-      "id": "commons-gosaikunda",
-      "file": "commons-29",
-      "room": "MOUNTAINS",
-      "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/03/Lake_Gosaikunda.jpg/3840px-Lake_Gosaikunda.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
-      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Lake_Gosaikunda.jpg",
-      "author": "Sergey Pesterev",
-      "title": "Lake Gosaikunda, Nepal",
-      "created": "2014",
-      "medium": "Photograph",
-      "license": "CC-BY-SA-4.0",
-      "tags": [
-        "mountains"
-      ],
-      "crop": {
-        "x": 0.6,
-        "top": 0,
-        "bottom": 1
-      }
-    },
-    {
-      "id": "commons-aasee-pier",
-      "file": "commons-36",
-      "room": "WATER",
-      "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d9/M%C3%BCnster%2C_Aasee%2C_Pier_--_2020_--_9215-7.jpg/3840px-M%C3%BCnster%2C_Aasee%2C_Pier_--_2020_--_9215-7.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
-      "sourceUrl": "https://commons.wikimedia.org/wiki/File:M%C3%BCnster,_Aasee,_Pier_--_2020_--_9215-7.jpg",
-      "author": "Dietmar Rabich",
-      "title": "Pier on Lake Aasee, Münster",
-      "created": "2020",
-      "medium": "Photograph",
-      "license": "CC-BY-SA-4.0",
-      "tags": [
-        "water"
-      ],
-      "crop": {
-        "x": 0.5,
-        "top": 0,
-        "bottom": 1
-      }
+      },
+      "titles": {
+        "fr": "Coucher de Terre vu d’Orion",
+        "en": "Earthset from Orion"
+      },
+      "mediums": {
+        "fr": "Photographie numérique",
+        "en": "Digital photograph"
+      },
+      "year": "2026",
+      "circa": false,
+      "detail": false,
+      "bundled": true
     },
     {
       "id": "commons-nosy-iranja",
@@ -359,147 +148,51 @@
         "x": 0.78,
         "top": 0,
         "bottom": 1
-      }
+      },
+      "titles": {
+        "fr": "Nosy Iranja",
+        "en": "Nosy Iranja"
+      },
+      "mediums": {
+        "fr": "Photographie numérique",
+        "en": "Digital photograph"
+      },
+      "year": "2025",
+      "circa": false,
+      "detail": false,
+      "bundled": false
     },
     {
-      "id": "commons-twelve-apostles",
-      "file": "commons-81",
-      "room": "WATER",
-      "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/7c/Princetown_%28AU%29%2C_Port_Campbell_National_Park%2C_Twelve_Apostles_--_2019_--_0930.jpg/3840px-Princetown_%28AU%29%2C_Port_Campbell_National_Park%2C_Twelve_Apostles_--_2019_--_0930.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
-      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Princetown_(AU),_Port_Campbell_National_Park,_Twelve_Apostles_--_2019_--_0930.jpg",
-      "author": "Dietmar Rabich",
-      "title": "The Twelve Apostles, Port Campbell National Park",
-      "created": "2019",
-      "medium": "Photograph",
-      "license": "CC-BY-SA-4.0",
-      "tags": [
-        "water"
-      ],
-      "crop": {
-        "x": 0.45,
-        "top": 0,
-        "bottom": 1
-      }
-    },
-    {
-      "id": "commons-ogoy-island",
-      "file": "commons-31",
-      "room": "WATER",
-      "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/66/Snowstorm_near_Ogoy_island.jpg/3840px-Snowstorm_near_Ogoy_island.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
-      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Snowstorm_near_Ogoy_island.jpg",
-      "author": "Sergey Pesterev",
-      "title": "Snowstorm near Ogoy Island, Lake Baikal",
-      "created": "2018",
-      "medium": "Photograph",
-      "license": "CC-BY-SA-4.0",
-      "tags": [
-        "water"
-      ],
-      "crop": {
-        "x": 0.35,
-        "top": 0,
-        "bottom": 1
-      }
-    },
-    {
-      "id": "commons-fanal-forest",
-      "file": "commons-91",
+      "id": "met-437980",
+      "file": "cypresses",
       "room": "NATURE",
-      "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/2b/Fanal_%28Madeira%2C_Portugal%29%2C_Lorbeerwald_--_2025_--_1546.jpg/3840px-Fanal_%28Madeira%2C_Portugal%29%2C_Lorbeerwald_--_2025_--_1546.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
-      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Fanal_(Madeira,_Portugal),_Lorbeerwald_--_2025_--_1546.jpg",
-      "author": "Dietmar Rabich",
-      "title": "Laurel forest of Fanal, Madeira",
-      "created": "2025",
-      "medium": "Photograph",
-      "license": "CC-BY-SA-4.0",
+      "url": "https://images.metmuseum.org/CRDImages/ep/original/DP130999.jpg",
+      "sourceUrl": "https://www.metmuseum.org/art/collection/search/437980",
+      "author": "Vincent van Gogh",
+      "title": "Cypresses",
+      "created": "1889",
+      "medium": "Oil on canvas",
+      "license": "CC0-1.0",
       "tags": [
         "nature"
-      ],
-      "crop": {
-        "x": 0.66,
-        "top": 0,
-        "bottom": 1
-      }
-    },
-    {
-      "id": "commons-hallasan-stairs",
-      "file": "commons-94",
-      "room": "NATURE",
-      "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/56/Wooden_staircase_steps_in_the_forest_of_Hallasan_Park_Eorimok_Trail_at_dusk_on_Jeju_Island_in_South_Korea.jpg/3840px-Wooden_staircase_steps_in_the_forest_of_Hallasan_Park_Eorimok_Trail_at_dusk_on_Jeju_Island_in_South_Korea.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
-      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Wooden_staircase_steps_in_the_forest_of_Hallasan_Park_Eorimok_Trail_at_dusk_on_Jeju_Island_in_South_Korea.jpg",
-      "author": "Basile Morin",
-      "title": "Forest stairs on Mount Hallasan, Jeju",
-      "created": "2024",
-      "medium": "Photograph",
-      "license": "CC-BY-SA-4.0",
-      "tags": [
-        "nature"
-      ],
-      "crop": {
-        "x": 0.5,
-        "top": 0,
-        "bottom": 1
-      }
-    },
-    {
-      "id": "commons-seljalandsfoss",
-      "file": "commons-103",
-      "room": "WATER",
-      "url": "https://upload.wikimedia.org/wikipedia/commons/a/ac/Seljalandsfoss%2C_Su%C3%B0urland%2C_Islandia%2C_2014-08-16%2C_DD_189-191_HDR.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
-      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Seljalandsfoss,_Su%C3%B0urland,_Islandia,_2014-08-16,_DD_189-191_HDR.JPG",
-      "author": "Diego Delso",
-      "title": "Seljalandsfoss, Iceland",
-      "created": "2014",
-      "medium": "Photograph",
-      "license": "CC-BY-SA-4.0",
-      "tags": [
-        "water"
-      ],
-      "crop": {
-        "x": 0.55,
-        "top": 0,
-        "bottom": 1
-      }
-    },
-    {
-      "id": "commons-multnomah-falls",
-      "file": "commons-101",
-      "room": "WATER",
-      "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/20/Multnomah_Falls_October_2019_stack.jpg/3840px-Multnomah_Falls_October_2019_stack.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
-      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Multnomah_Falls_October_2019_stack.jpg",
-      "author": "King of Hearts",
-      "title": "Multnomah Falls, Oregon",
-      "created": "2019",
-      "medium": "Photograph",
-      "license": "CC-BY-SA-4.0",
-      "tags": [
-        "water"
       ],
       "crop": {
         "x": 0.47,
-        "top": 0,
-        "bottom": 1
-      }
-    },
-    {
-      "id": "commons-frosted-path",
-      "file": "commons-90",
-      "room": "NATURE",
-      "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/9f/D%C3%BClmen%2C_Kirchspiel%2C_Dernekamp%2C_Wirtschaftsweg_--_2021_--_9407.jpg/3840px-D%C3%BClmen%2C_Kirchspiel%2C_Dernekamp%2C_Wirtschaftsweg_--_2021_--_9407.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
-      "sourceUrl": "https://commons.wikimedia.org/wiki/File:D%C3%BClmen,_Kirchspiel,_Dernekamp,_Wirtschaftsweg_--_2021_--_9407.jpg",
-      "author": "Dietmar Rabich",
-      "title": "Frosted path near Dülmen",
-      "created": "2021",
-      "medium": "Photograph",
-      "license": "CC-BY-SA-4.0",
-      "tags": [
-        "nature"
-      ],
-      "crop": {
-        "x": 0.5,
-        "top": 0,
-        "bottom": 1
-      }
+        "top": 0.02,
+        "bottom": 0.98
+      },
+      "titles": {
+        "fr": "Cyprès",
+        "en": "Cypresses"
+      },
+      "mediums": {
+        "fr": "Huile sur toile",
+        "en": "Oil on canvas"
+      },
+      "year": "1889",
+      "circa": false,
+      "detail": true,
+      "bundled": false
     },
     {
       "id": "commons-deadvlei",
@@ -519,27 +212,115 @@
         "x": 0.52,
         "top": 0,
         "bottom": 1
-      }
+      },
+      "titles": {
+        "fr": "Deadvlei",
+        "en": "Deadvlei"
+      },
+      "mediums": {
+        "fr": "Photographie numérique",
+        "en": "Digital photograph"
+      },
+      "year": "2018",
+      "circa": false,
+      "detail": false,
+      "bundled": true
     },
     {
-      "id": "commons-eisriesenwelt",
-      "file": "commons-51",
-      "room": "MOUNTAINS",
-      "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/38/Eisriesenwelt%2C_Macizos_de_Tennen%2C_Austria%2C_2019-05-18%2C_DD_58.jpg/3840px-Eisriesenwelt%2C_Macizos_de_Tennen%2C_Austria%2C_2019-05-18%2C_DD_58.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
-      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Eisriesenwelt,_Macizos_de_Tennen,_Austria,_2019-05-18,_DD_58.jpg",
-      "author": "Diego Delso",
-      "title": "Eisriesenwelt cave, Tennen Mountains",
-      "created": "2019",
-      "medium": "Photograph",
-      "license": "CC-BY-SA-4.0",
+      "id": "met-437310",
+      "file": "montmartre",
+      "room": "CITIES",
+      "url": "https://images.metmuseum.org/CRDImages/ep/original/DP-21959-001.jpg",
+      "sourceUrl": "https://www.metmuseum.org/art/collection/search/437310",
+      "author": "Camille Pissarro",
+      "title": "The Boulevard Montmartre on a Winter Morning",
+      "created": "1897",
+      "medium": "Oil on canvas",
+      "license": "CC0-1.0",
       "tags": [
-        "mountains"
+        "cities"
       ],
       "crop": {
         "x": 0.5,
+        "top": 0.02,
+        "bottom": 0.9
+      },
+      "titles": {
+        "fr": "Le Boulevard Montmartre, matin d’hiver",
+        "en": "The Boulevard Montmartre on a Winter Morning"
+      },
+      "mediums": {
+        "fr": "Huile sur toile",
+        "en": "Oil on canvas"
+      },
+      "year": "1897",
+      "circa": false,
+      "detail": true,
+      "bundled": false
+    },
+    {
+      "id": "commons-seljalandsfoss",
+      "file": "commons-103",
+      "room": "WATER",
+      "url": "https://upload.wikimedia.org/wikipedia/commons/a/ac/Seljalandsfoss%2C_Su%C3%B0urland%2C_Islandia%2C_2014-08-16%2C_DD_189-191_HDR.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Seljalandsfoss,_Su%C3%B0urland,_Islandia,_2014-08-16,_DD_189-191_HDR.JPG",
+      "author": "Diego Delso",
+      "title": "Seljalandsfoss, Iceland",
+      "created": "2014",
+      "medium": "Photograph",
+      "license": "CC-BY-SA-4.0",
+      "tags": [
+        "water"
+      ],
+      "crop": {
+        "x": 0.55,
         "top": 0,
         "bottom": 1
-      }
+      },
+      "titles": {
+        "fr": "Seljalandsfoss",
+        "en": "Seljalandsfoss"
+      },
+      "mediums": {
+        "fr": "Photographie numérique",
+        "en": "Digital photograph"
+      },
+      "year": "2014",
+      "circa": false,
+      "detail": false,
+      "bundled": true
+    },
+    {
+      "id": "met-36539",
+      "file": "cat",
+      "room": "ART",
+      "url": "https://images.metmuseum.org/CRDImages/as/original/DP121510.jpg",
+      "sourceUrl": "https://www.metmuseum.org/art/collection/search/36539",
+      "author": "Utagawa Hiroshige",
+      "title": "Asakusa Ricefields and Torinomachi Festival",
+      "created": "1857",
+      "medium": "Polychrome woodblock print",
+      "license": "CC0-1.0",
+      "tags": [
+        "art"
+      ],
+      "crop": {
+        "x": 0.52,
+        "top": 0.02,
+        "bottom": 0.98
+      },
+      "titles": {
+        "fr": "Rizières d’Asakusa pendant la fête du Coq",
+        "en": "Asakusa Ricefields and Torinomachi Festival"
+      },
+      "mediums": {
+        "fr": "Estampe, gravure sur bois en couleurs",
+        "en": "Woodblock print, ink and color on paper"
+      },
+      "year": "1857",
+      "circa": false,
+      "detail": true,
+      "bundled": false
     },
     {
       "id": "commons-empire-state",
@@ -559,47 +340,243 @@
         "x": 0.5,
         "top": 0,
         "bottom": 0.95
-      }
+      },
+      "titles": {
+        "fr": "Empire State Building",
+        "en": "Empire State Building"
+      },
+      "mediums": {
+        "fr": "Photographie numérique",
+        "en": "Digital photograph"
+      },
+      "year": "2008",
+      "circa": false,
+      "detail": false,
+      "bundled": false
     },
     {
-      "id": "commons-berlin-tv-tower",
-      "file": "commons-133",
-      "room": "CITIES",
-      "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/46/Fernsehturm%2C_Berl%C3%ADn%2C_Alemania%2C_2016-04-21%2C_DD_40-42_HDR.jpg/3840px-Fernsehturm%2C_Berl%C3%ADn%2C_Alemania%2C_2016-04-21%2C_DD_40-42_HDR.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
-      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Fernsehturm,_Berl%C3%ADn,_Alemania,_2016-04-21,_DD_40-42_HDR.jpg",
-      "author": "Diego Delso",
-      "title": "Berlin TV Tower at night",
-      "created": "2016",
+      "id": "nasa-iss073e0039722",
+      "file": "arrays",
+      "room": "SPACE",
+      "url": "http://images-assets.nasa.gov/image/iss073e0039722/iss073e0039722~orig.jpg",
+      "sourceUrl": "https://images.nasa.gov/details/iss073e0039722",
+      "author": "NASA",
+      "title": "Moonlight on the International Space Station's solar arrays",
+      "created": "2025-04-23",
+      "medium": "Digital photograph",
+      "license": "public-domain",
+      "tags": [
+        "space"
+      ],
+      "crop": {
+        "x": 0.76,
+        "top": 0,
+        "bottom": 1
+      },
+      "titles": {
+        "fr": "Clair de lune sur les panneaux solaires",
+        "en": "Moonlight on the Solar Arrays"
+      },
+      "mediums": {
+        "fr": "Photographie numérique",
+        "en": "Digital photograph"
+      },
+      "year": "2025",
+      "circa": false,
+      "detail": false,
+      "bundled": false
+    },
+    {
+      "id": "commons-machu-picchu",
+      "file": "commons-1",
+      "room": "MOUNTAINS",
+      "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/62/80_-_Machu_Picchu_-_Juin_2009_-_edit.jpg/3840px-80_-_Machu_Picchu_-_Juin_2009_-_edit.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:80_-_Machu_Picchu_-_Juin_2009_-_edit.jpg",
+      "author": "Martin St-Amant",
+      "title": "Machu Picchu",
+      "created": "2009",
+      "medium": "Photograph",
+      "license": "CC-BY-SA-3.0",
+      "tags": [
+        "mountains"
+      ],
+      "crop": {
+        "x": 0.48,
+        "top": 0,
+        "bottom": 1
+      },
+      "titles": {
+        "fr": "Machu Picchu",
+        "en": "Machu Picchu"
+      },
+      "mediums": {
+        "fr": "Photographie numérique",
+        "en": "Digital photograph"
+      },
+      "year": "2009",
+      "circa": false,
+      "detail": false,
+      "bundled": false
+    },
+    {
+      "id": "met-37096",
+      "file": "maples",
+      "room": "NATURE",
+      "url": "https://images.metmuseum.org/CRDImages/as/original/DP121529.jpg",
+      "sourceUrl": "https://www.metmuseum.org/art/collection/search/37096",
+      "author": "Utagawa Hiroshige",
+      "title": "Maples at Mama",
+      "created": "1857",
+      "medium": "Polychrome woodblock print",
+      "license": "CC0-1.0",
+      "tags": [
+        "nature"
+      ],
+      "crop": {
+        "x": 0.55,
+        "top": 0.02,
+        "bottom": 0.98
+      },
+      "titles": {
+        "fr": "Érables à Mama",
+        "en": "Maples at Mama"
+      },
+      "mediums": {
+        "fr": "Estampe, gravure sur bois en couleurs",
+        "en": "Woodblock print, ink and color on paper"
+      },
+      "year": "1857",
+      "circa": false,
+      "detail": true,
+      "bundled": false
+    },
+    {
+      "id": "commons-aasee-pier",
+      "file": "commons-36",
+      "room": "WATER",
+      "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d9/M%C3%BCnster%2C_Aasee%2C_Pier_--_2020_--_9215-7.jpg/3840px-M%C3%BCnster%2C_Aasee%2C_Pier_--_2020_--_9215-7.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:M%C3%BCnster,_Aasee,_Pier_--_2020_--_9215-7.jpg",
+      "author": "Dietmar Rabich",
+      "title": "Pier on Lake Aasee, Münster",
+      "created": "2020",
       "medium": "Photograph",
       "license": "CC-BY-SA-4.0",
       "tags": [
-        "cities"
+        "water"
       ],
       "crop": {
         "x": 0.5,
         "top": 0,
         "bottom": 1
-      }
+      },
+      "titles": {
+        "fr": "Ponton sur l’Aasee",
+        "en": "Pier on Lake Aasee"
+      },
+      "mediums": {
+        "fr": "Photographie numérique",
+        "en": "Digital photograph"
+      },
+      "year": "2020",
+      "circa": false,
+      "detail": false,
+      "bundled": false
     },
     {
-      "id": "commons-rio-sunrise",
-      "file": "commons-152",
+      "id": "met-435839",
+      "file": "sanmarco",
       "room": "CITIES",
-      "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/4c/Contrasts_of_Rio_de_Janeiro_-_Rocinha%2C_Ipanema%2C_and_Mountains_at_Sunrise.jpg/3840px-Contrasts_of_Rio_de_Janeiro_-_Rocinha%2C_Ipanema%2C_and_Mountains_at_Sunrise.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
-      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Contrasts_of_Rio_de_Janeiro_-_Rocinha,_Ipanema,_and_Mountains_at_Sunrise.jpg",
-      "author": "Donatas Dabravolskas",
-      "title": "Rio de Janeiro at sunrise",
-      "created": "2018",
-      "medium": "Photograph",
-      "license": "CC-BY-SA-4.0",
+      "url": "https://images.metmuseum.org/CRDImages/ep/original/DP-14286-009.jpg",
+      "sourceUrl": "https://www.metmuseum.org/art/collection/search/435839",
+      "author": "Canaletto",
+      "title": "Piazza San Marco",
+      "created": "1725",
+      "medium": "Oil on canvas",
+      "license": "CC0-1.0",
       "tags": [
         "cities"
       ],
       "crop": {
-        "x": 0.55,
+        "x": 0.6,
         "top": 0,
         "bottom": 1
-      }
+      },
+      "titles": {
+        "fr": "La Place Saint-Marc",
+        "en": "Piazza San Marco"
+      },
+      "mediums": {
+        "fr": "Huile sur toile",
+        "en": "Oil on canvas"
+      },
+      "year": "1725–1730",
+      "circa": true,
+      "detail": true,
+      "bundled": false
+    },
+    {
+      "id": "commons-fanal-forest",
+      "file": "commons-91",
+      "room": "NATURE",
+      "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/2b/Fanal_%28Madeira%2C_Portugal%29%2C_Lorbeerwald_--_2025_--_1546.jpg/3840px-Fanal_%28Madeira%2C_Portugal%29%2C_Lorbeerwald_--_2025_--_1546.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Fanal_(Madeira,_Portugal),_Lorbeerwald_--_2025_--_1546.jpg",
+      "author": "Dietmar Rabich",
+      "title": "Laurel forest of Fanal, Madeira",
+      "created": "2025",
+      "medium": "Photograph",
+      "license": "CC-BY-SA-4.0",
+      "tags": [
+        "nature"
+      ],
+      "crop": {
+        "x": 0.66,
+        "top": 0,
+        "bottom": 1
+      },
+      "titles": {
+        "fr": "Forêt de lauriers de Fanal",
+        "en": "Laurel Forest of Fanal"
+      },
+      "mediums": {
+        "fr": "Photographie numérique",
+        "en": "Digital photograph"
+      },
+      "year": "2025",
+      "circa": false,
+      "detail": false,
+      "bundled": false
+    },
+    {
+      "id": "met-55733",
+      "file": "eagle",
+      "room": "NATURE",
+      "url": "https://images.metmuseum.org/CRDImages/as/original/DP121668.jpg",
+      "sourceUrl": "https://www.metmuseum.org/art/collection/search/55733",
+      "author": "Utagawa Hiroshige",
+      "title": "Jumantsubo Plain at Fukagawa Susaki",
+      "created": "1856",
+      "medium": "Polychrome woodblock print",
+      "license": "CC0-1.0",
+      "tags": [
+        "nature"
+      ],
+      "crop": {
+        "x": 0.55,
+        "top": 0.02,
+        "bottom": 0.98
+      },
+      "titles": {
+        "fr": "La Plaine de Jūmantsubo à Fukagawa Susaki",
+        "en": "Jūmantsubo Plain at Fukagawa Susaki"
+      },
+      "mediums": {
+        "fr": "Estampe, gravure sur bois en couleurs",
+        "en": "Woodblock print, ink and color on paper"
+      },
+      "year": "1856",
+      "circa": false,
+      "detail": true,
+      "bundled": false
     },
     {
       "id": "commons-pillars-of-creation",
@@ -619,7 +596,403 @@
         "x": 0.55,
         "top": 0,
         "bottom": 1
-      }
+      },
+      "titles": {
+        "fr": "Piliers de la Création",
+        "en": "Pillars of Creation"
+      },
+      "mediums": {
+        "fr": "Image du télescope spatial James-Webb",
+        "en": "James Webb Space Telescope image"
+      },
+      "year": "2022",
+      "circa": false,
+      "detail": false,
+      "bundled": false
+    },
+    {
+      "id": "met-438417",
+      "file": "moon",
+      "room": "ART",
+      "url": "https://images.metmuseum.org/CRDImages/ep/original/DP-31997-001-NEW.jpg",
+      "sourceUrl": "https://www.metmuseum.org/art/collection/search/438417",
+      "author": "Caspar David Friedrich",
+      "title": "Two Men Contemplating the Moon",
+      "created": "1825",
+      "medium": "Oil on canvas",
+      "license": "CC0-1.0",
+      "tags": [
+        "art"
+      ],
+      "crop": {
+        "x": 0.35,
+        "top": 0.03,
+        "bottom": 0.97
+      },
+      "titles": {
+        "fr": "Deux hommes contemplant la lune",
+        "en": "Two Men Contemplating the Moon"
+      },
+      "mediums": {
+        "fr": "Huile sur toile",
+        "en": "Oil on canvas"
+      },
+      "year": "1825–1830",
+      "circa": true,
+      "detail": true,
+      "bundled": false
+    },
+    {
+      "id": "commons-twelve-apostles",
+      "file": "commons-81",
+      "room": "WATER",
+      "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/7c/Princetown_%28AU%29%2C_Port_Campbell_National_Park%2C_Twelve_Apostles_--_2019_--_0930.jpg/3840px-Princetown_%28AU%29%2C_Port_Campbell_National_Park%2C_Twelve_Apostles_--_2019_--_0930.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Princetown_(AU),_Port_Campbell_National_Park,_Twelve_Apostles_--_2019_--_0930.jpg",
+      "author": "Dietmar Rabich",
+      "title": "The Twelve Apostles, Port Campbell National Park",
+      "created": "2019",
+      "medium": "Photograph",
+      "license": "CC-BY-SA-4.0",
+      "tags": [
+        "water"
+      ],
+      "crop": {
+        "x": 0.45,
+        "top": 0,
+        "bottom": 1
+      },
+      "titles": {
+        "fr": "Les Douze Apôtres",
+        "en": "The Twelve Apostles"
+      },
+      "mediums": {
+        "fr": "Photographie numérique",
+        "en": "Digital photograph"
+      },
+      "year": "2019",
+      "circa": false,
+      "detail": false,
+      "bundled": false
+    },
+    {
+      "id": "met-55433",
+      "file": "shower",
+      "room": "CITIES",
+      "url": "https://images.metmuseum.org/CRDImages/as/original/DP130156.jpg",
+      "sourceUrl": "https://www.metmuseum.org/art/collection/search/55433",
+      "author": "Utagawa Hiroshige",
+      "title": "Sudden Shower over Shin-Ohashi Bridge and Atake",
+      "created": "1857",
+      "medium": "Polychrome woodblock print",
+      "license": "CC0-1.0",
+      "tags": [
+        "cities"
+      ],
+      "crop": {
+        "x": 0.55,
+        "top": 0.02,
+        "bottom": 0.98
+      },
+      "titles": {
+        "fr": "Averse soudaine sur le pont Shin-Ōhashi",
+        "en": "Sudden Shower over Shin-Ōhashi Bridge"
+      },
+      "mediums": {
+        "fr": "Estampe, gravure sur bois en couleurs",
+        "en": "Woodblock print, ink and color on paper"
+      },
+      "year": "1857",
+      "circa": false,
+      "detail": true,
+      "bundled": false
+    },
+    {
+      "id": "commons-frosted-path",
+      "file": "commons-90",
+      "room": "NATURE",
+      "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/9f/D%C3%BClmen%2C_Kirchspiel%2C_Dernekamp%2C_Wirtschaftsweg_--_2021_--_9407.jpg/3840px-D%C3%BClmen%2C_Kirchspiel%2C_Dernekamp%2C_Wirtschaftsweg_--_2021_--_9407.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:D%C3%BClmen,_Kirchspiel,_Dernekamp,_Wirtschaftsweg_--_2021_--_9407.jpg",
+      "author": "Dietmar Rabich",
+      "title": "Frosted path near Dülmen",
+      "created": "2021",
+      "medium": "Photograph",
+      "license": "CC-BY-SA-4.0",
+      "tags": [
+        "nature"
+      ],
+      "crop": {
+        "x": 0.5,
+        "top": 0,
+        "bottom": 1
+      },
+      "titles": {
+        "fr": "Chemin sous le givre",
+        "en": "Frosted Path"
+      },
+      "mediums": {
+        "fr": "Photographie numérique",
+        "en": "Digital photograph"
+      },
+      "year": "2021",
+      "circa": false,
+      "detail": false,
+      "bundled": false
+    },
+    {
+      "id": "met-10497",
+      "file": "oxbow",
+      "room": "NATURE",
+      "url": "https://images.metmuseum.org/CRDImages/ad/original/DP-12550-001.jpg",
+      "sourceUrl": "https://www.metmuseum.org/art/collection/search/10497",
+      "author": "Thomas Cole",
+      "title": "View from Mount Holyoke, Northampton, Massachusetts, after a Thunderstorm (The Oxbow)",
+      "created": "1836",
+      "medium": "Oil on canvas",
+      "license": "CC0-1.0",
+      "tags": [
+        "nature"
+      ],
+      "crop": {
+        "x": 0.62,
+        "top": 0.01,
+        "bottom": 0.99
+      },
+      "titles": {
+        "fr": "Le Méandre",
+        "en": "The Oxbow"
+      },
+      "mediums": {
+        "fr": "Huile sur toile",
+        "en": "Oil on canvas"
+      },
+      "year": "1836",
+      "circa": false,
+      "detail": true,
+      "bundled": false
+    },
+    {
+      "id": "commons-gosaikunda",
+      "file": "commons-29",
+      "room": "MOUNTAINS",
+      "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/03/Lake_Gosaikunda.jpg/3840px-Lake_Gosaikunda.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Lake_Gosaikunda.jpg",
+      "author": "Sergey Pesterev",
+      "title": "Lake Gosaikunda, Nepal",
+      "created": "2014",
+      "medium": "Photograph",
+      "license": "CC-BY-SA-4.0",
+      "tags": [
+        "mountains"
+      ],
+      "crop": {
+        "x": 0.6,
+        "top": 0,
+        "bottom": 1
+      },
+      "titles": {
+        "fr": "Lac Gosaikunda",
+        "en": "Lake Gosaikunda"
+      },
+      "mediums": {
+        "fr": "Photographie numérique",
+        "en": "Digital photograph"
+      },
+      "year": "2014",
+      "circa": false,
+      "detail": false,
+      "bundled": false
+    },
+    {
+      "id": "commons-hallasan-stairs",
+      "file": "commons-94",
+      "room": "NATURE",
+      "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/56/Wooden_staircase_steps_in_the_forest_of_Hallasan_Park_Eorimok_Trail_at_dusk_on_Jeju_Island_in_South_Korea.jpg/3840px-Wooden_staircase_steps_in_the_forest_of_Hallasan_Park_Eorimok_Trail_at_dusk_on_Jeju_Island_in_South_Korea.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Wooden_staircase_steps_in_the_forest_of_Hallasan_Park_Eorimok_Trail_at_dusk_on_Jeju_Island_in_South_Korea.jpg",
+      "author": "Basile Morin",
+      "title": "Forest stairs on Mount Hallasan, Jeju",
+      "created": "2024",
+      "medium": "Photograph",
+      "license": "CC-BY-SA-4.0",
+      "tags": [
+        "nature"
+      ],
+      "crop": {
+        "x": 0.5,
+        "top": 0,
+        "bottom": 1
+      },
+      "titles": {
+        "fr": "L’Escalier du mont Hallasan",
+        "en": "Stairs of Mount Hallasan"
+      },
+      "mediums": {
+        "fr": "Photographie numérique",
+        "en": "Digital photograph"
+      },
+      "year": "2024",
+      "circa": false,
+      "detail": false,
+      "bundled": false
+    },
+    {
+      "id": "commons-ogoy-island",
+      "file": "commons-31",
+      "room": "WATER",
+      "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/66/Snowstorm_near_Ogoy_island.jpg/3840px-Snowstorm_near_Ogoy_island.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Snowstorm_near_Ogoy_island.jpg",
+      "author": "Sergey Pesterev",
+      "title": "Snowstorm near Ogoy Island, Lake Baikal",
+      "created": "2018",
+      "medium": "Photograph",
+      "license": "CC-BY-SA-4.0",
+      "tags": [
+        "water"
+      ],
+      "crop": {
+        "x": 0.35,
+        "top": 0,
+        "bottom": 1
+      },
+      "titles": {
+        "fr": "Tempête de neige sur le Baïkal",
+        "en": "Snowstorm on Lake Baikal"
+      },
+      "mediums": {
+        "fr": "Photographie numérique",
+        "en": "Digital photograph"
+      },
+      "year": "2018",
+      "circa": false,
+      "detail": false,
+      "bundled": false
+    },
+    {
+      "id": "commons-multnomah-falls",
+      "file": "commons-101",
+      "room": "WATER",
+      "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/20/Multnomah_Falls_October_2019_stack.jpg/3840px-Multnomah_Falls_October_2019_stack.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Multnomah_Falls_October_2019_stack.jpg",
+      "author": "King of Hearts",
+      "title": "Multnomah Falls, Oregon",
+      "created": "2019",
+      "medium": "Photograph",
+      "license": "CC-BY-SA-4.0",
+      "tags": [
+        "water"
+      ],
+      "crop": {
+        "x": 0.47,
+        "top": 0,
+        "bottom": 1
+      },
+      "titles": {
+        "fr": "Chutes de Multnomah",
+        "en": "Multnomah Falls"
+      },
+      "mediums": {
+        "fr": "Photographie numérique",
+        "en": "Digital photograph"
+      },
+      "year": "2019",
+      "circa": false,
+      "detail": false,
+      "bundled": false
+    },
+    {
+      "id": "commons-eisriesenwelt",
+      "file": "commons-51",
+      "room": "MOUNTAINS",
+      "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/38/Eisriesenwelt%2C_Macizos_de_Tennen%2C_Austria%2C_2019-05-18%2C_DD_58.jpg/3840px-Eisriesenwelt%2C_Macizos_de_Tennen%2C_Austria%2C_2019-05-18%2C_DD_58.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Eisriesenwelt,_Macizos_de_Tennen,_Austria,_2019-05-18,_DD_58.jpg",
+      "author": "Diego Delso",
+      "title": "Eisriesenwelt cave, Tennen Mountains",
+      "created": "2019",
+      "medium": "Photograph",
+      "license": "CC-BY-SA-4.0",
+      "tags": [
+        "mountains"
+      ],
+      "crop": {
+        "x": 0.5,
+        "top": 0,
+        "bottom": 1
+      },
+      "titles": {
+        "fr": "Grotte de l’Eisriesenwelt",
+        "en": "Eisriesenwelt Cave"
+      },
+      "mediums": {
+        "fr": "Photographie numérique",
+        "en": "Digital photograph"
+      },
+      "year": "2019",
+      "circa": false,
+      "detail": false,
+      "bundled": false
+    },
+    {
+      "id": "commons-berlin-tv-tower",
+      "file": "commons-133",
+      "room": "CITIES",
+      "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/46/Fernsehturm%2C_Berl%C3%ADn%2C_Alemania%2C_2016-04-21%2C_DD_40-42_HDR.jpg/3840px-Fernsehturm%2C_Berl%C3%ADn%2C_Alemania%2C_2016-04-21%2C_DD_40-42_HDR.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Fernsehturm,_Berl%C3%ADn,_Alemania,_2016-04-21,_DD_40-42_HDR.jpg",
+      "author": "Diego Delso",
+      "title": "Berlin TV Tower at night",
+      "created": "2016",
+      "medium": "Photograph",
+      "license": "CC-BY-SA-4.0",
+      "tags": [
+        "cities"
+      ],
+      "crop": {
+        "x": 0.5,
+        "top": 0,
+        "bottom": 1
+      },
+      "titles": {
+        "fr": "La Tour de télévision de Berlin",
+        "en": "Berlin TV Tower"
+      },
+      "mediums": {
+        "fr": "Photographie numérique",
+        "en": "Digital photograph"
+      },
+      "year": "2016",
+      "circa": false,
+      "detail": false,
+      "bundled": false
+    },
+    {
+      "id": "commons-rio-sunrise",
+      "file": "commons-152",
+      "room": "CITIES",
+      "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/4c/Contrasts_of_Rio_de_Janeiro_-_Rocinha%2C_Ipanema%2C_and_Mountains_at_Sunrise.jpg/3840px-Contrasts_of_Rio_de_Janeiro_-_Rocinha%2C_Ipanema%2C_and_Mountains_at_Sunrise.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Contrasts_of_Rio_de_Janeiro_-_Rocinha,_Ipanema,_and_Mountains_at_Sunrise.jpg",
+      "author": "Donatas Dabravolskas",
+      "title": "Rio de Janeiro at sunrise",
+      "created": "2018",
+      "medium": "Photograph",
+      "license": "CC-BY-SA-4.0",
+      "tags": [
+        "cities"
+      ],
+      "crop": {
+        "x": 0.55,
+        "top": 0,
+        "bottom": 1
+      },
+      "titles": {
+        "fr": "Rio de Janeiro à l’aube",
+        "en": "Rio de Janeiro at Dawn"
+      },
+      "mediums": {
+        "fr": "Photographie numérique",
+        "en": "Digital photograph"
+      },
+      "year": "2018",
+      "circa": false,
+      "detail": false,
+      "bundled": false
     }
   ]
 }

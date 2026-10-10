@@ -194,6 +194,14 @@ fun ArtworkStage(
             GlassChip(Modifier.align(Alignment.Center)) {
                 Text(vm.previewError ?: "", style = GlimmerType.bodySmall)
             }
+        } else {
+            // Œuvre de la bibliothèque pas encore sur le téléphone : son paquet arrive.
+            val download = vm.libraryDownload?.takeIf { (ref as? WorkRef.Gallery)?.id == it.first }
+            if (download != null) {
+                GlassChip(Modifier.align(Alignment.Center)) {
+                    Text(stringResource(R.string.library_downloading, (download.second * 100).toInt()), style = GlimmerType.bodySmall)
+                }
+            }
         }
         overlay()
     }

@@ -1,17 +1,20 @@
 # Pack de démarrage de la galerie
 
-Trente et une œuvres livrées avec l'app : douze œuvres d'art du domaine public et dix-neuf photos de paysages, de villes et d'espace, une par paquet `.dwp` dans
-`app/src/main/assets/gallery/`. Elles s'ajoutent aux sept scènes dessinées du Collectif GlimmerView.
+Trente et une œuvres livrées avec l'app : douze œuvres d'art du domaine public et dix-neuf photos de paysages, de villes et d'espace, une par paquet `.dwp`. Elles forment la
+[bibliothèque](../../docs/library.md), publiée sur la branche `gh-pages` ; l'APK n'en embarque que l'index,
+les aperçus et quatre paquets (`bundled` dans le catalogue). Elles s'ajoutent aux sept scènes dessinées du Collectif GlimmerView.
 
-Le pack pèse 36,8 Mo, rangé sans recompression dans l'APK.
+La bibliothèque pèse 36,8 Mo ; l'APK n'en garde que 6,1 Mo (aperçus et quatre œuvres).
 
 ## Reconstruire le pack
 
 ```bash
 python -m pip install --user onnxruntime numpy pillow opencv-python
 python tools/pack/build_pack.py crops   # planche des cadrages : tools/pack/out/crops.jpg
-python tools/pack/build_pack.py build   # paquets + planche image/profondeur : tools/pack/out/pack.jpg
+python tools/pack/build_pack.py build   # bibliothèque (tools/pack/out/library) et assets de l'app
 ```
+
+Pour publier une nouvelle version de la bibliothèque, voir [docs/library.md](../../docs/library.md).
 
 Le script télécharge les images sources (`tools/pack/sources/`, non versionné) et le modèle
 Depth Anything V2 Small FP32 (99 Mo, Apache-2.0, empreinte SHA-256 vérifiée), puis, pour chaque œuvre :

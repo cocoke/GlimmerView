@@ -36,44 +36,9 @@
     <string name="scene_lagoon">Lagoon</string>
     <string name="scene_domes">Domes</string>
 
-    <!-- Pack de démarrage : œuvres du Met (CC0) et de la NASA (domaine public) -->
-    <string name="exhibit_wave">The Great Wave off Kanagawa</string>
-    <string name="exhibit_earthset">Earthset from Orion</string>
-    <string name="exhibit_cypresses">Cypresses</string>
-    <string name="exhibit_montmartre">The Boulevard Montmartre on a Winter Morning</string>
-    <string name="exhibit_asakusa">Asakusa Ricefields and Torinomachi Festival</string>
-    <string name="exhibit_arrays">Moonlight on the Solar Arrays</string>
-    <string name="exhibit_maples">Maples at Mama</string>
-    <string name="exhibit_san_marco">Piazza San Marco</string>
-    <string name="exhibit_eagle">Jūmantsubo Plain at Fukagawa Susaki</string>
-    <string name="exhibit_moon">Two Men Contemplating the Moon</string>
-    <string name="exhibit_shower">Sudden Shower over Shin-Ōhashi Bridge</string>
-    <string name="exhibit_oxbow">The Oxbow</string>
-    <string name="exhibit_plagnes">Lac des Plagnes</string>
-    <string name="exhibit_seceda">Seceda above the Clouds</string>
-    <string name="exhibit_nosy_iranja">Nosy Iranja</string>
-    <string name="exhibit_deadvlei">Deadvlei</string>
-    <string name="exhibit_seljalandsfoss">Seljalandsfoss</string>
-    <string name="exhibit_empire_state">Empire State Building</string>
-    <string name="exhibit_machu_picchu">Machu Picchu</string>
-    <string name="exhibit_aasee">Pier on Lake Aasee</string>
-    <string name="exhibit_fanal">Laurel Forest of Fanal</string>
-    <string name="exhibit_pillars">Pillars of Creation</string>
-    <string name="exhibit_twelve_apostles">The Twelve Apostles</string>
-    <string name="exhibit_frosted_path">Frosted Path</string>
-    <string name="exhibit_gosaikunda">Lake Gosaikunda</string>
-    <string name="exhibit_hallasan">Stairs of Mount Hallasan</string>
-    <string name="exhibit_ogoy">Snowstorm on Lake Baikal</string>
-    <string name="exhibit_multnomah">Multnomah Falls</string>
-    <string name="exhibit_eisriesenwelt">Eisriesenwelt Cave</string>
-    <string name="exhibit_berlin">Berlin TV Tower</string>
-    <string name="exhibit_rio">Rio de Janeiro at Dawn</string>
+    <!-- Œuvres de la bibliothèque : titres et techniques viennent de l’index (docs/library.md) -->
     <string name="exhibit_detail">%1$s (detail)</string>
     <string name="year_circa">ca. %1$s</string>
-    <string name="medium_woodblock">Woodblock print, ink and color on paper</string>
-    <string name="medium_oil">Oil on canvas</string>
-    <string name="medium_digital_photo">Digital photograph</string>
-    <string name="medium_webb">James Webb Space Telescope image</string>
     <string name="license_public_domain">Public domain</string>
     <string name="artist_collective">GlimmerView Collective</string>
     <plurals name="medium_scene">
@@ -311,4 +276,14 @@
     <string name="import_error_too_large">This file is too large to be opened</string>
     <string name="import_error_corrupt">This file is damaged or incomplete</string>
     <string name="import_error_unreadable">Could not read the file</string>
+
+    <!-- Bibliothèque téléchargeable -->
+    <string name="library_offline">An internet connection is needed to download this work</string>
+    <string name="library_downloading">Downloading the work… %1$d %%</string>
+    <string name="prefs_library">Library</string>
+    <string name="prefs_library_downloads">Downloaded works</string>
+    <string name="prefs_library_size">%1$s on the device</string>
+    <string name="prefs_library_empty">None yet: works download when you open them</string>
+    <string name="prefs_library_clear">Free up</string>
+    <string name="message_library_cleared">Downloaded works removed</string>
 </resources>

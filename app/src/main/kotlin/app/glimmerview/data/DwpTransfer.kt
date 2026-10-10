@@ -220,7 +220,7 @@ class DwpTransfer(private val context: Context, private val library: WorkLibrary
     private fun isoDate(millis: Long): String = Instant.ofEpochMilli(millis).truncatedTo(ChronoUnit.SECONDS).toString()
 
     /** « CC-BY-SA-4.0 » devient « CC BY-SA 4.0 », comme sur les cartels. */
-    private fun licenseLabel(spdx: String): String {
+    fun licenseLabel(spdx: String): String {
         val id = clean(spdx).take(MAX_LICENSE)
         val version = id.lastIndexOf('-')
         return when {

@@ -794,6 +794,7 @@ Objectif : lever les incertitudes techniques avant d'écrire l'app.
 - appui long sur une œuvre (galerie, collection, dernières créations) : menu pour la voir, régler l'effet, retoucher la profondeur, la renommer, l'accrocher, l'exporter, l'ajouter à la collection, l'en retirer ou la supprimer (en deux touchers) ;
 - format `.dwp` (module `:format`, [spécification](docs/format.md) en CC0) : export d'une œuvre (partager, enregistrer sur le téléphone) et import depuis l'atelier, « Ouvrir avec » ou le menu Partager d'Android ; auteur et licence conservés, garde-fous contre les fichiers piégés ;
 - pack de démarrage : 31 œuvres recadrées au format d'écran, profondeur précalculée sur PC avec le modèle de l'app en plus haute résolution ([tools/pack](tools/pack/README.md)) : douze œuvres du domaine public (Met en CC0, NASA) et dix-neuf photos de paysages, de villes et d'espace (Wikimedia Commons, surtout CC BY-SA), à côté des sept scènes dessinées ; galerie en sept salles ;
+- bibliothèque téléchargeable ([docs/library.md](docs/library.md)) : index, aperçus et paquets servis par GitHub Pages (branche `gh-pages`) ; l'APK n'embarque que l'index, les aperçus et quatre œuvres (6 Mo au lieu de 37), les autres se téléchargent à l'ouverture, vérifiées par SHA-256 ; place libérable dans les préférences ;
 - accrochage : le maintien remplit tout le bouton, visible même sous le doigt.
 
 **Reste pour la v0.1.**

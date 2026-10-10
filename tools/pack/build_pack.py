@@ -1,4 +1,4 @@
-"""Construit le pack de démarrage de la galerie : un fichier .dwp par œuvre de catalog.json.
+"""Construit la bibliothèque de la galerie : un paquet .dwp par œuvre de catalog.json, un aperçu, un index.
 
 Étapes, pour chaque œuvre :
   1. cadrage au format d'écran 9:20 (sans agrandir une image trop petite) ;
@@ -6,11 +6,17 @@
      résolution que sur le téléphone ;
   3. même post-traitement que l'app (DepthPostProcessor.refine) : normalisation par
      percentiles, filtre guidé par l'image, dilatation du premier plan contre les halos ;
-  4. écriture du paquet selon docs/format.md (image WebP, disparité en PNG 16 bits, vignette).
+  4. écriture du paquet selon docs/format.md (image WebP, disparité en PNG 16 bits, vignette),
+     et d'un aperçu 540 × 1200 pour les cadres de la galerie.
+
+Sorties (voir docs/library.md) :
+  tools/pack/out/library/          la bibliothèque à publier : index.json, works/, previews/
+  app/src/main/assets/library/     ce que l'APK embarque : index.json, tous les aperçus et
+                                   les paquets marqués « bundled » dans le catalogue
 
 Usage :
   python tools/pack/build_pack.py crops   # planche des cadrages, pour les régler
-  python tools/pack/build_pack.py build   # paquets dans app/src/main/assets/gallery/
+  python tools/pack/build_pack.py build   # bibliothèque et assets de l'app
 
 Les images sources (tools/pack/sources/, non versionnées) et le modèle
 (tools/pack/models/da2s_fp32.onnx) sont téléchargés par fetch() s'ils manquent.
@@ -32,7 +38,8 @@ ROOT = Path(__file__).resolve().parent
 REPO = ROOT.parent.parent
 SOURCES = ROOT / "sources"
 OUT = ROOT / "out"
-ASSETS = REPO / "app" / "src" / "main" / "assets" / "gallery"
+LIBRARY = OUT / "library"
+APP_LIBRARY = REPO / "app" / "src" / "main" / "assets" / "library"
 MODEL = ROOT / "models" / "da2s_fp32.onnx"
 MODEL_URL = "https://huggingface.co/onnx-community/depth-anything-v2-small/resolve/main/onnx/model.onnx"
 MODEL_SHA256 = "afb6a5c28f3b6bf1618c6e43f02073ef9dfdc70e937502d51603e57b0a1df10c"
@@ -42,6 +49,8 @@ MAX_COLOR = (1080, 2400)     # au-delà, l'image est réduite
 DEPTH_LONG_SIDE = 1200       # carte de disparité : 540 × 1200 pour un cadrage 9:20
 MODEL_AREA = 518 * 1148      # pixels d'entrée du modèle (518² sur le téléphone)
 THUMBNAIL = (360, 800)
+PREVIEW = (540, 1200)        # aperçu des cadres de la galerie
+PREVIEW_QUALITY = 78
 WEBP_QUALITY = 88
 MEAN = np.array([0.485, 0.456, 0.406], dtype=np.float32)
 STD = np.array([0.229, 0.224, 0.225], dtype=np.float32)
@@ -51,7 +60,7 @@ FIXED_DATE = (2026, 1, 1, 0, 0, 0)
 
 
 def load_catalog():
-    return json.loads((ROOT / "catalog.json").read_text(encoding="utf-8"))["works"]
+    return json.loads((ROOT / "catalog.json").read_text(encoding="utf-8"))
 
 
 def download(url, target):
@@ -220,7 +229,8 @@ def sheet(tiles, path, columns=6):
     print("planche :", path)
 
 
-def crops(works):
+def crops(catalog):
+    works = catalog["works"]
     OUT.mkdir(exist_ok=True)
     tiles = []
     for work in works:
@@ -229,34 +239,76 @@ def crops(works):
     sheet(tiles, OUT / "crops.jpg")
 
 
-def build(works):
+def entry(work, package, preview, focus):
+    """Fiche de l'œuvre dans l'index de la bibliothèque (docs/library.md)."""
+    data = package.read_bytes()
+    return {
+        "id": work["id"],
+        "room": work["room"].lower(),
+        "title": work["titles"],
+        "author": work["author"],
+        "medium": work["mediums"],
+        "year": work["year"],
+        "circa": work["circa"],
+        "detail": work["detail"],
+        "license": work["license"],
+        "sourceUrl": work["sourceUrl"],
+        "focus": round(work.get("focus", focus), 4),
+        "package": {"path": f"works/{package.name}", "size": len(data), "sha256": hashlib.sha256(data).hexdigest()},
+        "preview": f"previews/{preview.name}",
+    }
+
+
+def clean(directory, keep):
+    directory.mkdir(parents=True, exist_ok=True)
+    for path in directory.iterdir():
+        if path.is_file() and path.name not in keep:
+            path.unlink()
+
+
+def build(catalog):
     import onnxruntime
 
-    OUT.mkdir(exist_ok=True)
-    ASSETS.mkdir(parents=True, exist_ok=True)
+    works = catalog["works"]
+    for directory in (LIBRARY / "works", LIBRARY / "previews", APP_LIBRARY / "works", APP_LIBRARY / "previews"):
+        directory.mkdir(parents=True, exist_ok=True)
     session = onnxruntime.InferenceSession(str(MODEL), providers=["CPUExecutionProvider"])
-    tiles = []
-    total = 0
+    tiles, entries = [], []
+    total = bundled = 0
     for work in works:
         color = fit(crop(Image.open(SOURCES / f"{work['file']}.jpg").convert("RGB"), work["crop"]), MAX_COLOR)
         depth = refine(estimate(session, color), color)
         color_bytes = webp(color, WEBP_QUALITY)
         depth_bytes = png16(depth)
         thumbnail_bytes = webp(color.resize(THUMBNAIL, Image.LANCZOS), 85)
-        path = ASSETS / f"{work['id']}.dwp"
-        write_package(path, manifest(work, color, subject_focus(depth)), color_bytes, depth_bytes, thumbnail_bytes)
-        size = path.stat().st_size
+        package = LIBRARY / "works" / f"{work['id']}.dwp"
+        write_package(package, manifest(work, color, subject_focus(depth)), color_bytes, depth_bytes, thumbnail_bytes)
+        preview = LIBRARY / "previews" / f"{work['id']}.webp"
+        preview.write_bytes(webp(color.resize(PREVIEW, Image.LANCZOS), PREVIEW_QUALITY))
+        (APP_LIBRARY / "previews" / preview.name).write_bytes(preview.read_bytes())
+        if work.get("bundled"):
+            (APP_LIBRARY / "works" / package.name).write_bytes(package.read_bytes())
+            bundled += package.stat().st_size
+        entries.append(entry(work, package, preview, subject_focus(depth)))
+        size = package.stat().st_size
         total += size
-        print(f"{work['id']:<22} {color.width}×{color.height}  image {len(color_bytes) / 1e3:6.0f} Ko"
-              f"  profondeur {len(depth_bytes) / 1e3:6.0f} Ko  paquet {size / 1e3:6.0f} Ko")
+        print(f"{work['id']:<28} {color.width}×{color.height}  paquet {size / 1e3:6.0f} Ko"
+              f"  aperçu {preview.stat().st_size / 1e3:4.0f} Ko{'  (APK)' if work.get('bundled') else ''}")
         tiles.append((work["file"], color.resize((225, 500), Image.LANCZOS)))
         tiles.append((work["file"] + " (profondeur)", cyanotype(cv2.resize(depth, (225, 500)))))
-    print(f"total : {total / 1e6:.1f} Mo pour {len(works)} œuvres")
+    clean(APP_LIBRARY / "works", {f"{w['id']}.dwp" for w in works if w.get("bundled")})
+    clean(APP_LIBRARY / "previews", {f"{w['id']}.webp" for w in works})
+    index = {"format": "glimmerview-library", "version": 1, "revision": catalog["revision"], "works": entries}
+    text = json.dumps(index, ensure_ascii=False, indent=2) + "\n"
+    (LIBRARY / "index.json").write_text(text, encoding="utf-8")
+    (APP_LIBRARY / "index.json").write_text(text, encoding="utf-8")
+    previews = sum(p.stat().st_size for p in (APP_LIBRARY / "previews").iterdir())
+    print(f"bibliothèque : {total / 1e6:.1f} Mo pour {len(works)} œuvres (révision {catalog['revision']})")
+    print(f"dans l'APK : {bundled / 1e6:.1f} Mo de paquets + {previews / 1e6:.1f} Mo d'aperçus")
     sheet(tiles, OUT / "pack.jpg", columns=8)
-
 
 if __name__ == "__main__":
     command = sys.argv[1] if len(sys.argv) > 1 else "build"
     catalog = load_catalog()
-    fetch(catalog)
+    fetch(catalog["works"])
     {"crops": crops, "build": build}[command](catalog)

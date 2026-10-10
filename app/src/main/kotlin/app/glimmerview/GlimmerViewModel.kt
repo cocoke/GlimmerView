@@ -12,6 +12,7 @@ import android.net.Uri
 import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.runtime.mutableStateOf
@@ -38,6 +39,7 @@ import app.glimmerview.data.Exhibit
 import app.glimmerview.data.Gallery
 import app.glimmerview.data.GalleryContent
 import app.glimmerview.data.GallerySource
+import app.glimmerview.data.Library
 import app.glimmerview.data.ImageLoading
 import app.glimmerview.data.SceneArt
 import app.glimmerview.format.DwpArchive
@@ -58,11 +60,13 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.async
 import kotlinx.coroutines.asCoroutineDispatcher
 import kotlinx.coroutines.awaitAll
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.BufferedInputStream
 import java.io.File
+import java.io.IOException
 import java.text.DateFormat
 import java.util.Date
 import java.util.concurrent.Executors
@@ -141,8 +145,21 @@ class GlimmerViewModel(application: Application) : AndroidViewModel(application)
 
     // ── Galerie ───────────────────────────────────────────────────────────────
 
-    val exhibits: List<Exhibit> = Gallery.all
-    private val gallerySource = GallerySource(application)
+    /** Bibliothèque : index et aperçus livrés avec l'app, paquets téléchargés à la demande. */
+    private val galleryLibrary = Library(application, BuildConfig.LIBRARY_URL)
+    private var libraryIndex = galleryLibrary.index()
+    private val gallerySource = GallerySource(galleryLibrary)
+
+    /** Aperçus décodés (et téléchargés au besoin) quatre par quatre : la mémoire reste raisonnable. */
+    private val pictureDispatcher = Dispatchers.IO.limitedParallelism(4)
+
+    /** Œuvres de la galerie ; la liste s'allonge quand l'index en ligne apporte de nouvelles œuvres. */
+    var exhibits by mutableStateOf(Gallery.exhibits(libraryIndex))
+        private set
+
+    /** Téléchargement en cours d'une œuvre de la bibliothèque : (identifiant, fraction reçue). */
+    var libraryDownload by mutableStateOf<Pair<String, Float>?>(null)
+        private set
 
     /** Vignettes plein écran (format 9:20), comme l'œuvre accrochée. */
     val galleryThumbs = mutableStateMapOf<String, ImageBitmap>()
@@ -195,14 +212,10 @@ class GlimmerViewModel(application: Application) : AndroidViewModel(application)
     init {
         backStack += if (prefs.getBoolean(KEY_ONBOARDED, false)) Route.Galerie else Route.Vernissage
         modelState = if (modelStore.isDownloaded(ModelCatalog.DEFAULT)) ModelState.Ready else ModelState.Absent
-        // Les cadres de la galerie d'abord (premier écran), dessinés en parallèle.
+        // Les cadres de la galerie d'abord (premier écran), puis les nouveautés de la bibliothèque en ligne.
         viewModelScope.launch {
-            exhibits.map { exhibit ->
-                async(Dispatchers.Default) { exhibit.id to picture(exhibit, FRAME_WIDTH, FRAME_HEIGHT) }
-            }.awaitAll().forEach { (id, frame) -> frame?.let { galleryFrames[id] = it.asImageBitmap() } }
-            exhibits.map { exhibit ->
-                async(Dispatchers.Default) { exhibit.id to picture(exhibit, PREVIEW_THUMB_WIDTH, PREVIEW_THUMB_HEIGHT) }
-            }.awaitAll().forEach { (id, thumb) -> thumb?.let { galleryThumbs[id] = it.asImageBitmap() } }
+            renderGallery(exhibits)
+            updateGallery()
         }
         viewModelScope.launch {
             settings = withContext(Dispatchers.IO) {
@@ -257,7 +270,7 @@ class GlimmerViewModel(application: Application) : AndroidViewModel(application)
     // ── Fiches et vignettes ───────────────────────────────────────────────────
 
     fun card(ref: WorkRef): WorkCard? = when (ref) {
-        is WorkRef.Gallery -> Gallery.find(ref.id)?.let(::galleryCard)
+        is WorkRef.Gallery -> exhibit(ref.id)?.let(::galleryCard)
         is WorkRef.Saved -> works.firstOrNull { it.id == ref.id }?.let(::savedCard)
     }
 
@@ -274,21 +287,23 @@ class GlimmerViewModel(application: Application) : AndroidViewModel(application)
 
     fun galleryCard(exhibit: Exhibit) = WorkCard(
         ref = WorkRef.Gallery(exhibit.id),
-        title = context.getString(exhibit.title).let {
-            if ((exhibit as? Exhibit.Packaged)?.detail == true) context.getString(R.string.exhibit_detail, it) else it
+        title = when (exhibit) {
+            is Exhibit.Drawn -> context.getString(exhibit.scene.title)
+            is Exhibit.Packaged -> exhibit.entry.title(locale()).let {
+                if (exhibit.entry.detail) context.getString(R.string.exhibit_detail, it) else it
+            }
         },
         artist = when (exhibit) {
             is Exhibit.Drawn -> context.getString(R.string.artist_collective)
-            is Exhibit.Packaged -> exhibit.artist
+            is Exhibit.Packaged -> exhibit.entry.author
         },
         medium = when (exhibit) {
             is Exhibit.Drawn -> context.resources.getQuantityString(R.plurals.medium_scene, exhibit.scene.planes, exhibit.scene.planes)
-            is Exhibit.Packaged -> context.getString(exhibit.medium)
+            is Exhibit.Packaged -> exhibit.entry.medium(locale())
         },
-        license = when {
-            exhibit !is Exhibit.Packaged -> context.getString(R.string.license_cc0)
-            exhibit.publicDomain -> context.getString(R.string.license_public_domain)
-            else -> exhibit.license
+        license = when (exhibit) {
+            is Exhibit.Drawn -> context.getString(R.string.license_cc0)
+            is Exhibit.Packaged -> transfer.licenseLabel(exhibit.entry.license)
         },
         year = yearOf(exhibit),
         origin = if (isCollected(exhibit.id)) WorkOrigin.ACQUIRED else null,
@@ -296,21 +311,50 @@ class GlimmerViewModel(application: Application) : AndroidViewModel(application)
 
     private fun yearOf(exhibit: Exhibit): String = when (exhibit) {
         is Exhibit.Drawn -> SCENE_YEAR.toString()
-        is Exhibit.Packaged -> if (exhibit.circa) context.getString(R.string.year_circa, exhibit.year) else exhibit.year
+        is Exhibit.Packaged -> exhibit.entry.year.let { if (exhibit.entry.circa) context.getString(R.string.year_circa, it) else it }
     }
 
-    /** Image d'une œuvre de la galerie au format demandé ; null si son paquet est illisible. */
+    fun exhibit(id: String): Exhibit? = exhibits.firstOrNull { it.id == id }
+
+    /** Cadres, puis vignettes plein écran, des œuvres qui n'en ont pas encore (quelques-unes à la fois). */
+    private suspend fun renderGallery(list: List<Exhibit>) = coroutineScope {
+        list.filter { it.id !in galleryFrames }
+            .map { exhibit -> async(pictureDispatcher) { exhibit.id to picture(exhibit, FRAME_WIDTH, FRAME_HEIGHT) } }
+            .awaitAll()
+            .forEach { (id, frame) -> frame?.let { galleryFrames[id] = it.asImageBitmap() } }
+        list.filter { it.id !in galleryThumbs }
+            .map { exhibit -> async(pictureDispatcher) { exhibit.id to picture(exhibit, PREVIEW_THUMB_WIDTH, PREVIEW_THUMB_HEIGHT) } }
+            .awaitAll()
+            .forEach { (id, thumb) -> thumb?.let { galleryThumbs[id] = it.asImageBitmap() } }
+    }
+
+    /** Cherche une nouvelle version de l'index en ligne, au plus une fois toutes les douze heures. */
+    private suspend fun updateGallery() {
+        val now = System.currentTimeMillis()
+        if (now - prefs.getLong(KEY_LIBRARY_CHECKED, 0L) < LIBRARY_CHECK_INTERVAL) return
+        val fresh = withContext(Dispatchers.IO) { runCatching { galleryLibrary.refresh(libraryIndex) } }
+            .getOrElse {
+                Log.i(TAG, "Index de la bibliothèque injoignable", it)
+                return
+            }
+        prefs.edit { putLong(KEY_LIBRARY_CHECKED, now) }
+        if (fresh == null) return
+        libraryIndex = fresh
+        exhibits = Gallery.exhibits(fresh)
+        renderGallery(exhibits)
+    }
+
+    private fun locale() = context.resources.configuration.locales[0]
+
+    /** Image d'une œuvre de la galerie au format demandé ; null si son aperçu est illisible ou hors de portée (hors ligne). */
     private fun picture(exhibit: Exhibit, width: Int, height: Int): Bitmap? =
         runCatching { gallerySource.picture(exhibit, width, height) }
             .onFailure { Log.w(TAG, "Œuvre de la galerie illisible : ${exhibit.id}", it) }
             .getOrNull()
 
-    /** Réglages par défaut d'une œuvre de la galerie : pour le pack, le plan immobile conseillé par son paquet. */
-    private fun galleryParams(id: String): ParallaxParams {
-        val exhibit = Gallery.find(id) as? Exhibit.Packaged
-        val focus = exhibit?.let { runCatching { gallerySource.image(it).manifest.defaults?.focus }.getOrNull() }
-        return defaultParams(focus ?: FocusScale.focus(3))
-    }
+    /** Réglages par défaut d'une œuvre de la galerie : pour la bibliothèque, le plan immobile conseillé par l'index. */
+    private fun galleryParams(id: String): ParallaxParams =
+        defaultParams((exhibit(id) as? Exhibit.Packaged)?.entry?.focus ?: FocusScale.focus(3))
 
     private fun savedCard(info: WorkInfo) = WorkCard(
         ref = WorkRef.Saved(info.id),
@@ -318,7 +362,7 @@ class GlimmerViewModel(application: Application) : AndroidViewModel(application)
         artist = info.artist,
         medium = info.medium,
         license = info.license,
-        year = exhibitIdOf(info.id)?.let(Gallery::find)?.let(::yearOf),
+        year = exhibitIdOf(info.id)?.let(::exhibit)?.let(::yearOf),
         origin = info.origin,
     )
 
@@ -357,14 +401,28 @@ class GlimmerViewModel(application: Application) : AndroidViewModel(application)
                     preview = loaded
                     previewParams = params
                 }
-                .onFailure { if (it !is CancellationException) previewError = it.message ?: it.javaClass.simpleName }
+                .onFailure {
+                    if (it is CancellationException) return@onFailure
+                    Log.w(TAG, "Œuvre illisible : $ref", it)
+                    // Hors ligne, une œuvre de la bibliothèque pas encore téléchargée ne peut pas s'ouvrir.
+                    previewError = if (it is IOException && ref is WorkRef.Gallery) {
+                        context.getString(R.string.library_offline)
+                    } else {
+                        it.message ?: it.javaClass.simpleName
+                    }
+                }
         }
     }
 
     private suspend fun loadWork(ref: WorkRef): Pair<LoadedWork, ParallaxParams> = when (ref) {
-        is WorkRef.Gallery -> withContext(Dispatchers.Default) {
-            val exhibit = checkNotNull(Gallery.find(ref.id)) { "Œuvre inconnue : ${ref.id}" }
-            val content = loadExhibit(exhibit)
+        is WorkRef.Gallery -> withContext(Dispatchers.IO) {
+            val exhibit = checkNotNull(exhibit(ref.id)) { "Œuvre inconnue : ${ref.id}" }
+            // Une œuvre de la bibliothèque absente du téléphone est téléchargée d'abord, avec sa progression.
+            val content = try {
+                loadExhibit(exhibit) { fraction -> libraryDownload = exhibit.id to fraction }
+            } finally {
+                libraryDownload = null
+            }
             val focus = content.packaged?.manifest?.defaults?.focus ?: FocusScale.focus(3)
             LoadedWork(ref, PreviewContent("gallery:${exhibit.id}", content.color, content.depth)) to defaultParams(focus)
         }
@@ -374,8 +432,8 @@ class GlimmerViewModel(application: Application) : AndroidViewModel(application)
         }
     }
 
-    private fun loadExhibit(exhibit: Exhibit): GalleryContent =
-        gallerySource.load(exhibit, SCENE_WIDTH, SCENE_HEIGHT, SCENE_DEPTH_WIDTH, SCENE_DEPTH_HEIGHT)
+    private fun loadExhibit(exhibit: Exhibit, onProgress: (Float) -> Unit = {}): GalleryContent =
+        gallerySource.load(exhibit, SCENE_WIDTH, SCENE_HEIGHT, SCENE_DEPTH_WIDTH, SCENE_DEPTH_HEIGHT, onProgress)
 
     private fun defaultParams(focus: Float) = ParallaxParams(
         strength = ApertureScale.strength(settings.apertureLevel),
@@ -586,7 +644,7 @@ class GlimmerViewModel(application: Application) : AndroidViewModel(application)
     /** Lit l'état de l'aperçu ici (thread principal) ; le paquet est assemblé plus tard, en arrière-plan. */
     private fun exportContent(ref: WorkRef): () -> DwpTransfer.Content = when (ref) {
         is WorkRef.Saved -> {
-            val scene = (exhibitIdOf(ref.id)?.let(Gallery::find) as? Exhibit.Drawn)?.scene
+            val scene = (exhibitIdOf(ref.id)?.let(::exhibit) as? Exhibit.Drawn)?.scene
             val build: () -> DwpTransfer.Content = { transfer.ofSaved(ref.id, scene) }
             build
         }
@@ -594,7 +652,7 @@ class GlimmerViewModel(application: Application) : AndroidViewModel(application)
             val loaded = preview?.takeIf { it.ref == ref }
             val current = previewParams
             val build: () -> DwpTransfer.Content = {
-                val exhibit = checkNotNull(Gallery.find(ref.id)) { "Œuvre inconnue : ${ref.id}" }
+                val exhibit = checkNotNull(exhibit(ref.id)) { "Œuvre inconnue : ${ref.id}" }
                 val card = galleryCard(exhibit)
                 // Une œuvre du pack repart de son paquet (image sans réencodage, attribution d'origine).
                 val content = if (exhibit is Exhibit.Drawn && loaded != null) {
@@ -679,7 +737,7 @@ class GlimmerViewModel(application: Application) : AndroidViewModel(application)
             if (library.contains(id)) {
                 library.saveParams(id, params)
             } else {
-                val exhibit = checkNotNull(Gallery.find(ref.id)) { "Œuvre inconnue : ${ref.id}" }
+                val exhibit = checkNotNull(exhibit(ref.id)) { "Œuvre inconnue : ${ref.id}" }
                 val loaded = preview?.takeIf { it.ref == ref }?.content
                 // Une œuvre du pack est copiée depuis son paquet : image d'origine, attribution conservée pour l'export.
                 val content = if (exhibit is Exhibit.Drawn && loaded != null) {
@@ -922,6 +980,25 @@ class GlimmerViewModel(application: Application) : AndroidViewModel(application)
         }
     }
 
+    /** Place occupée par les œuvres téléchargées de la bibliothèque, en octets. */
+    var libraryBytes by mutableLongStateOf(0L)
+        private set
+
+    fun measureLibrary() {
+        viewModelScope.launch { libraryBytes = withContext(Dispatchers.IO) { galleryLibrary.downloadedBytes() } }
+    }
+
+    /** Supprime les œuvres téléchargées ; elles reviendront à la demande (les copies de la collection restent). */
+    fun clearLibrary() {
+        viewModelScope.launch {
+            libraryBytes = withContext(Dispatchers.IO) {
+                galleryLibrary.clearDownloads()
+                galleryLibrary.downloadedBytes()
+            }
+            message = context.getString(R.string.message_library_cleared)
+        }
+    }
+
     fun deleteModel() {
         modelStore.delete(ModelCatalog.DEFAULT)
         modelState = ModelState.Absent
@@ -969,6 +1046,8 @@ class GlimmerViewModel(application: Application) : AndroidViewModel(application)
     companion object {
         private const val TAG = "GlimmerView"
         private const val KEY_ONBOARDED = "onboarded"
+        private const val KEY_LIBRARY_CHECKED = "library_checked"
+        private const val LIBRARY_CHECK_INTERVAL = 12 * 60 * 60 * 1000L
         private const val GALLERY_PREFIX = "scene-"
         private const val SCENE_YEAR = 2026
         private const val THUMB_WIDTH = 720

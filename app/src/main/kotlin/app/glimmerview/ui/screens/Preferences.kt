@@ -1,5 +1,6 @@
 package app.glimmerview.ui.screens
 
+import android.text.format.Formatter
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -13,6 +14,8 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Offset
@@ -138,6 +141,26 @@ fun PreferencesRoom(vm: GlimmerViewModel) {
                 color = GlimmerColors.Taupe,
                 modifier = Modifier.padding(vertical = 10.dp),
             )
+        }
+
+        Section(stringResource(R.string.prefs_library)) {
+            LaunchedEffect(Unit) { vm.measureLibrary() }
+            val context = LocalContext.current
+            Row(Modifier.fillMaxWidth().padding(vertical = 12.dp), verticalAlignment = Alignment.CenterVertically) {
+                Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(2.dp)) {
+                    Text(stringResource(R.string.prefs_library_downloads), style = GlimmerType.body)
+                    Text(
+                        if (vm.libraryBytes > 0) {
+                            stringResource(R.string.prefs_library_size, Formatter.formatShortFileSize(context, vm.libraryBytes))
+                        } else {
+                            stringResource(R.string.prefs_library_empty)
+                        },
+                        style = GlimmerType.caption.copy(fontSize = 12.5.sp),
+                        color = GlimmerColors.Taupe,
+                    )
+                }
+                if (vm.libraryBytes > 0) InlineLink(stringResource(R.string.prefs_library_clear), onClick = vm::clearLibrary)
+            }
         }
 
         Section(stringResource(R.string.prefs_about)) {

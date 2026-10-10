@@ -15,6 +15,9 @@ android {
         versionCode = 2
         versionName = "0.1.0-dev"
 
+        // Bibliothèque de la galerie (docs/library.md) : index, aperçus et paquets .dwp, servis par GitHub Pages.
+        buildConfigField("String", "LIBRARY_URL", "\"https://cocoke.github.io/GlimmerView/\"")
+
         ndk {
             // Téléphones (arm64) + émulateur (x86_64) : suffisant pour la Phase 0.
             abiFilters += listOf("arm64-v8a", "x86_64")
