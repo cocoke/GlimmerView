@@ -1,0 +1,101 @@
+{
+  "comment": "Pack de démarrage de la galerie. Cadrage au format d'écran 9:20 : x = centre horizontal, top/bottom = bande verticale gardée (fractions de l'image source). focus (facultatif) = plan immobile ; sinon la profondeur médiane du centre.",
+  "works": [
+    {
+      "id": "met-39799", "file": "wave", "room": "ART",
+      "url": "https://images.metmuseum.org/CRDImages/as/original/DP141042.jpg",
+      "sourceUrl": "https://www.metmuseum.org/art/collection/search/39799",
+      "author": "Katsushika Hokusai", "title": "Under the Wave off Kanagawa (The Great Wave)", "created": "1830",
+      "medium": "Polychrome woodblock print", "license": "CC0-1.0", "tags": ["art"],
+      "crop": {"x": 0.47, "top": 0.03, "bottom": 0.97}
+    },
+    {
+      "id": "nasa-art002e021278", "file": "earthset", "room": "SPACE",
+      "url": "http://images-assets.nasa.gov/image/art002e021278/art002e021278~orig.jpg",
+      "sourceUrl": "https://images.nasa.gov/details/art002e021278",
+      "author": "NASA", "title": "Earthset from Orion (Artemis II)", "created": "2026-04-06",
+      "medium": "Digital photograph", "license": "public-domain", "tags": ["space"],
+      "crop": {"x": 0.45, "top": 0.0, "bottom": 1.0}
+    },
+    {
+      "id": "met-437980", "file": "cypresses", "room": "NATURE",
+      "url": "https://images.metmuseum.org/CRDImages/ep/original/DP130999.jpg",
+      "sourceUrl": "https://www.metmuseum.org/art/collection/search/437980",
+      "author": "Vincent van Gogh", "title": "Cypresses", "created": "1889",
+      "medium": "Oil on canvas", "license": "CC0-1.0", "tags": ["nature"],
+      "crop": {"x": 0.47, "top": 0.02, "bottom": 0.98}
+    },
+    {
+      "id": "met-437310", "file": "montmartre", "room": "CITIES",
+      "url": "https://images.metmuseum.org/CRDImages/ep/original/DP-21959-001.jpg",
+      "sourceUrl": "https://www.metmuseum.org/art/collection/search/437310",
+      "author": "Camille Pissarro", "title": "The Boulevard Montmartre on a Winter Morning", "created": "1897",
+      "medium": "Oil on canvas", "license": "CC0-1.0", "tags": ["cities"],
+      "crop": {"x": 0.5, "top": 0.02, "bottom": 0.9}
+    },
+    {
+      "id": "met-36539", "file": "cat", "room": "ART",
+      "url": "https://images.metmuseum.org/CRDImages/as/original/DP121510.jpg",
+      "sourceUrl": "https://www.metmuseum.org/art/collection/search/36539",
+      "author": "Utagawa Hiroshige", "title": "Asakusa Ricefields and Torinomachi Festival", "created": "1857",
+      "medium": "Polychrome woodblock print", "license": "CC0-1.0", "tags": ["art"],
+      "crop": {"x": 0.52, "top": 0.02, "bottom": 0.98}
+    },
+    {
+      "id": "nasa-iss073e0039722", "file": "arrays", "room": "SPACE",
+      "url": "http://images-assets.nasa.gov/image/iss073e0039722/iss073e0039722~orig.jpg",
+      "sourceUrl": "https://images.nasa.gov/details/iss073e0039722",
+      "author": "NASA", "title": "Moonlight on the International Space Station's solar arrays", "created": "2025-04-23",
+      "medium": "Digital photograph", "license": "public-domain", "tags": ["space"],
+      "crop": {"x": 0.76, "top": 0.0, "bottom": 1.0}
+    },
+    {
+      "id": "met-37096", "file": "maples", "room": "NATURE",
+      "url": "https://images.metmuseum.org/CRDImages/as/original/DP121529.jpg",
+      "sourceUrl": "https://www.metmuseum.org/art/collection/search/37096",
+      "author": "Utagawa Hiroshige", "title": "Maples at Mama", "created": "1857",
+      "medium": "Polychrome woodblock print", "license": "CC0-1.0", "tags": ["nature"],
+      "crop": {"x": 0.55, "top": 0.02, "bottom": 0.98}
+    },
+    {
+      "id": "met-435839", "file": "sanmarco", "room": "CITIES",
+      "url": "https://images.metmuseum.org/CRDImages/ep/original/DP-14286-009.jpg",
+      "sourceUrl": "https://www.metmuseum.org/art/collection/search/435839",
+      "author": "Canaletto", "title": "Piazza San Marco", "created": "1725",
+      "medium": "Oil on canvas", "license": "CC0-1.0", "tags": ["cities"],
+      "crop": {"x": 0.6, "top": 0.0, "bottom": 1.0}
+    },
+    {
+      "id": "met-55733", "file": "eagle", "room": "NATURE",
+      "url": "https://images.metmuseum.org/CRDImages/as/original/DP121668.jpg",
+      "sourceUrl": "https://www.metmuseum.org/art/collection/search/55733",
+      "author": "Utagawa Hiroshige", "title": "Jumantsubo Plain at Fukagawa Susaki", "created": "1856",
+      "medium": "Polychrome woodblock print", "license": "CC0-1.0", "tags": ["nature"],
+      "crop": {"x": 0.55, "top": 0.02, "bottom": 0.98}
+    },
+    {
+      "id": "met-438417", "file": "moon", "room": "ART",
+      "url": "https://images.metmuseum.org/CRDImages/ep/original/DP-31997-001-NEW.jpg",
+      "sourceUrl": "https://www.metmuseum.org/art/collection/search/438417",
+      "author": "Caspar David Friedrich", "title": "Two Men Contemplating the Moon", "created": "1825",
+      "medium": "Oil on canvas", "license": "CC0-1.0", "tags": ["art"],
+      "crop": {"x": 0.35, "top": 0.03, "bottom": 0.97}
+    },
+    {
+      "id": "met-55433", "file": "shower", "room": "CITIES",
+      "url": "https://images.metmuseum.org/CRDImages/as/original/DP130156.jpg",
+      "sourceUrl": "https://www.metmuseum.org/art/collection/search/55433",
+      "author": "Utagawa Hiroshige", "title": "Sudden Shower over Shin-Ohashi Bridge and Atake", "created": "1857",
+      "medium": "Polychrome woodblock print", "license": "CC0-1.0", "tags": ["cities"],
+      "crop": {"x": 0.55, "top": 0.02, "bottom": 0.98}
+    },
+    {
+      "id": "met-10497", "file": "oxbow", "room": "NATURE",
+      "url": "https://images.metmuseum.org/CRDImages/ad/original/DP-12550-001.jpg",
+      "sourceUrl": "https://www.metmuseum.org/art/collection/search/10497",
+      "author": "Thomas Cole", "title": "View from Mount Holyoke, Northampton, Massachusetts, after a Thunderstorm (The Oxbow)", "created": "1836",
+      "medium": "Oil on canvas", "license": "CC0-1.0", "tags": ["nature"],
+      "crop": {"x": 0.62, "top": 0.01, "bottom": 0.99}
+    }
+  ]
+}

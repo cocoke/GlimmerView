@@ -28,6 +28,9 @@ __pycache__/
 *.pte
 tools/**/out/
 
+# Images sources du pack de démarrage (retéléchargées par tools/pack/build_pack.py)
+tools/pack/sources/
+
 # Signatures
 *.jks
 *.keystore
