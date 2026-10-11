@@ -14,10 +14,12 @@ data class InputSize(val width: Int, val height: Int) {
     override fun toString() = "${width}×$height"
 }
 
-/** Fournisseurs d'exécution d'ONNX Runtime (runtime retenu par l'ADR 0001). */
+/**
+ * Fournisseurs d'exécution d'ONNX Runtime (runtime retenu par l'ADR 0001). L'ONNX Runtime sur mesure
+ * de l'app (tools/onnxruntime) ne compile que le CPU : XNNPACK refusait le modèle (ADR 0001).
+ */
 enum class Backend(val label: String) {
     ORT_CPU("ONNX Runtime · CPU"),
-    ORT_XNNPACK("ONNX Runtime · XNNPACK"),
 }
 
 data class ModelSpec(

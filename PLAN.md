@@ -796,7 +796,8 @@ Objectif : lever les incertitudes techniques avant d'écrire l'app.
 - pack de démarrage : 31 œuvres recadrées au format d'écran, profondeur précalculée sur PC avec le modèle de l'app en plus haute résolution ([tools/pack](tools/pack/README.md)) : douze œuvres du domaine public (Met en CC0, NASA) et dix-neuf photos de paysages, de villes et d'espace (Wikimedia Commons, surtout CC BY-SA), à côté des sept scènes dessinées ; galerie en sept salles ;
 - bibliothèque téléchargeable ([docs/library.md](docs/library.md)) : index, aperçus et paquets servis par GitHub Pages (branche `gh-pages`) ; l'APK n'embarque que l'index, les aperçus et quatre œuvres (6 Mo au lieu de 37), les autres se téléchargent à l'ouverture, vérifiées par SHA-256 ; place libérable dans les préférences ;
 - accrochage : le maintien remplit tout le bouton, visible même sous le doigt ;
-- **v0.1.0 publiée sur GitHub Releases** (pré-version, 10 octobre 2026) : un APK par architecture, signé par la clé de publication, R8 activé ; télémétrie d'ONNX Runtime désactivée (lanceur retiré du manifeste, `ORT_DISABLE_TELEMETRY`).
+- **v0.1.0 publiée sur GitHub Releases** (pré-version, 10 octobre 2026) : un APK par architecture, signé par la clé de publication, R8 activé ; télémétrie d'ONNX Runtime désactivée (lanceur retiré du manifeste, `ORT_DISABLE_TELEMETRY`) ;
+- ONNX Runtime 1.31 compilé sur mesure ([tools/onnxruntime](tools/onnxruntime/README.md), 11 octobre 2026) : sans télémétrie, CPU seul, opérateurs des modèles seulement ; 13,9 Mo de code natif en arm64 au lieu de 33 Mo, publié dans le dépôt Maven du projet (`third_party/maven`).
 
 **Reste pour la v0.1.**
 

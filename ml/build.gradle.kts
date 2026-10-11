@@ -18,7 +18,7 @@ android {
 dependencies {
     api(project(":core"))
     implementation(libs.kotlinx.coroutines.android)
-    // Runtime unique depuis l'ADR 0001 : 100 % libre, compatible F-Droid.
+    // Runtime unique depuis l'ADR 0001 : ONNX Runtime compilé sur mesure (tools/onnxruntime), sans télémétrie.
     implementation(libs.onnxruntime.android)
     testImplementation(libs.junit)
 }

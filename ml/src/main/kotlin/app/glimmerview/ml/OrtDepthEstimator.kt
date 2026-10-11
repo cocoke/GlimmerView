@@ -7,10 +7,9 @@ import android.graphics.Bitmap
 import java.io.File
 import java.nio.FloatBuffer
 
-/** Inférence avec ONNX Runtime sur CPU (noyaux MLAS par défaut, ou fournisseur XNNPACK). */
+/** Inférence avec ONNX Runtime sur CPU (noyaux MLAS, et KleidiAI sur arm64). */
 internal class OrtDepthEstimator(
     modelFile: File,
-    xnnpack: Boolean,
     private val spec: ModelSpec,
     override val inputSize: InputSize,
 ) : DepthEstimator {
@@ -20,12 +19,6 @@ internal class OrtDepthEstimator(
     private val options = OrtSession.SessionOptions().apply {
         setOptimizationLevel(OrtSession.SessionOptions.OptLevel.ALL_OPT)
         setIntraOpNumThreads(CPU_THREADS)
-        if (xnnpack) {
-            // Recommandation ONNX Runtime : XNNPACK gère son propre pool de threads.
-            setIntraOpNumThreads(1)
-            addConfigEntry("session.intra_op.allow_spinning", "0")
-            addXnnpack(mapOf("intra_op_num_threads" to CPU_THREADS.toString()))
-        }
     }
 
     private val session: OrtSession = try {

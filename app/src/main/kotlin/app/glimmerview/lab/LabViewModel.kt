@@ -61,7 +61,7 @@ class LabViewModel(application: Application) : AndroidViewModel(application) {
     /** Thread unique pour l'inférence : certains accélérateurs exigent un thread stable. */
     private val mlDispatcher = Executors.newSingleThreadExecutor { Thread(it, "GlimmerML") }.asCoroutineDispatcher()
 
-    // ONNX Runtime + XNNPACK est exclu : son noyau Resize refuse ce modèle à l'initialisation.
+    // CPU seulement : XNNPACK n'est pas compilé dans l'ONNX Runtime de l'app (son noyau Resize refusait ce modèle).
     val configs: List<BenchConfig> = listOf(
         BenchConfig(ModelCatalog.DA2_SMALL_ONNX, Backend.ORT_CPU, SQUARE),
         BenchConfig(ModelCatalog.DA2_SMALL_ONNX_INT8, Backend.ORT_CPU, SQUARE),

@@ -83,5 +83,6 @@ Conséquences :
 
 - **Début de la Phase 1 (fait le 3 octobre 2026)** : LiteRT retiré de l'app (module `ml`, catalogue de modèles, `gradle.properties`), interface `DepthEstimator` conservée. Les modèles téléchargés sont désormais vérifiés par empreinte SHA-256.
 - **Taille** : ONNX Runtime ajoute 31,5 Mo de code natif par ABI. Parades : AAB avec découpage par ABI, puis une build ONNX Runtime réduite aux opérateurs du modèle.
+  **Fait le 11 octobre 2026** : APK découpés par ABI depuis la v0.1.0, et ONNX Runtime 1.31 compilé sur mesure ([tools/onnxruntime](../../tools/onnxruntime/README.md)) : opérateurs des modèles seulement, CPU seul, **sans la télémétrie Microsoft** que le paquet officiel embarque. 13,9 Mo en arm64 au lieu de 33,0 Mo.
 - **Pas d'accélération GPU générique.** Si l'entrée de gamme se révèle trop lente, on réévaluera un accélérateur optionnel (LiteRT GPU dans une variante `full`, ou le fournisseur QNN de Qualcomm).
 - **À vérifier plus tard** : ONNX FP32 contre INT8 (qualité et vitesse), mesures sur un téléphone d'entrée de gamme, statistiques du fond d'écran sur une journée.

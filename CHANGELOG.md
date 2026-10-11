@@ -1,5 +1,12 @@
 # Journal des versions
 
+## À venir
+
+- ONNX Runtime 1.31, compilé pour GlimmerView depuis ses sources ([tools/onnxruntime](tools/onnxruntime/README.md)) :
+  la télémétrie Microsoft n'est plus seulement désactivée, elle est absente de l'app. Seuls les
+  opérateurs des modèles de profondeur et le calcul sur processeur sont gardés : 13,9 Mo de code natif
+  en arm64 au lieu de 33 Mo.
+
 ## 0.1.1 — 10 octobre 2026 (pré-version)
 
 - Correctif : à la première ouverture de l'app, l'aperçu 3D d'une œuvre restait figé sur certains téléphones (Samsung) tant qu'on n'était pas passé par « Régler l'effet ». Le moteur 3D est maintenant posé dès l'ouverture de l'écran, et la vignette s'efface à sa première image.

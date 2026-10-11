@@ -8,7 +8,8 @@
     <!-- Image fixe sur l'écran de verrouillage, ou retour à l'œuvre animée (permission normale) -->
     <uses-permission android:name="android.permission.SET_WALLPAPER" />
 
-    <!-- Ajoutée par ONNX Runtime pour sa télémétrie, retirée avec elle (voir OrtPrivacy) -->
+    <!-- Ajoutée par le paquet officiel d'ONNX Runtime pour sa télémétrie. L'ONNX Runtime de l'app est
+         compilé sans elle (tools/onnxruntime) ; ce retrait reste comme garde-fou (voir OrtPrivacy). -->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" tools:node="remove" />
 
     <application
@@ -54,7 +55,8 @@
             </intent-filter>
         </activity>
 
-        <!-- ONNX Runtime lance sa télémétrie Microsoft au démarrage de chaque processus : jamais dans GlimmerView -->
+        <!-- Le paquet officiel d'ONNX Runtime lance sa télémétrie Microsoft au démarrage de chaque processus.
+             Absent de l'ONNX Runtime de l'app ; retrait gardé comme garde-fou. -->
         <provider
             android:name="ai.onnxruntime.TelemetryInitializer"
             android:authorities="${applicationId}.onnxruntime_telemetry_initializer"

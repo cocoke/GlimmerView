@@ -26,8 +26,7 @@ interface DepthEstimator : AutoCloseable {
         ): DepthEstimator {
             val size = spec.fixedInputSize ?: requestedSize
             return when (backend) {
-                Backend.ORT_CPU -> OrtDepthEstimator(modelFile, xnnpack = false, spec, size)
-                Backend.ORT_XNNPACK -> OrtDepthEstimator(modelFile, xnnpack = true, spec, size)
+                Backend.ORT_CPU -> OrtDepthEstimator(modelFile, spec, size)
             }
         }
     }

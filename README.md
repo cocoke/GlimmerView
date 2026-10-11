@@ -45,6 +45,10 @@ Prérequis : JDK 17+, SDK Android (plateforme 37), Android Studio récent (compa
 ./gradlew :app:assembleDebug
 ```
 
+ONNX Runtime n'est pas tiré de Maven Central : l'app utilise sa propre compilation, sans télémétrie et
+réduite à ses modèles, versionnée dans `third_party/maven`. Pour la reconstruire depuis les sources,
+voir [tools/onnxruntime](tools/onnxruntime/README.md).
+
 Installer sur un téléphone branché (débogage USB activé) :
 
 ```bash
@@ -58,7 +62,7 @@ Installer sur un téléphone branché (débogage USB activé) :
 | `app` | Interface (Jetpack Compose) : thème « Galerie », écrans, galerie et bibliothèque, œuvres dessinées, laboratoire |
 | `core` | Modèles de données, collection d'œuvres, fond d'écran actif et préférences partagés avec le fond d'écran |
 | `render` | Moteur de rendu OpenGL ES 3, capteurs, aperçu |
-| `ml` | Estimation de profondeur (ONNX Runtime, télémétrie désactivée), post-traitement, benchmarks |
+| `ml` | Estimation de profondeur (ONNX Runtime compilé sur mesure, sans télémétrie : [tools/onnxruntime](tools/onnxruntime/README.md)), post-traitement, benchmarks |
 | `format` | Lecture et écriture du format ouvert `.dwp` ([spécification](docs/format.md)) |
 | `wallpaper` | Service de fond d'écran animé (process séparé) |
 

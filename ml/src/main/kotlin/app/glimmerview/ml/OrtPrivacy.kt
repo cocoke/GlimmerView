@@ -4,10 +4,11 @@ import ai.onnxruntime.OrtEnvironment
 import android.system.Os
 
 /**
- * ONNX Runtime 1.30 embarque la télémétrie Microsoft (1DS, mobile.events.data.microsoft.com), qui
- * lit notamment l'identifiant Android de l'appareil. GlimmerView n'envoie rien : son lanceur
- * automatique est retiré du manifeste de l'app, et la télémétrie est coupée ici avant tout calcul,
- * par la variable d'environnement que lit la bibliothèque native puis par l'API Java.
+ * Le paquet officiel d'ONNX Runtime embarque la télémétrie Microsoft (1DS, mobile.events.data.microsoft.com),
+ * qui lit notamment l'identifiant Android de l'appareil. L'ONNX Runtime de GlimmerView est compilé sans
+ * elle (tools/onnxruntime) ; ces garde-fous restent au cas où l'on reviendrait au paquet officiel :
+ * variable d'environnement lue par la bibliothèque native, puis API Java (le lanceur automatique est,
+ * lui, retiré du manifeste de l'app).
  */
 internal object OrtPrivacy {
 
