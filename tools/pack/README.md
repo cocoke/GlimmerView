@@ -27,8 +27,8 @@ Depth Anything V2 Small FP32 (99 Mo, Apache-2.0, empreinte SHA-256 vérifiée), 
    disparité en PNG 16 bits (540 × 1200), vignette 360 × 800, plan immobile conseillé.
 
 `catalog.json` décrit chaque œuvre : source, auteur, date, technique, licence et cadrage. Les titres et
-techniques affichés dans l'app, en français et en anglais, sont dans les ressources (`exhibit_*`,
-`medium_*`), et le catalogue côté app dans `app/.../data/Gallery.kt`.
+techniques affichés dans l'app, en français et en anglais (`titles`, `mediums`), passent dans l'index de
+la bibliothèque, que l'app lit (`app/.../data/Library.kt`).
 
 ## Œuvres et droits
 
